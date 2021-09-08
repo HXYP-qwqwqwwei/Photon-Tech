@@ -1,4 +1,4 @@
-package photontech.client;
+package photontech.event;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -37,7 +37,6 @@ public class InWorldRenderer {
             CompoundNBT tag = protractor.getOrCreateTag();
             String dimension1 = tag.getString("RefDimension1");
             String dimension2 = tag.getString("RefDimension2");
-            LogManager.getLogger().info(BlockPos.of(tag.getLong("RefPos1")).toString());
 
             if (!dimension1.isEmpty()) {
                 if (pDim.equals(dimension1)) {

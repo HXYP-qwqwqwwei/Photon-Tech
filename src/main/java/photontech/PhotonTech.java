@@ -1,7 +1,5 @@
 package photontech;
 
-import net.minecraftforge.common.MinecraftForge;
-import photontech.client.InWorldRenderer;
 import photontech.init.*;
 //import photontech.recipes.crucible.CrucibleMeltingRecipeManager;
 import photontech.utils.Utils;

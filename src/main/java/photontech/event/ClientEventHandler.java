@@ -2,12 +2,9 @@ package photontech.event;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.MinecraftForge;
 import photontech.block.heater.solid.PtHeaterTER;
 import photontech.block.mirror.PtMirrorTER;
-import photontech.client.InWorldRenderer;
 import photontech.init.PtBlocks;
 import photontech.init.PtFluids;
 import photontech.init.PtTileEntities;
