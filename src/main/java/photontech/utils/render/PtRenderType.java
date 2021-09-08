@@ -13,7 +13,7 @@ public class PtRenderType extends RenderType {
         super(p_i225992_1_, p_i225992_2_, p_i225992_3_, p_i225992_4_, p_i225992_5_, p_i225992_6_, p_i225992_7_, p_i225992_8_);
     }
 
-    private static final LineState THICK_LINES = new LineState(OptionalDouble.of(4.0));
+    private static final LineState THICK_LINES = new LineState(OptionalDouble.of(8.0));
 
     public static final RenderType OVERLAY_LINES = create(
             "overlay_lines",

@@ -6,8 +6,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.dispenser.IPosition;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
@@ -41,26 +39,24 @@ public class InWorldRenderer {
             String dimension2 = tag.getString("RefDimension2");
             LogManager.getLogger().info(BlockPos.of(tag.getLong("RefPos1")).toString());
 
-            renderBlockOutline(player, event.getMatrixStack(), BlockPos.of(tag.getLong("RefPos1")), 1, 0, 0, 1);
-
-//            if (!dimension1.isEmpty()) {
-//                if (pDim.equals(dimension1)) {
-//                    renderBlockOutline(player, event.getMatrixStack(), BlockPos.of(tag.getLong("RefPos1")), 1, 0, 0, 1);
-//                }
-//            }
-//            if (!dimension2.isEmpty()) {
-//                if (pDim.equals(dimension2)) {
-//                    renderBlockOutline(player, event.getMatrixStack(), BlockPos.of(tag.getLong("RefPos2")), 0, 0, 1, 1);
-//                }
-//            }
+            if (!dimension1.isEmpty()) {
+                if (pDim.equals(dimension1)) {
+                    renderBlockOutline(player, event.getMatrixStack(), BlockPos.of(tag.getLong("RefPos1")), 1, 0, 0, 0.5F);
+                }
+            }
+            if (!dimension2.isEmpty()) {
+                if (pDim.equals(dimension2)) {
+                    renderBlockOutline(player, event.getMatrixStack(), BlockPos.of(tag.getLong("RefPos2")), 0, 1, 0, 0.5F);
+                }
+            }
         }
     }
 
-    private static void addLine(IVertexBuilder builder, Matrix4f matrix, double x, double y, double z, double dx, double dy, double dz, float r, float g, float b, float a) {
-        builder.vertex(x, y, z)
+    private static void addLine(IVertexBuilder builder, Matrix4f matrix, float x, float y, float z, float dx, float dy, float dz, float r, float g, float b, float a) {
+        builder.vertex(matrix, x, y, z)
                 .color(r, g, b, a)
                 .endVertex();
-        builder.vertex(x + dx, y + dy, z + dz)
+        builder.vertex(matrix, x + dx, y + dy, z + dz)
                 .color(r, g, b, a)
                 .endVertex();
     }
