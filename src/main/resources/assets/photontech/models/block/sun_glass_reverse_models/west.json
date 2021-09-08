@@ -1,0 +1,19 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 16],
+	"textures": {
+		"0": "photontech:block/sun_glass_reverse",
+		"particle": "photontech:block/sun_glass_reverse"
+	},
+	"elements": [
+		{
+			"name": "west",
+			"from": [0, 0, 0],
+			"to": [0, 16, 16],
+			"faces": {
+				"west": {"uv": [0, 0, 8, 16], "texture": "#0"}
+			}
+		}
+	],
+	"display": {}
+}

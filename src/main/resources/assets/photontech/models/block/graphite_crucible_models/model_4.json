@@ -1,0 +1,43 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"0": "photontech:block/graphite_block",
+		"particle": "photontech:block/graphite_block"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 2, 16],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#0"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#0", "cullface": "down"}
+			}
+		},
+		{
+			"from": [0, 0, 14],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#0"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#0", "cullface": "south"},
+				"up": {"uv": [0, 14, 16, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [16, 2, 14],
+			"to": [18, 16, 16],
+			"faces": {
+				"east": {"uv": [0, 0, 2, 14], "texture": "#0"},
+				"up": {"uv": [0, 14, 2, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [-2, 2, 14],
+			"to": [0, 16, 16],
+			"faces": {
+				"west": {"uv": [14, 0, 16, 14], "texture": "#0"},
+				"up": {"uv": [14, 14, 16, 16], "texture": "#0"}
+			}
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+  "itemGroup.PtItems": "Photon Tech: Items",
+  "item.photontech.diamond_ingot": "Pure Diamond Ingot",
+  "item.photontech.steel_ingot": "Steel Ingot",
+  "item.photontech.quartz_ingot": "Quartz Ingot",
+  "item.photontech.corundum_ingot": "Corundum Ingot",
+  "item.photontech.silicon_crystal": "Silicon Crystal",
+  "item.photontech.monocrystalline_silicon": "Monocrystalline Silicon (8in)",
+  "item.photontech.monocrystalline_silicon_bold": "Monocrystalline Silicon (14in)",
+  "item.photontech.silicon_low": "Silicon (Low)",
+  "item.photontech.silicon_999": "Silicon (High)",
+  "item.photontech.silicon_99999": "Silicon (Super)",
+  "item.photontech.silicon_wafer_small": "Silicon Wafer (S)",
+  "item.photontech.silicon_wafer_big": "Silicon Wafer (L)",
+  "item.photontech.ruby": "Ruby",
+  "item.photontech.ruby_lens": "Ruby Lens",
+  "item.photontech.sapphire": "Sapphire",
+  "item.photontech.sapphire_lens": "Sapphire Lens"
+}

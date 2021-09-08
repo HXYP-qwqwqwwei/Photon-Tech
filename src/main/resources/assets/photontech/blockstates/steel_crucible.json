@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "east=false,west=false,south=false,north=false": {"model": "photontech:block/steel_crucible_models/model_0"},
+    "east=true,west=false,south=false,north=false": {"model": "photontech:block/steel_crucible_models/model_1"},
+    "east=false,west=true,south=false,north=false": {"model": "photontech:block/steel_crucible_models/model_2"},
+    "east=true,west=true,south=false,north=false": {"model": "photontech:block/steel_crucible_models/model_3"},
+    "east=false,west=false,south=true,north=false": {"model": "photontech:block/steel_crucible_models/model_4"},
+    "east=true,west=false,south=true,north=false": {"model": "photontech:block/steel_crucible_models/model_5"},
+    "east=false,west=true,south=true,north=false": {"model": "photontech:block/steel_crucible_models/model_6"},
+    "east=true,west=true,south=true,north=false": {"model": "photontech:block/steel_crucible_models/model_7"},
+    "east=false,west=false,south=false,north=true": {"model": "photontech:block/steel_crucible_models/model_8"},
+    "east=true,west=false,south=false,north=true": {"model": "photontech:block/steel_crucible_models/model_9"},
+    "east=false,west=true,south=false,north=true": {"model": "photontech:block/steel_crucible_models/model_10"},
+    "east=true,west=true,south=false,north=true": {"model": "photontech:block/steel_crucible_models/model_11"},
+    "east=false,west=false,south=true,north=true": {"model": "photontech:block/steel_crucible_models/model_12"},
+    "east=true,west=false,south=true,north=true": {"model": "photontech:block/steel_crucible_models/model_13"},
+    "east=false,west=true,south=true,north=true": {"model": "photontech:block/steel_crucible_models/model_14"},
+    "east=true,west=true,south=true,north=true": {"model": "photontech:block/steel_crucible_models/model_15"}
+  }
+}

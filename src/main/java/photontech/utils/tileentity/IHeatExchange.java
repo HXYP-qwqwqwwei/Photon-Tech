@@ -1,0 +1,110 @@
+package photontech.utils.tileentity;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
+import photontech.init.PtCapabilities;
+import photontech.utils.capability.heat.IHeatReservoir;
+import photontech.utils.capability.heat.PtHeatReservoir;
+
+public interface IHeatExchange {
+
+    float ENVIRONMENT_TEMPERATURE = 298.15F;
+    float CAMPFIRE_TEMPERATURE = 800F;
+    double CAMPFIRE_EXTINGUISH_CHANCE = 0.001;
+
+
+    IHeatReservoir ENVIRONMENT = new PtHeatReservoir() {
+        @Override
+        public int extractHeat(int maxHeat, boolean simulate) {
+            return Math.max(0, maxHeat);
+        }
+
+        @Override
+        public int acceptHeat(int maxHeat, boolean simulate) {
+            return Math.max(0, maxHeat);
+        }
+
+        @Override
+        public float getTemperature() {
+            return ENVIRONMENT_TEMPERATURE;
+        }
+
+        @Override
+        public float getHeatTransferRate() {
+            return 0.5F;
+        }
+
+        @Override
+        public float getCapacity() {
+            return 1000F;
+        }
+    };
+
+    IHeatReservoir CAMPFIRE = new PtHeatReservoir() {
+        @Override
+        public int extractHeat(int maxHeat, boolean simulate) {
+            return Math.max(0, maxHeat);
+        }
+
+        @Override
+        public int acceptHeat(int maxHeat, boolean simulate) {
+            return 0;
+        }
+
+        @Override
+        public float getTemperature() {
+            return CAMPFIRE_TEMPERATURE;
+        }
+
+        @Override
+        public float getHeatTransferRate() {
+            return 100.0F;
+        }
+
+        @Override
+       public float getCapacity() {
+            return 1000F;
+        }
+
+        @Override
+        public int getHeat() {
+            return (int) (CAMPFIRE_TEMPERATURE * getCapacity());
+        }
+    };
+
+    default void heatExchangeWithEnvironment(PtHeatReservoir reservoir) {
+        IHeatReservoir.heatExchange(reservoir, ENVIRONMENT);
+    }
+
+    default void heatExchangeWithEnvironment(PtHeatReservoir reservoir, float rate) {
+        IHeatReservoir.heatExchange(reservoir, ENVIRONMENT, rate);
+    }
+
+    default void heatExchangeWithCampfireHeat(World world, BlockPos pos, PtHeatReservoir reservoir) {
+        BlockPos down = pos.relative(Direction.DOWN);
+        BlockState campfire = world.getBlockState(down);
+        if (campfire.getBlock() == Blocks.CAMPFIRE) {
+            if (campfire.getValue(BlockStateProperties.LIT)) {
+                IHeatReservoir.heatExchange(reservoir, CAMPFIRE);
+                if (Math.random() <= CAMPFIRE_EXTINGUISH_CHANCE) {
+                    world.setBlock(down, campfire.setValue(BlockStateProperties.LIT, false), 1);
+                    world.sendBlockUpdated(down, campfire, campfire, Constants.BlockFlags.BLOCK_UPDATE);
+                }
+            }
+        }
+    }
+
+    default void heatExchangeWithTile(PtHeatReservoir reservoir, TileEntity other, Direction side) {
+        if (other == null) return;
+        other.getCapability(PtCapabilities.HEAT_RESERVOIR, side).ifPresent(to -> {
+            IHeatReservoir.heatExchange(reservoir, to);
+        });
+    }
+
+}

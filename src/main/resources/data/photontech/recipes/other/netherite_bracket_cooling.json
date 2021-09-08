@@ -1,0 +1,16 @@
+{
+  "type": "photontech:conditional",
+  "group": "other",
+  "condition": {
+    "thermal_condition": {
+      "temperature": 1000,
+      "heat": -500000
+    }
+  },
+  "input_items": {
+      "item": "photontech:netherite_bracket_hot"
+  },
+  "output_items": {
+    "item": "photontech:netherite_bracket"
+  }
+}

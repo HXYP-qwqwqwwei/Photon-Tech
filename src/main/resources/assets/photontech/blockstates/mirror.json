@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "photontech:block/mirror_block_model"
+    },
+    "facing=up": {
+      "model": "photontech:block/mirror_block_model",
+      "x": 180
+    },
+    "facing=north": {
+      "model": "photontech:block/mirror_block_model",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south": {
+      "model": "photontech:block/mirror_block_model",
+      "x": 90
+    },
+    "facing=west": {
+      "model": "photontech:block/mirror_block_model",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east": {
+      "model": "photontech:block/mirror_block_model",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

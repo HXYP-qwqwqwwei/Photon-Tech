@@ -1,0 +1,20 @@
+{
+  "type": "photontech:conditional",
+  "group": "other",
+  "condition": {
+    "thermal_condition": {
+      "temperature": 0,
+      "heat": 0
+    }
+  },
+  "input_items": {
+    "item": "minecraft:milk_bucket"
+  },
+  "output_fluids": {
+    "fluid": "photontech:milk_fluid",
+    "amount": 1000
+  },
+  "output_items": {
+    "item": "minecraft:bucket"
+  }
+}

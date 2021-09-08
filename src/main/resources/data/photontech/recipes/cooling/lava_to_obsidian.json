@@ -1,0 +1,17 @@
+{
+  "type": "photontech:conditional",
+  "group": "cooling",
+  "condition": {
+    "thermal_condition": {
+      "temperature": 1300.0,
+      "heat": -500000
+    }
+  },
+  "input_fluids": {
+    "fluid": "minecraft:lava",
+    "amount": 1000
+  },
+  "output_items": {
+    "item": "minecraft:obsidian"
+  }
+}

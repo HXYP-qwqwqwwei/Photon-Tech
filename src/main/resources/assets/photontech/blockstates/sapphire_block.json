@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "photontech:block/sapphire_block_model"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "photontech:block/coal_powder_block_burning_model"
+    }
+  }
+}

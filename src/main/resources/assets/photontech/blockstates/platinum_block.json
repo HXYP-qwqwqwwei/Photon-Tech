@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "photontech:block/platinum_block_model"
+    }
+  }
+}

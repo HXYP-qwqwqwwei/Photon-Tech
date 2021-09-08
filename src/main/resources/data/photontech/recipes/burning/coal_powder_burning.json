@@ -1,0 +1,14 @@
+{
+  "type": "photontech:conditional",
+  "group": "burning",
+  "condition": {
+    "rate": 50,
+    "thermal_condition": {
+      "temperature": 2000.0,
+      "heat": -512000
+    }
+  },
+  "input_items": {
+    "item": "photontech:coal_powder"
+  }
+}

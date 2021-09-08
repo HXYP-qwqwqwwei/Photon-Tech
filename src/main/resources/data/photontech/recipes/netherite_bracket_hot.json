@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    " Y ",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "Y": {
+      "item": "minecraft:lava_bucket"
+    }
+  },
+  "result": {
+    "item": "photontech:netherite_bracket_hot",
+    "count": 1
+  }
+}

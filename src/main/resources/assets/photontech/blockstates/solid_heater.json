@@ -1,0 +1,53 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "east"
+      },
+      "apply": {
+        "model": "photontech:block/solid_heater_models/solid_heater_model"
+      }
+    },
+    {
+      "when": {
+        "facing": "south"
+      },
+      "apply": {
+        "model": "photontech:block/solid_heater_models/solid_heater_model", "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "west"
+      },
+      "apply": {
+        "model": "photontech:block/solid_heater_models/solid_heater_model", "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "north"
+      },
+      "apply": {
+        "model": "photontech:block/solid_heater_models/solid_heater_model", "y": 270
+      }
+    },
+    {
+      "when": {
+        "holding_input": true,
+        "lit": false
+      },
+      "apply": {
+        "model": "photontech:block/solid_heater_models/ash_model"
+      }
+    },
+    {
+      "when": {
+        "lit": true
+      },
+      "apply": {
+        "model": "photontech:block/solid_heater_models/burning_ash_model"
+      }
+    }
+  ]
+}

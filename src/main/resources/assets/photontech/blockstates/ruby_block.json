@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "photontech:block/ruby_block_model"
+    }
+  }
+}

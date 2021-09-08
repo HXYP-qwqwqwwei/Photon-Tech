@@ -1,0 +1,17 @@
+{
+  "type": "photontech:conditional",
+  "group": "melting",
+  "condition": {
+    "thermal_condition": {
+      "temperature": 273.15,
+      "heat": 100000
+    }
+  },
+  "input_items": {
+    "item": "minecraft:ice"
+  },
+  "output_fluids": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  }
+}

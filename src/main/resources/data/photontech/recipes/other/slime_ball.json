@@ -1,0 +1,30 @@
+{
+  "type": "photontech:conditional",
+  "group": "other",
+  "condition": {
+    "rate": 0.05,
+    "thermal_condition": {
+      "temperature": 353.15,
+      "heat": 10000
+    }
+  },
+  "input_fluids": {
+    "fluid": "photontech:milk_fluid",
+    "amount": 500
+  },
+  "input_items": [
+    {
+      "item": "minecraft:green_dye"
+    },
+    {
+      "item": "photontech:salt"
+    }
+  ],
+  "output_items": {
+    "item": "minecraft:slime_ball"
+  },
+  "output_fluids": {
+    "fluid": "minecraft:water",
+    "amount": 500
+  }
+}

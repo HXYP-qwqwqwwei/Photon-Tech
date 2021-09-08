@@ -1,0 +1,28 @@
+{
+  "itemGroup.PtItems": "光子科技：物品",
+  "item.photontech.diamond_ingot": "高纯金刚石锭",
+  "item.photontech.steel_ingot": "钢锭",
+  "item.photontech.quartz_ingot": "高纯石英晶体锭",
+  "item.photontech.corundum_ingot": "高纯刚玉锭",
+  "item.photontech.silicon_crystal": "硅种子",
+  "item.photontech.monocrystalline_silicon": "单晶硅（8英寸）",
+  "item.photontech.monocrystalline_silicon_bold": "单晶硅（14英寸）",
+  "item.photontech.silicon_low": "粗硅",
+  "item.photontech.silicon_999": "纯硅",
+  "item.photontech.silicon_99999": "高纯硅",
+  "item.photontech.silicon_wafer_small": "硅晶圆（8英寸）",
+  "item.photontech.silicon_wafer_big": "硅晶圆（14英寸）",
+  "item.photontech.ruby": "红宝石",
+  "item.photontech.ruby_rod": "红宝石棒",
+  "item.photontech.ruby_lens": "红宝石透镜",
+  "item.photontech.ruby_lens_unpolished": "红宝石透镜（未抛光）",
+  "item.photontech.sapphire": "蓝宝石",
+  "item.photontech.sapphire_rod": "蓝宝石棒",
+  "item.photontech.sapphire_lens": "蓝宝石透镜",
+  "item.photontech.sapphire_lens_unpolished": "蓝宝石透镜（未抛光）",
+
+  "text.photontech.current_temperature": "当前温度:%sK",
+  "text.photontech.overload_temperature" : "最高耐受:%sK",
+  "text.photontech.recipe_process" : "进度:%s%%",
+  "text.photontech.pos": "坐标%s%s%s"
+}

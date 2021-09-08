@@ -1,0 +1,52 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "east": true
+      },
+      "apply": {
+        "model": "photontech:block/sun_glass_reverse_models/east"
+      }
+    },
+    {
+      "when": {
+        "west": true
+      },
+      "apply": {
+        "model": "photontech:block/sun_glass_reverse_models/west"
+      }
+    },
+    {
+      "when": {
+        "south": true
+      },
+      "apply": {
+        "model": "photontech:block/sun_glass_reverse_models/south"
+      }
+    },
+    {
+      "when": {
+        "north": true
+      },
+      "apply": {
+        "model": "photontech:block/sun_glass_reverse_models/north"
+      }
+    },
+    {
+      "when": {
+        "up": true
+      },
+      "apply": {
+        "model": "photontech:block/sun_glass_reverse_models/up"
+      }
+    },
+    {
+      "when": {
+        "down": true
+      },
+      "apply": {
+        "model": "photontech:block/sun_glass_reverse_models/down"
+      }
+    }
+  ]
+}

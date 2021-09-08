@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "photontech:block/graphite_block_model"
+    }
+  }
+}

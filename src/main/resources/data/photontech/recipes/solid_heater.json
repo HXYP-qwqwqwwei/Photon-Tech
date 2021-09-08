@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "YXY",
+    "Y Y",
+    "YYY"
+  ],
+  "key": {
+    "X": {
+      "item": "photontech:netherite_bracket"
+    },
+    "Y": {
+      "item": "minecraft:nether_brick"
+    }
+  },
+  "result": {
+    "item": "photontech:solid_heater",
+    "count": 1
+  }
+}
