@@ -79,7 +79,7 @@ public class PtItems {
 
     // HEATER BLOCK ITEMS
     public static final RegistryObject<Item> SOLID_HEATER = ITEMS.register("solid_heater", () -> new BlockItem(PtBlocks.SOLID_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
-    public static final RegistryObject<Item> PHOTON_HEATER = ITEMS.register("photon_heater", () -> new BlockItem(PtBlocks.PHOTON_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> VISIBLE_LIGHT_HEATER = ITEMS.register("visible_light_heater", () -> new BlockItem(PtBlocks.VISIBLE_LIGHT_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
 
 }

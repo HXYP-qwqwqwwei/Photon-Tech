@@ -126,14 +126,10 @@ public class PtMirrorTile extends PtMachineTile implements IPhotonInstrument {
         }
         BlockRayTraceResult result = this.getRayTrace(ejectionVector);
 
-            LogManager.getLogger().info(result.getType().toString());
-
         if (result.getType() == RayTraceResult.Type.BLOCK) {
             BlockPos pos = result.getBlockPos();
-            LogManager.getLogger().info(pos.toString());
 
             assert level != null;
-            LogManager.getLogger().info(level.getBlockState(pos).getBlock().toString());
             TileEntity entity = level.getBlockEntity(pos);
             if (entity instanceof IPhotonInstrument) {
                 IPhotonInstrument instrument = (IPhotonInstrument) entity;

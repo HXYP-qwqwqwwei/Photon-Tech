@@ -33,7 +33,7 @@ public class PtTileEntities {
 
     public static final RegistryObject<TileEntityType<PhotonHeaterTile>> PHOTON_HEATER_TILEENTITY = TILE_ENTITIES.register("photon_heater_tileentity", () -> TileEntityType.Builder.of(
             PhotonHeaterTile::new,
-            PtBlocks.PHOTON_HEATER.get()
+            PtBlocks.VISIBLE_LIGHT_HEATER.get()
     ).build(null));
 
 }

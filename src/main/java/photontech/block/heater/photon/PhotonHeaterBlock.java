@@ -4,6 +4,8 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.world.IBlockReader;
@@ -17,6 +19,19 @@ import static photontech.utils.PtConstants.HOLDING_INPUT;
 public class PhotonHeaterBlock extends Block {
     public PhotonHeaterBlock() {
         super(AbstractBlock.Properties.of(Material.STONE).strength(2).noOcclusion());
+        this.registerDefaultState(this.getStateDefinition().any().setValue(HORIZONTAL_FACING, Direction.EAST));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(HORIZONTAL_FACING);
+        super.createBlockStateDefinition(builder);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override

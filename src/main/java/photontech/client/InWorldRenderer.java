@@ -67,9 +67,6 @@ public class InWorldRenderer {
 
         matrixStack.pushPose();
 
-//        Vector3d playerPos = player.position();
-//        World world = player.getCommandSenderWorld();
-
         Vector3d cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 

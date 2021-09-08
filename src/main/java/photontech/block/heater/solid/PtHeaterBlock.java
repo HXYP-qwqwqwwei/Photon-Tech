@@ -83,12 +83,6 @@ public class PtHeaterBlock extends Block {
     @Override
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
-//            TileEntity tile = worldIn.getBlockEntity(pos);
-//            if (tile != null) {
-//                tile.getCapability(PtCapabilities.HEAT_RESERVOIR, Direction.UP).ifPresent(iHeatReservoir -> {
-//                    LogManager.getLogger().info(iHeatReservoir.getTemperature());
-//                });
-//            }
 
             PtHeaterTileEntity heater = (PtHeaterTileEntity) worldIn.getBlockEntity(pos);
             if (this.useWithFlit(heater, player, handIn)) {

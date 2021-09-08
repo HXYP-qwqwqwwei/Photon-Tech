@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "photontech:block/visible_light_heater_model"
+    },
+    "facing=south": {
+      "model": "photontech:block/visible_light_heater_model",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "photontech:block/visible_light_heater_model",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "photontech:block/visible_light_heater_model",
+      "y": 270
+    }
+  }
+}

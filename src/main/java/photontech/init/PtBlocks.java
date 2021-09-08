@@ -60,7 +60,7 @@ public class PtBlocks {
 
     // HEATER BLOCKS
     public static final RegistryObject<Block> SOLID_HEATER = BLOCKS.register("solid_heater", PtHeaterBlock::new);
-    public static final RegistryObject<Block> PHOTON_HEATER = BLOCKS.register("photon_heater", PhotonHeaterBlock::new);
+    public static final RegistryObject<Block> VISIBLE_LIGHT_HEATER = BLOCKS.register("visible_light_heater", PhotonHeaterBlock::new);
 //    public static final RegistryObject<Block> LIQUID_HEATER = BLOCKS.register("liquid_heater", PtHeaterBlock::new);
 
     // Pt BLOCKS
