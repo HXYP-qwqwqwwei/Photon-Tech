@@ -2,15 +2,19 @@ package photontech.utils.tileentity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import photontech.init.PtCapabilities;
 import photontech.init.PtRecipes;
@@ -140,6 +144,32 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
         }
     }
 
+    // HELP FUNCTIONS (SERVER ONLY)
+    protected boolean isFullyOpenAir() {
+        BlockPos.Mutable pos = new BlockPos.Mutable(this.worldPosition.getX(), this.worldPosition.getY() + 1, this.worldPosition.getZ());
+        assert level != null;
+        while (level.getBlockState(pos).getMaterial() == Material.AIR) {
+            if (pos.getY() >= 255) {
+                return true;
+            }
+            pos.setY(pos.getY() + 1);
+        }
+        return false;
+    }
+
+    protected boolean isUnderSunshine() {
+        BlockPos.Mutable pos = new BlockPos.Mutable(this.worldPosition.getX(), this.worldPosition.getY() + 1, this.worldPosition.getZ());
+        assert level != null;
+        while (level.getBlockState(pos).getMaterial() == Material.AIR || level.getBlockState(pos).getMaterial() == Material.GLASS) {
+            if (pos.getY() >= 255) {
+                return true;
+            }
+            pos.setY(pos.getY() + 1);
+        }
+        return false;
+    }
+
+
     // NETWORKING
     @Nonnull
     @Override
@@ -175,6 +205,9 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == PtCapabilities.HEAT_RESERVOIR) {
             return this.heatReservoir.cast();
+        }
+        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return this.itemIOHandler.cast();
         }
         return super.getCapability(cap, side);
     }

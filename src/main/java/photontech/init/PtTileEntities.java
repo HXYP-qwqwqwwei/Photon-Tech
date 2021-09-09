@@ -1,7 +1,7 @@
 package photontech.init;
 
 import photontech.block.heater.photon.PhotonHeaterTile;
-import photontech.block.heater.solid.PtHeaterTileEntity;
+import photontech.block.heater.solid.PtBurningItemHeaterTile;
 import photontech.block.crucible.PtCrucibleTileEntity;
 import photontech.block.mirror.PtMirrorTile;
 import photontech.utils.Utils;
@@ -21,8 +21,8 @@ public class PtTileEntities {
             PtBlocks.PLATINUM_CRUCIBLE.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<PtHeaterTileEntity>> HEATER_TILEENTITY = TILE_ENTITIES.register("heater_tileentity", () -> TileEntityType.Builder.of(
-            PtHeaterTileEntity::new,
+    public static final RegistryObject<TileEntityType<PtBurningItemHeaterTile>> HEATER_TILEENTITY = TILE_ENTITIES.register("heater_tileentity", () -> TileEntityType.Builder.of(
+            PtBurningItemHeaterTile::new,
             PtBlocks.SOLID_HEATER.get()
     ).build(null));
 

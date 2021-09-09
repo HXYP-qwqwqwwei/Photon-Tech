@@ -28,7 +28,6 @@ public class PhotonHeaterTile extends PtMachineTile implements IPhotonInstrument
     public void acceptPhotonPackFrom(@Nonnull PhotonPack pack, @Nullable Vector3d injectionVector) {
         this.heatReservoir.ifPresent(reservoir -> {
             reservoir.acceptHeat(pack.extractEnergy(photonLevel -> true), false);
-            LogManager.getLogger().info(pack.extractEnergy(photonLevel -> true));
         });
     }
 

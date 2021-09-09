@@ -6,6 +6,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.function.IntConsumer;
 import java.util.function.Predicate;
 
 public interface IPhotonInstrument {
@@ -59,6 +60,17 @@ public interface IPhotonInstrument {
                 }
             }
             return energy;
+        }
+
+        public boolean attenuation(float[] rate) {
+            int minLen = Math.min(rate.length, photonsWithLevel.length);
+            for (int i = 0; i < minLen; ++i) {
+                photonsWithLevel[i] = (int) (photonsWithLevel[i] * rate[i]);
+            }
+            for (int i = minLen; i < photonsWithLevel.length; ++i) {
+                photonsWithLevel[i] = 0;
+            }
+            return Arrays.stream(photonsWithLevel).max().orElse(0) > 0;
         }
 
     }

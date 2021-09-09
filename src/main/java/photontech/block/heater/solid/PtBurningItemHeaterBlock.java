@@ -29,9 +29,9 @@ import javax.annotation.Nullable;
 import static net.minecraft.state.properties.BlockStateProperties.*;
 import static photontech.utils.PtConstants.*;
 
-public class PtHeaterBlock extends Block {
+public class PtBurningItemHeaterBlock extends Block {
 
-    public PtHeaterBlock() {
+    public PtBurningItemHeaterBlock() {
         super(Properties.of(Material.STONE).strength(2).lightLevel(state -> 14).noOcclusion());
         this.registerDefaultState(
                 this.getStateDefinition().any()
@@ -60,7 +60,7 @@ public class PtHeaterBlock extends Block {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new PtHeaterTileEntity();
+        return new PtBurningItemHeaterTile();
     }
 
     @Override
@@ -84,7 +84,7 @@ public class PtHeaterBlock extends Block {
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
 
-            PtHeaterTileEntity heater = (PtHeaterTileEntity) worldIn.getBlockEntity(pos);
+            PtBurningItemHeaterTile heater = (PtBurningItemHeaterTile) worldIn.getBlockEntity(pos);
             if (this.useWithFlit(heater, player, handIn)) {
                 return ActionResultType.SUCCESS;
             }
@@ -98,7 +98,7 @@ public class PtHeaterBlock extends Block {
         return ActionResultType.SUCCESS;
     }
 
-    private boolean useWithFlit(PtHeaterTileEntity heater, PlayerEntity player, Hand hand) {
+    private boolean useWithFlit(PtBurningItemHeaterTile heater, PlayerEntity player, Hand hand) {
         ItemStack holdItem = player.getItemInHand(hand);
         if (holdItem.getItem() == Items.FLINT_AND_STEEL) {
             holdItem.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
@@ -108,7 +108,7 @@ public class PtHeaterBlock extends Block {
         return false;
     }
 
-    private boolean useWithWaterBucket(PtHeaterTileEntity heater, PlayerEntity player, Hand hand) {
+    private boolean useWithWaterBucket(PtBurningItemHeaterTile heater, PlayerEntity player, Hand hand) {
         ItemStack holdItem = player.getItemInHand(hand);
         if (holdItem.getItem() == Items.WATER_BUCKET) {
             if (heater.isIgnited()) {
@@ -126,7 +126,7 @@ public class PtHeaterBlock extends Block {
             super.onRemove(state, level, pos, newState, isMoving);
             return;
         }
-        PtHeaterTileEntity heater = (PtHeaterTileEntity) level.getBlockEntity(pos);
+        PtBurningItemHeaterTile heater = (PtBurningItemHeaterTile) level.getBlockEntity(pos);
         if (heater != null) {
             IItemHandler handler = heater.getItemHandler();
             int size = handler.getSlots();

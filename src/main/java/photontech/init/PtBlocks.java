@@ -1,14 +1,11 @@
 package photontech.init;
 
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import photontech.block.PtModifiedGlassBlock;
 import photontech.block.heater.photon.PhotonHeaterBlock;
-import photontech.block.heater.solid.PtHeaterBlock;
+import photontech.block.heater.solid.PtBurningItemHeaterBlock;
 import photontech.block.PtPowderBlock;
 import photontech.block.crucible.PtCrucibleBlock;
 import photontech.block.PtNormalBlock;
@@ -59,7 +56,7 @@ public class PtBlocks {
 //    public static final RegistryObject<FlowingFluidBlock> NORMAL_FLUID = BLOCKS.register("normal_fluid", () -> new FlowingFluidBlock(PtFluids.MUILK_FLUID, Block.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops()));
 
     // HEATER BLOCKS
-    public static final RegistryObject<Block> SOLID_HEATER = BLOCKS.register("solid_heater", PtHeaterBlock::new);
+    public static final RegistryObject<Block> SOLID_HEATER = BLOCKS.register("solid_heater", PtBurningItemHeaterBlock::new);
     public static final RegistryObject<Block> VISIBLE_LIGHT_HEATER = BLOCKS.register("visible_light_heater", PhotonHeaterBlock::new);
 //    public static final RegistryObject<Block> LIQUID_HEATER = BLOCKS.register("liquid_heater", PtHeaterBlock::new);
 

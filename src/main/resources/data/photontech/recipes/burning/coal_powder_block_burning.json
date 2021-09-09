@@ -5,10 +5,10 @@
     "rate": 10,
     "thermal_condition": {
       "temperature": 2300.0,
-      "heat": -512000
+      "heat": -5120000
     }
   },
   "input_items": {
-    "item": "photontech:coal_powder"
+    "item": "photontech:coal_powder_block"
   }
 }

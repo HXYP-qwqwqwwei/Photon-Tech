@@ -3,7 +3,7 @@ package photontech.event;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
-import photontech.block.heater.solid.PtHeaterTER;
+import photontech.block.heater.solid.PtBurningItemHeaterTER;
 import photontech.block.mirror.PtMirrorTER;
 import photontech.init.PtBlocks;
 import photontech.init.PtFluids;
@@ -38,7 +38,7 @@ public class ClientEventHandler {
     public static void onTileEntityRenderer(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.CRUCIBLE_TILEENTITY.get(), PtCrucibleTER::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.HEATER_TILEENTITY.get(), PtHeaterTER::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.HEATER_TILEENTITY.get(), PtBurningItemHeaterTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.MIRROR_TILEENTITY.get(), PtMirrorTER::new);
         });
     }

@@ -1,6 +1,6 @@
 package photontech.event;
 
-import photontech.block.heater.solid.PtHeaterScreen;
+import photontech.block.heater.solid.PtBurningItemHeaterScreen;
 import photontech.block.crucible.PtCrucibleScreen;
 import photontech.init.PtContainers;
 import net.minecraft.client.gui.ScreenManager;
@@ -14,7 +14,7 @@ public class ModBusEventHandler {
     public static void onClientSetupEvent(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             ScreenManager.register(PtContainers.CRUCIBLE_CONTAINER.get(), PtCrucibleScreen::new);
-            ScreenManager.register(PtContainers.HEATER_CONTAINER.get(), PtHeaterScreen::new);
+            ScreenManager.register(PtContainers.HEATER_CONTAINER.get(), PtBurningItemHeaterScreen::new);
         });
     }
 }

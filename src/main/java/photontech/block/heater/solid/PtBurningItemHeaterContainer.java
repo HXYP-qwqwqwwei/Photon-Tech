@@ -12,14 +12,14 @@ import photontech.inventory.PtSlotItemHandler;
 
 import javax.annotation.Nonnull;
 
-public class PtHeaterContainer extends PtBaseContainer {
+public class PtBurningItemHeaterContainer extends PtBaseContainer {
 
-    PtHeaterTileEntity heaterTileEntity;
+    PtBurningItemHeaterTile heaterTileEntity;
 
-    public PtHeaterContainer(int id, PlayerInventory inventory, BlockPos pos, World world) {
+    public PtBurningItemHeaterContainer(int id, PlayerInventory inventory, BlockPos pos, World world) {
         super(PtContainers.HEATER_CONTAINER.get(), id);
         this.tileEntity = world.getBlockEntity(pos);
-        this.heaterTileEntity = (PtHeaterTileEntity) this.tileEntity;
+        this.heaterTileEntity = (PtBurningItemHeaterTile) this.tileEntity;
 
         assert heaterTileEntity != null;
 

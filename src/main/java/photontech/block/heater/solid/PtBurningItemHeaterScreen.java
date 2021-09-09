@@ -10,7 +10,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import photontech.utils.Utils;
 import photontech.utils.screen.PtBaseScreen;
 
-public class PtHeaterScreen extends PtBaseScreen<PtHeaterContainer> {
+public class PtBurningItemHeaterScreen extends PtBaseScreen<PtBurningItemHeaterContainer> {
 
     private final ResourceLocation HEATER_CONTAINER = new ResourceLocation(Utils.MOD_ID, "textures/gui/heater.png");
 
@@ -29,7 +29,7 @@ public class PtHeaterScreen extends PtBaseScreen<PtHeaterContainer> {
 
     }
 
-    public PtHeaterScreen(PtHeaterContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+    public PtBurningItemHeaterScreen(PtBurningItemHeaterContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
         this.imageWidth = 174;
         this.imageHeight = 164;

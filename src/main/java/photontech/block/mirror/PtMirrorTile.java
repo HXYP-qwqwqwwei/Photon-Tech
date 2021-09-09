@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
-import org.apache.logging.log4j.LogManager;
 import photontech.init.PtTileEntities;
 import photontech.utils.tileentity.IPhotonInstrument;
 import photontech.utils.tileentity.PtMachineTile;
@@ -20,6 +19,9 @@ public class PtMirrorTile extends PtMachineTile implements IPhotonInstrument {
     private static final float MAX_RANGE = 32F;
     private static final Vector3d DEFAULT_VECTOR = new Vector3d(0, 0, 1);
     private static final Vector3d FROM_SKY_VEC = new Vector3d(0, -1, 0);
+    private static final int MAX_STACK_SIZE = 32;
+
+    public static final float[] ATTENUATION_RATE = {0, 0, 0.8F, 0.8F, 0.8F};
 
 
     Queue<PhotonPack> packs = new LinkedList<>();
@@ -36,13 +38,17 @@ public class PtMirrorTile extends PtMachineTile implements IPhotonInstrument {
 
         if (level != null && !level.isClientSide) {
 
-            this.acceptPhotonPackFrom(new PhotonPack(SKY_LIGHT), FROM_SKY_VEC);
+            if (this.isFullyOpenAir() && level.isDay()) {
+                this.acceptPhotonPackFrom(new PhotonPack(SKY_LIGHT), FROM_SKY_VEC);
+            }
 
             while (!packs.isEmpty()) {
                 PhotonPack pack = packs.remove();
                 Vector3d injectionVec = this.fromVectors.remove();
-                Vector3d reflectionVec = injectionVec.subtract(this.mirrorNormalVector.scale(2 * injectionVec.dot(this.mirrorNormalVector)));
-                this.radiatePhotonPackTo(pack, reflectionVec);
+                if (pack.attenuation(ATTENUATION_RATE)) {
+                    Vector3d reflectionVec = injectionVec.subtract(this.mirrorNormalVector.scale(2 * injectionVec.dot(this.mirrorNormalVector)));
+                    this.radiatePhotonPackTo(pack, reflectionVec);
+                }
             }
         }
 
@@ -113,7 +119,9 @@ public class PtMirrorTile extends PtMachineTile implements IPhotonInstrument {
         if (injectionVector.dot(this.mirrorNormalVector) >= -0.0) {
             return;
         }
-
+        if (this.packs.size() >= MAX_STACK_SIZE) {
+            return;
+        }
         this.packs.add(pack);
         this.fromVectors.add(injectionVector);
 
