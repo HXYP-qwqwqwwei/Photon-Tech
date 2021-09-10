@@ -56,7 +56,7 @@ public class PtBlocks {
 //    public static final RegistryObject<FlowingFluidBlock> NORMAL_FLUID = BLOCKS.register("normal_fluid", () -> new FlowingFluidBlock(PtFluids.MUILK_FLUID, Block.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops()));
 
     // HEATER BLOCKS
-    public static final RegistryObject<Block> SOLID_HEATER = BLOCKS.register("solid_heater", PtBurningItemHeaterBlock::new);
+    public static final RegistryObject<Block> BURNING_ITEM_HEATER = BLOCKS.register("burning_item_heater", PtBurningItemHeaterBlock::new);
     public static final RegistryObject<Block> VISIBLE_LIGHT_HEATER = BLOCKS.register("visible_light_heater", PhotonHeaterBlock::new);
 //    public static final RegistryObject<Block> LIQUID_HEATER = BLOCKS.register("liquid_heater", PtHeaterBlock::new);
 

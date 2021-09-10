@@ -52,12 +52,12 @@ public class PtBurningItemHeaterTile extends PtBurningHeaterTile implements INam
     @Nonnull
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent("gui." + Utils.MOD_ID + ".heater");
+        return new TranslationTextComponent("gui." + Utils.MOD_ID + ".burning_item_heater");
     }
 
     @Nullable
     @Override
-    public Container createMenu(int sysID, PlayerInventory inventory, PlayerEntity player) {
+    public Container createMenu(int sysID, @Nonnull PlayerInventory inventory, @Nonnull PlayerEntity player) {
         assert this.level != null;
         return new PtBurningItemHeaterContainer(sysID, inventory, this.worldPosition, this.level);
     }

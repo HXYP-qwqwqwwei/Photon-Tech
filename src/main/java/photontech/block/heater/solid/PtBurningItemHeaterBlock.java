@@ -24,6 +24,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.IItemHandler;
 import photontech.utils.capability.fluid.PtMultiFluidTank;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
@@ -42,7 +43,7 @@ public class PtBurningItemHeaterBlock extends Block {
     }
 
     @Override
-    public void stepOn(World world, BlockPos pos, Entity entity) {
+    public void stepOn(World world, @Nonnull BlockPos pos, @Nonnull Entity entity) {
         if (world.getBlockState(pos).getValue(LIT)) {
             if (!entity.fireImmune() && entity instanceof LivingEntity) {
                 entity.setSecondsOnFire(8);
@@ -80,8 +81,9 @@ public class PtBurningItemHeaterBlock extends Block {
         return this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
+    @Nonnull
     @Override
-    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType use(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
 
             PtBurningItemHeaterTile heater = (PtBurningItemHeaterTile) worldIn.getBlockEntity(pos);
@@ -121,7 +123,7 @@ public class PtBurningItemHeaterBlock extends Block {
     }
 
     @Override
-    public void onRemove(BlockState state, World level, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, @Nonnull World level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() == newState.getBlock()) {
             super.onRemove(state, level, pos, newState, isMoving);
             return;

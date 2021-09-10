@@ -2,12 +2,12 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "solid_heater_loot_table",
+      "name": "burning_item_heater_loot_table",
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "photontech:solid_heater"
+          "name": "photontech:burning_item_heater"
         }
       ],
       "conditions": [

@@ -11,6 +11,8 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.data.EmptyModelData;
 
+import javax.annotation.Nonnull;
+
 public class PtBurningItemHeaterTER extends TileEntityRenderer<PtBurningItemHeaterTile> {
 
 
@@ -19,7 +21,7 @@ public class PtBurningItemHeaterTER extends TileEntityRenderer<PtBurningItemHeat
     }
 
     @Override
-    public void render(PtBurningItemHeaterTile tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(PtBurningItemHeaterTile tileEntityIn, float partialTicks, MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         matrixStackIn.pushPose();
         BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 

@@ -23,7 +23,7 @@ public class PtTileEntities {
 
     public static final RegistryObject<TileEntityType<PtBurningItemHeaterTile>> HEATER_TILEENTITY = TILE_ENTITIES.register("heater_tileentity", () -> TileEntityType.Builder.of(
             PtBurningItemHeaterTile::new,
-            PtBlocks.SOLID_HEATER.get()
+            PtBlocks.BURNING_ITEM_HEATER.get()
     ).build(null));
 
     public static final RegistryObject<TileEntityType<PtMirrorTile>> MIRROR_TILEENTITY = TILE_ENTITIES.register("mirror_tileentity", () -> TileEntityType.Builder.of(

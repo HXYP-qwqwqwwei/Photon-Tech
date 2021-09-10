@@ -10,9 +10,11 @@ import net.minecraft.util.text.TranslationTextComponent;
 import photontech.utils.Utils;
 import photontech.utils.screen.PtBaseScreen;
 
+import javax.annotation.Nonnull;
+
 public class PtBurningItemHeaterScreen extends PtBaseScreen<PtBurningItemHeaterContainer> {
 
-    private final ResourceLocation HEATER_CONTAINER = new ResourceLocation(Utils.MOD_ID, "textures/gui/heater.png");
+    private final ResourceLocation BURNING_ITEM_HEATER_GUI_TEXTURE = new ResourceLocation(Utils.MOD_ID, "textures/gui/heater.png");
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -37,11 +39,11 @@ public class PtBurningItemHeaterScreen extends PtBaseScreen<PtBurningItemHeaterC
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float p_230450_2_, int p_230450_3_, int p_230450_4_) {
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float p_230450_2_, int p_230450_3_, int p_230450_4_) {
         this.renderBackground(matrixStack);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         assert this.minecraft != null;
-        this.minecraft.getTextureManager().bind(HEATER_CONTAINER);
+        this.minecraft.getTextureManager().bind(BURNING_ITEM_HEATER_GUI_TEXTURE);
         int beginX = (this.width - this.imageWidth) / 2;
         int beginY = (this.height - this.imageHeight) / 2;
         blit(matrixStack, beginX, beginY, 0, 0, imageWidth, imageHeight, this.textureWidth, this.textureHeight);

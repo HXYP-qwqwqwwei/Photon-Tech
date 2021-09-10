@@ -5,14 +5,10 @@ import photontech.item.PtNormalItem;
 import photontech.item.PtProtractorItem;
 import photontech.utils.Utils;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import static net.minecraft.item.Items.BUCKET;
 
 public class PtItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Utils.MOD_ID);
@@ -78,7 +74,7 @@ public class PtItems {
     public static final RegistryObject<Item> WRENCH = ITEMS.register("wrench", PtNormalItem::new);
 
     // HEATER BLOCK ITEMS
-    public static final RegistryObject<Item> SOLID_HEATER = ITEMS.register("solid_heater", () -> new BlockItem(PtBlocks.SOLID_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> SOLID_HEATER = ITEMS.register("burning_item_heater", () -> new BlockItem(PtBlocks.BURNING_ITEM_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> VISIBLE_LIGHT_HEATER = ITEMS.register("visible_light_heater", () -> new BlockItem(PtBlocks.VISIBLE_LIGHT_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
 

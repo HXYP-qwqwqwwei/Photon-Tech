@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"0": "photontech:block/solid_heater_block",
+		"0": "photontech:block/burning_item_heater",
 		"particle": "minecraft:block/nether_bricks"
 	},
 	"elements": [

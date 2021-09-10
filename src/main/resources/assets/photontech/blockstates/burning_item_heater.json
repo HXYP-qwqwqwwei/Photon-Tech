@@ -5,7 +5,7 @@
         "facing": "east"
       },
       "apply": {
-        "model": "photontech:block/solid_heater_models/solid_heater_model"
+        "model": "photontech:block/burning_item_heater_models/burning_item_heater_model"
       }
     },
     {
@@ -13,7 +13,7 @@
         "facing": "south"
       },
       "apply": {
-        "model": "photontech:block/solid_heater_models/solid_heater_model", "y": 90
+        "model": "photontech:block/burning_item_heater_models/burning_item_heater_model", "y": 90
       }
     },
     {
@@ -21,7 +21,7 @@
         "facing": "west"
       },
       "apply": {
-        "model": "photontech:block/solid_heater_models/solid_heater_model", "y": 180
+        "model": "photontech:block/burning_item_heater_models/burning_item_heater_model", "y": 180
       }
     },
     {
@@ -29,7 +29,7 @@
         "facing": "north"
       },
       "apply": {
-        "model": "photontech:block/solid_heater_models/solid_heater_model", "y": 270
+        "model": "photontech:block/burning_item_heater_models/burning_item_heater_model", "y": 270
       }
     },
     {
@@ -38,7 +38,7 @@
         "lit": false
       },
       "apply": {
-        "model": "photontech:block/solid_heater_models/ash_model"
+        "model": "photontech:block/burning_item_heater_models/ash_model"
       }
     },
     {
@@ -46,7 +46,7 @@
         "lit": true
       },
       "apply": {
-        "model": "photontech:block/solid_heater_models/burning_ash_model"
+        "model": "photontech:block/burning_item_heater_models/burning_ash_model"
       }
     }
   ]
