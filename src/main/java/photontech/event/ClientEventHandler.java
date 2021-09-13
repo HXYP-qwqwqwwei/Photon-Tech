@@ -47,6 +47,6 @@ public class ClientEventHandler {
     public static void onModelRegistryEvent(ModelRegistryEvent event) {
         ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/frame"));
         ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/support"));
-        ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/mirror_test"));
+        ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/silver_mirror"));
     }
 }

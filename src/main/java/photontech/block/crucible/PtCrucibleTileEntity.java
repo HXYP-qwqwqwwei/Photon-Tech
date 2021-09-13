@@ -40,7 +40,7 @@ import java.util.List;
 
 public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTileEntity, INamedContainerProvider, IHeatReservoirTile {
 
-    private static enum RecipeMode {
+    private enum RecipeMode {
         MELTING(0), COOLING(1), OTHER(2);
 
         int cacheListIndex;
@@ -55,12 +55,7 @@ public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTile
     }
 
     private static final int maxFilling = 16;
-
-//    private PtConditionalRecipe cachedMeltingRecipe = null;
-//    private PtConditionalRecipe cachedCoolingRecipe = null;
-//    private final PtHeatCache heatCacheForMelting = new PtHeatCache();
-//    private final PtHeatCache heatCacheForCooling = new PtHeatCache();
-
+    
     public PtCrucibleTileEntity(float overloadTemp, float heatTransferRate) {
         super(PtTileEntities.CRUCIBLE_TILEENTITY.get());
 

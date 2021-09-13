@@ -24,7 +24,7 @@ public class PtMirrorTER extends TileEntityRenderer<PtMirrorTile> {
 
     public static final ResourceLocation SUPPORT = new ResourceLocation(Utils.MOD_ID, "special/support");
     public static final ResourceLocation FRAME = new ResourceLocation(Utils.MOD_ID, "special/frame");
-    public static final ResourceLocation MIRROR_TEST = new ResourceLocation(Utils.MOD_ID, "special/mirror_test");
+    public static final ResourceLocation SILVER_MIRROR = new ResourceLocation(Utils.MOD_ID, "special/silver_mirror");
 
     public PtMirrorTER(TileEntityRendererDispatcher p_i226006_1_) {
         super(p_i226006_1_);
@@ -43,7 +43,7 @@ public class PtMirrorTER extends TileEntityRenderer<PtMirrorTile> {
         // init model
         IBakedModel supportModel = manager.getModel(SUPPORT);
         IBakedModel frameModel = manager.getModel(FRAME);
-        IBakedModel mirror_test = manager.getModel(MIRROR_TEST);
+        IBakedModel mirror_test = manager.getModel(SILVER_MIRROR);
 
         double xSupportR = 0, ySupportR = 0, zSupportR = 0;
         double xFrameR = 0, yFrameR = 0, zFrameR = 0;
