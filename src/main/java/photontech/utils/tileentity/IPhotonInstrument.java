@@ -76,7 +76,7 @@ public interface IPhotonInstrument {
     }
 
     int[] SKY_LIGHT = {
-            0, 0, 100, 100, 100
+            0, 0, 5, 5, 5
     };
 
     void acceptPhotonPackFrom(@Nonnull PhotonPack pack, @Nullable Vector3d injectionVector);

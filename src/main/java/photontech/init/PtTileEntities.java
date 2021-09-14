@@ -1,5 +1,6 @@
 package photontech.init;
 
+import photontech.block.axle.AxleTile;
 import photontech.block.heater.photon.PhotonHeaterTile;
 import photontech.block.heater.solid.PtBurningItemHeaterTile;
 import photontech.block.crucible.PtCrucibleTileEntity;
@@ -35,5 +36,11 @@ public class PtTileEntities {
             PhotonHeaterTile::new,
             PtBlocks.VISIBLE_LIGHT_HEATER.get()
     ).build(null));
+
+    public static final RegistryObject<TileEntityType<AxleTile>> AXLE_TILE = TILE_ENTITIES.register("axle_tileentity", () -> TileEntityType.Builder.of(
+            AxleTile::new,
+            PtBlocks.AXLE.get()
+    ).build(null));
+
 
 }

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "photontech:block/empty_frame_model"
+    }
+  }
+}

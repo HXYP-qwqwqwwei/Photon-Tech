@@ -77,5 +77,7 @@ public class PtItems {
     public static final RegistryObject<Item> SOLID_HEATER = ITEMS.register("burning_item_heater", () -> new BlockItem(PtBlocks.BURNING_ITEM_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> VISIBLE_LIGHT_HEATER = ITEMS.register("visible_light_heater", () -> new BlockItem(PtBlocks.VISIBLE_LIGHT_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
+    // AXLE BLOCK ITEMS
+    public static final RegistryObject<Item> AXLE = ITEMS.register("axle", () -> new BlockItem(PtBlocks.AXLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
 }

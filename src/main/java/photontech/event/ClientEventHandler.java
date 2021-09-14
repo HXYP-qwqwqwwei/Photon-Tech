@@ -3,6 +3,7 @@ package photontech.event;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import photontech.block.axle.AxleTER;
 import photontech.block.heater.solid.PtBurningItemHeaterTER;
 import photontech.block.mirror.PtMirrorTER;
 import photontech.init.PtBlocks;
@@ -25,6 +26,7 @@ public class ClientEventHandler {
         event.enqueueWork(() -> {
             RenderTypeLookup.setRenderLayer(PtBlocks.QUARTZ_CRUCIBLE.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(PtBlocks.MIRROR.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(PtBlocks.AXLE.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.SUN_GLASS.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(PtBlocks.SUN_GLASS_REVERSE.get(), RenderType.translucent());
 
@@ -40,6 +42,7 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.CRUCIBLE_TILEENTITY.get(), PtCrucibleTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.HEATER_TILEENTITY.get(), PtBurningItemHeaterTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.MIRROR_TILEENTITY.get(), PtMirrorTER::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.AXLE_TILE.get(), AxleTER::new);
         });
     }
 
@@ -48,5 +51,6 @@ public class ClientEventHandler {
         ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/frame"));
         ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/support"));
         ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/silver_mirror"));
+        ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/iron_axle_model"));
     }
 }
