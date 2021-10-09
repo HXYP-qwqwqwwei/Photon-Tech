@@ -3,6 +3,7 @@ package photontech.block.axle;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -46,6 +47,11 @@ public class AxleBlock extends Block {
         return shapes[axis.ordinal()];
     }
 
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.defaultBlockState().setValue(AXIS, context.getNearestLookingDirection().getAxis());
+    }
 
     @Nullable
     @Override

@@ -9,12 +9,15 @@ import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import photontech.utils.Utils;
 
 import javax.annotation.Nonnull;
+
+import static net.minecraft.state.properties.BlockStateProperties.*;
 
 public class AxleTER extends TileEntityRenderer<AxleTile> {
 
@@ -28,8 +31,19 @@ public class AxleTER extends TileEntityRenderer<AxleTile> {
     public void render(@Nonnull AxleTile axleTile, float partialTicks, MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 
         matrixStack.pushPose();
+        Direction.Axis axis = axleTile.getBlockState().getValue(AXIS);
 
         matrixStack.translate(0.5F, 0.5F, 0.5F);
+        switch (axis) {
+            case Y:
+                matrixStack.mulPose(Vector3f.ZP.rotation((float) (Math.PI * 0.5)));
+                break;
+            case Z:
+                matrixStack.mulPose(Vector3f.YP.rotation((float) (Math.PI * 0.5)));
+                break;
+            default:
+                break;
+        }
         matrixStack.mulPose(Vector3f.XP.rotation(axleTile.getAngle()));
         matrixStack.translate(-0.5F, -0.5F, -0.5F);
 
@@ -51,6 +65,10 @@ public class AxleTER extends TileEntityRenderer<AxleTile> {
                 EmptyModelData.INSTANCE
         );
 
+
         matrixStack.popPose();
     }
+
 }
+
+
