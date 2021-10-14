@@ -1,6 +1,7 @@
 package photontech.init;
 
-import photontech.block.axle.AxleTile;
+import photontech.block.kinetic.axle.AxleTile;
+import photontech.block.kinetic.gears.PtGearsTile;
 import photontech.block.heater.photon.PhotonHeaterTile;
 import photontech.block.heater.solid.PtBurningItemHeaterTile;
 import photontech.block.crucible.PtCrucibleTileEntity;
@@ -42,5 +43,9 @@ public class PtTileEntities {
             PtBlocks.AXLE.get()
     ).build(null));
 
+    public static final RegistryObject<TileEntityType<PtGearsTile>> GEARS_TILEENTITY = TILE_ENTITIES.register("gears_tileentity", () -> TileEntityType.Builder.of(
+            PtGearsTile::new,
+            PtBlocks.GEARS_BLOCK.get()
+    ).build(null));
 
 }

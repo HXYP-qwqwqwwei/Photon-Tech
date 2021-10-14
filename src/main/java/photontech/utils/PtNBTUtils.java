@@ -15,7 +15,13 @@ import net.minecraftforge.fluids.FluidStack;
 import java.io.StringReader;
 import java.util.List;
 
+
 public class PtNBTUtils {
+
+    public static final String ITEMS = "Items";
+    public static final String INGREDIENTS = "Ingredients";
+    public static final String FLUIDS = "Fluids";
+    public static final String ROTATE_BODIES = "RigidBodies";
 
     public static INBT writeIngredientToNBT(Ingredient ingredient) throws CommandSyntaxException {
         JsonElement json = ingredient.toJson();
@@ -36,7 +42,7 @@ public class PtNBTUtils {
     }
 
     public static void loadItemsFromNBT(List<ItemStack> list, CompoundNBT nbt) {
-        ListNBT listNBT = (ListNBT) nbt.get("Items");
+        ListNBT listNBT = (ListNBT) nbt.get(ITEMS);
         if (listNBT != null) {
             for (INBT itemNBT : listNBT) {
                 list.add(ItemStack.of((CompoundNBT) itemNBT));
@@ -49,12 +55,12 @@ public class PtNBTUtils {
         for (ItemStack itemStack : list) {
             listNBT.add(itemStack.serializeNBT());
         }
-        nbt.put("Items", listNBT);
+        nbt.put(ITEMS, listNBT);
         return nbt;
     }
 
     public static void loadFluidsFromNBT(List<FluidStack> list, CompoundNBT nbt) {
-        ListNBT listNBT = (ListNBT) nbt.get("Fluids");
+        ListNBT listNBT = (ListNBT) nbt.get(FLUIDS);
         if (listNBT != null) {
             for (INBT fluidNBT : listNBT) {
                 list.add(FluidStack.loadFluidStackFromNBT((CompoundNBT) fluidNBT));
@@ -67,12 +73,12 @@ public class PtNBTUtils {
         for (FluidStack fluidStack : list) {
             listNBT.add(fluidStack.writeToNBT(new CompoundNBT()));
         }
-        nbt.put("Fluids", listNBT);
+        nbt.put(FLUIDS, listNBT);
         return nbt;
     }
 
     public static void loadIngredientsFromNBT(List<Ingredient> list, CompoundNBT nbt) {
-        ListNBT listNBT = (ListNBT) nbt.get("Ingredients");
+        ListNBT listNBT = (ListNBT) nbt.get(INGREDIENTS);
         if (listNBT != null) {
             for (INBT ingredientNBT : listNBT) {
                 list.add(readIngredientFromNBT(ingredientNBT));
@@ -88,8 +94,18 @@ public class PtNBTUtils {
             }
             catch (CommandSyntaxException ignored){}
         }
-        nbt.put("Ingredients", listNBT);
+        nbt.put(INGREDIENTS, listNBT);
         return nbt;
     }
+
+//    public static void loadRigidBodies(List<PtRotateBody> list, CompoundNBT nbt) {
+//        ListNBT listNBT = (ListNBT) nbt.get(ROTATE_BODIES);
+//        if (listNBT != null) {
+//            for (INBT rigidNBT : listNBT) {
+//                list.add();
+//            }
+//
+//        }
+//    }
 
 }

@@ -3,8 +3,9 @@ package photontech.init;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import photontech.block.kinetic.gears.PtGearsBlock;
 import photontech.block.PtModifiedGlassBlock;
-import photontech.block.axle.AxleBlock;
+import photontech.block.kinetic.axle.AxleBlock;
 import photontech.block.heater.photon.PhotonHeaterBlock;
 import photontech.block.heater.solid.PtBurningItemHeaterBlock;
 import photontech.block.PtPowderBlock;
@@ -64,7 +65,8 @@ public class PtBlocks {
     // Pt BLOCKS
     public static final RegistryObject<Block> MIRROR = BLOCKS.register("mirror", PtMirrorBlock::new);
 
-    // AXLE BLOCKS
+    // KINETIC BLOCKS
     public static final RegistryObject<Block> AXLE = BLOCKS.register("axle", AxleBlock::new);
+    public static final RegistryObject<Block> GEARS_BLOCK = BLOCKS.register("gears_block", PtGearsBlock::new);
 
 }

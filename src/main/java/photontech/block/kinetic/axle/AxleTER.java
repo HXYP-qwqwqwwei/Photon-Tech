@@ -1,4 +1,4 @@
-package photontech.block.axle;
+package photontech.block.kinetic.axle;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
@@ -13,7 +13,9 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.model.data.EmptyModelData;
+import org.apache.logging.log4j.LogManager;
 import photontech.utils.Utils;
+import photontech.utils.helper.AxleHelper;
 
 import javax.annotation.Nonnull;
 
@@ -33,6 +35,7 @@ public class AxleTER extends TileEntityRenderer<AxleTile> {
         matrixStack.pushPose();
         Direction.Axis axis = axleTile.getBlockState().getValue(AXIS);
 
+
         matrixStack.translate(0.5F, 0.5F, 0.5F);
         switch (axis) {
             case Y:
@@ -44,7 +47,9 @@ public class AxleTER extends TileEntityRenderer<AxleTile> {
             default:
                 break;
         }
-        matrixStack.mulPose(Vector3f.XP.rotation(axleTile.getAngle()));
+        float angle = axleTile.getAngle(AxleHelper.getAxisPositiveDirection(axis));
+        matrixStack.mulPose(Vector3f.XP.rotation(angle));
+//        LogManager.getLogger().info(angle);
         matrixStack.translate(-0.5F, -0.5F, -0.5F);
 
 

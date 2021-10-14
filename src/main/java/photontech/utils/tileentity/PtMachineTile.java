@@ -22,6 +22,7 @@ import photontech.utils.capability.heat.IHeatReservoir;
 import photontech.utils.capability.heat.PtHeatCache;
 import photontech.utils.capability.heat.PtHeatReservoir;
 import photontech.utils.capability.item.PtIOLimitedItemHandler;
+import photontech.utils.capability.kinetic.PtRotateBody;
 import photontech.utils.recipe.PtConditionalRecipe;
 import photontech.utils.recipe.RecipeCondition;
 
@@ -40,6 +41,14 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     protected LazyOptional<PtHeatReservoir> heatReservoir = LazyOptional.empty();
     protected List<PtConditionalRecipe> cachedRecipes;
     protected List<PtHeatCache> heatCaches;
+
+    // Kinetic
+    protected LazyOptional<PtRotateBody> eastRotateBody = LazyOptional.empty();
+    protected LazyOptional<PtRotateBody> southRotateBody = LazyOptional.empty();
+    protected LazyOptional<PtRotateBody> westRotateBody = LazyOptional.empty();
+    protected LazyOptional<PtRotateBody> northRotateBody = LazyOptional.empty();
+    protected LazyOptional<PtRotateBody> upRotateBody = LazyOptional.empty();
+    protected LazyOptional<PtRotateBody> downRotateBody = LazyOptional.empty();
 
     public PtMachineTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
@@ -176,6 +185,12 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         super.save(nbt);
         this.heatReservoir.ifPresent(reservoir -> nbt.put("HeatReservoir", reservoir.saveToNBT(new CompoundNBT())));
+        this.eastRotateBody.ifPresent(ptRotateBody -> nbt.put("EastRotateBody", ptRotateBody.save(new CompoundNBT())));
+        this.westRotateBody.ifPresent(ptRotateBody -> nbt.put("WestRotateBody", ptRotateBody.save(new CompoundNBT())));
+        this.southRotateBody.ifPresent(ptRotateBody -> nbt.put("SouthRotateBody", ptRotateBody.save(new CompoundNBT())));
+        this.northRotateBody.ifPresent(ptRotateBody -> nbt.put("NorthRotateBody", ptRotateBody.save(new CompoundNBT())));
+        this.upRotateBody.ifPresent(ptRotateBody -> nbt.put("UpRotateBody", ptRotateBody.save(new CompoundNBT())));
+        this.downRotateBody.ifPresent(ptRotateBody -> nbt.put("DownRotateBody", ptRotateBody.save(new CompoundNBT())));
         return nbt;
     }
 
@@ -183,6 +198,12 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.load(state, nbt);
         this.heatReservoir.ifPresent(reservoir -> reservoir.loadFromNBT(nbt.getCompound("HeatReservoir")));
+        this.eastRotateBody.ifPresent(ptRotateBody -> ptRotateBody.load(nbt.getCompound("EastRotateBody")));
+        this.westRotateBody.ifPresent(ptRotateBody -> ptRotateBody.load(nbt.getCompound("WestRotateBody")));
+        this.southRotateBody.ifPresent(ptRotateBody -> ptRotateBody.load(nbt.getCompound("SouthRotateBody")));
+        this.northRotateBody.ifPresent(ptRotateBody -> ptRotateBody.load(nbt.getCompound("NorthRotateBody")));
+        this.upRotateBody.ifPresent(ptRotateBody -> ptRotateBody.load(nbt.getCompound("UpRotateBody")));
+        this.downRotateBody.ifPresent(ptRotateBody -> ptRotateBody.load(nbt.getCompound("DownRotateBody")));
     }
 
 
@@ -200,6 +221,20 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
         return this.heatReservoir.orElse(new PtHeatReservoir());
     }
 
+    protected LazyOptional<PtRotateBody> getRotateBodyCap(@Nullable Direction side) {
+        if (side == null) {
+            return LazyOptional.empty();
+        }
+        switch (side) {
+            case UP: return this.upRotateBody;
+            case DOWN: return this.downRotateBody;
+            case SOUTH: return this.southRotateBody;
+            case WEST: return this.westRotateBody;
+            case NORTH: return this.northRotateBody;
+            default: return this.eastRotateBody;
+        }
+    }
+
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
@@ -208,6 +243,9 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
         }
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return this.itemIOHandler.cast();
+        }
+        if (cap == PtCapabilities.RIGID_BODY) {
+            return this.getRotateBodyCap(side).cast();
         }
         return super.getCapability(cap, side);
     }
