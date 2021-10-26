@@ -13,9 +13,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.model.data.EmptyModelData;
-import org.apache.logging.log4j.LogManager;
 import photontech.utils.Utils;
-import photontech.utils.helper.AxleHelper;
+import photontech.utils.helper.AxisHelper;
 
 import javax.annotation.Nonnull;
 
@@ -47,7 +46,7 @@ public class AxleTER extends TileEntityRenderer<AxleTile> {
             default:
                 break;
         }
-        float angle = axleTile.getAngle(AxleHelper.getAxisPositiveDirection(axis));
+        float angle = axleTile.getAngle(AxisHelper.getAxisPositiveDirection(axis));
         matrixStack.mulPose(Vector3f.XP.rotation(angle));
 //        LogManager.getLogger().info(angle);
         matrixStack.translate(-0.5F, -0.5F, -0.5F);

@@ -4,15 +4,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
-import photontech.block.kinetic.axle.AxleTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.capability.kinetic.IRigidBody;
+import photontech.utils.capability.kinetic.IRotateBody;
 import photontech.utils.capability.kinetic.PtRotateBody;
-import photontech.utils.helper.AxleHelper;
 import photontech.utils.tileentity.PtMachineTile;
-
-import static net.minecraft.state.properties.BlockStateProperties.AXIS;
 
 public class PtGearsTile extends PtMachineTile {
 
@@ -33,8 +29,8 @@ public class PtGearsTile extends PtMachineTile {
 
                     TileEntity tileEntity = level.getBlockEntity(this.worldPosition.relative(direction));
                     if (tileEntity != null) {
-                        LazyOptional<IRigidBody> otherBody = tileEntity.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite());
-                        otherBody.ifPresent(to -> IRigidBody.kineticTransfer(from, to));
+                        LazyOptional<IRotateBody> otherBody = tileEntity.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite());
+                        otherBody.ifPresent(to -> IRotateBody.kineticTransfer(from, to));
                     }
                 });
             }
@@ -43,7 +39,8 @@ public class PtGearsTile extends PtMachineTile {
                 from.updateAngle();
                 this.getRotateBodyCap(Direction.NORTH).ifPresent(to -> {
                     to.updateAngle();
-                    IRigidBody.kineticTransfer(from, to, (float) (0.125 * Math.PI), true);
+                    IRotateBody.kineticTransfer(from, to, true);
+                    IRotateBody.synchronizeRotateAngle(from, to, (float) (0.125 * Math.PI), true);
 //                    IRigidBody.kineticTransfer(from, to);
                 });
             });

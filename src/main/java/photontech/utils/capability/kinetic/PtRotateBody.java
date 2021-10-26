@@ -1,17 +1,12 @@
 package photontech.utils.capability.kinetic;
 
 import net.minecraft.nbt.CompoundNBT;
-import org.apache.logging.log4j.LogManager;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
+public class PtRotateBody implements IRotateBody {
 
-public class PtRotateBody implements IRigidBody {
-
-    private double inertia;
-    private float omega = 0F;
-    float angle = 0;
+    protected double inertia;
+    protected float omega = 0F;
+    protected float angle = 0;
 
     public static PtRotateBody create(double inertia) {
         return new PtRotateBody(inertia);
@@ -25,7 +20,7 @@ public class PtRotateBody implements IRigidBody {
         return body;
     }
 
-    private PtRotateBody(double inertia) {
+    protected PtRotateBody(double inertia) {
         if (inertia <= 0) {
             this.inertia = Float.MAX_VALUE;
         }

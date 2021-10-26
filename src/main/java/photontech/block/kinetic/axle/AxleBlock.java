@@ -19,7 +19,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import photontech.init.PtCapabilities;
 import photontech.init.PtItems;
-import photontech.utils.helper.AxleHelper;
+import photontech.utils.helper.AxisHelper;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
@@ -61,7 +61,7 @@ public class AxleBlock extends Block {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(AXIS, context.getNearestLookingDirection().getAxis());
+        return this.defaultBlockState().setValue(AXIS, context.getClickedFace().getAxis());
     }
 
     @Nullable
@@ -83,11 +83,11 @@ public class AxleBlock extends Block {
             if (axle != null) {
                 ItemStack itemStack = player.getItemInHand(handIn);
                 if (itemStack.getItem() == PtItems.WRENCH.get()) {
-                    axle.getCapability(PtCapabilities.RIGID_BODY, AxleHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() + 0.1F));
+                    axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() + 0.1F));
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == PtItems.PROTRACTOR.get()) {
-                    axle.getCapability(PtCapabilities.RIGID_BODY, AxleHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() - 0.1F));
+                    axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() - 0.1F));
                     return ActionResultType.SUCCESS;
                 }
             }
