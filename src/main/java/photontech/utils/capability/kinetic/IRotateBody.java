@@ -15,11 +15,13 @@ public interface IRotateBody {
 
     double getInertia();
 
+    void setInertia(double inertia);
+
     float getAngle();
 
     void setAngle(float angle);
 
-    void updateAngle();
+    void updateAngle(long time);
 
     CompoundNBT save(CompoundNBT nbt);
 
