@@ -23,10 +23,10 @@ public class PtRotateBody implements IRotateBody {
     }
 
     protected PtRotateBody(double inertia) {
+        if (inertia < 0) {
+            inertia = Float.MAX_VALUE;
+        }
         this.inertia = inertia;
-//        if (inertia <= 0) {
-//            this.inertia = Float.MAX_VALUE;
-//        }
 //        else {
 //            this.inertia = inertia;
 //        }
@@ -51,7 +51,7 @@ public class PtRotateBody implements IRotateBody {
 
     @Override
     public void setInertia(double inertia) {
-        if (inertia <= 0) {
+        if (inertia < 0) {
             inertia = Float.MAX_VALUE;
         }
         this.inertia = inertia;

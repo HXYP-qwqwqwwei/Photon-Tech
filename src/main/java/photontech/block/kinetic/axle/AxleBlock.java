@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -17,6 +18,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.LogManager;
 import photontech.init.PtCapabilities;
 import photontech.init.PtItems;
 import photontech.utils.helper.AxisHelper;
@@ -88,6 +90,14 @@ public class AxleBlock extends Block {
                 }
                 if (itemStack.getItem() == PtItems.PROTRACTOR.get()) {
                     axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() - 0.1F));
+                    return ActionResultType.SUCCESS;
+                }
+                if (itemStack.getItem() == Items.IRON_INGOT) {
+                    axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> LogManager.getLogger().info(iRigidBody.getInertia()));
+                    return ActionResultType.SUCCESS;
+                }
+                if (itemStack.getItem() == Items.GOLD_INGOT) {
+                    axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> LogManager.getLogger().info(iRigidBody.getOmega()));
                     return ActionResultType.SUCCESS;
                 }
             }
