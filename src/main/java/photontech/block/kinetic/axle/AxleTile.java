@@ -20,9 +20,6 @@ import photontech.utils.tileentity.PtMachineTile;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
