@@ -5,12 +5,12 @@ import org.apache.logging.log4j.LogManager;
 
 public class PtRotateBody implements IRotateBody {
 
-    protected double inertia;
+    protected long inertia;
     protected float omega = 0F;
     protected float angle = 0;
     protected long lastUpdateTime = 0L;
 
-    public static PtRotateBody create(double inertia) {
+    public static PtRotateBody create(long inertia) {
         return new PtRotateBody(inertia);
     }
 
@@ -22,9 +22,9 @@ public class PtRotateBody implements IRotateBody {
         return body;
     }
 
-    protected PtRotateBody(double inertia) {
+    protected PtRotateBody(long inertia) {
         if (inertia < 0) {
-            inertia = Float.MAX_VALUE;
+            inertia = INFINITY;
         }
         this.inertia = inertia;
 //        else {
@@ -35,7 +35,7 @@ public class PtRotateBody implements IRotateBody {
 
 
     @Override
-    public double getInertia() {
+    public long getInertia() {
         return inertia;
     }
 
@@ -50,9 +50,9 @@ public class PtRotateBody implements IRotateBody {
     }
 
     @Override
-    public void setInertia(double inertia) {
+    public void setInertia(long inertia) {
         if (inertia < 0) {
-            inertia = Float.MAX_VALUE;
+            inertia = INFINITY;
         }
         this.inertia = inertia;
     }
@@ -101,7 +101,7 @@ public class PtRotateBody implements IRotateBody {
 
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
-        nbt.putDouble("Inertia", this.inertia);
+        nbt.putLong("Inertia", this.inertia);
         nbt.putFloat("Omega", this.omega);
         nbt.putFloat("Angle", this.angle);
         nbt.putLong("LastUpdateTime", this.lastUpdateTime);
@@ -110,7 +110,7 @@ public class PtRotateBody implements IRotateBody {
 
     @Override
     public void load(CompoundNBT nbt) {
-        this.inertia = nbt.getDouble("Inertia");
+        this.inertia = nbt.getLong("Inertia");
         this.omega = nbt.getFloat("Omega");
         this.angle = nbt.getFloat("Angle");
         this.lastUpdateTime = nbt.getLong("LastUpdateTime");

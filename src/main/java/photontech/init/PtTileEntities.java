@@ -39,7 +39,7 @@ public class PtTileEntities {
     ).build(null));
 
     public static final RegistryObject<TileEntityType<AxleTile>> AXLE_TILE = TILE_ENTITIES.register("axle_tileentity", () -> TileEntityType.Builder.of(
-            AxleTile::new,
+            () -> new AxleTile(100),
             PtBlocks.AXLE.get()
     ).build(null));
 

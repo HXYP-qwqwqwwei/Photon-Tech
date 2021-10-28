@@ -28,20 +28,22 @@ import static net.minecraft.state.properties.BlockStateProperties.*;
 
 public class AxleTile extends PtMachineTile {
 
-    private double selfInertia;
+    public long selfInertia;
     Direction.Axis currentAxis = Direction.Axis.X;
-    LazyOptional<IRotateBody> mainBody = LazyOptional.of(() -> PtVariableRotateBody.of(PtRotateBody.create(100)));
+    LazyOptional<IRotateBody> mainBody;
 
-    public AxleTile() {
+    public AxleTile(long initInertia) {
         super(PtTileEntities.AXLE_TILE.get());
+        this.selfInertia = initInertia;
+        mainBody = LazyOptional.of(() -> PtVariableRotateBody.of(PtRotateBody.create(initInertia)));
     }
 
 
     private void checkAndUpdateAxis() {
         Direction.Axis newAxis = this.getBlockState().getValue(AXIS);
         if (this.currentAxis != newAxis) {
+            this.departBody();
             this.currentAxis = newAxis;
-            this.departBody(true);
         }
     }
 
@@ -49,11 +51,15 @@ public class AxleTile extends PtMachineTile {
     public void tick() {
         if (this.level != null && !this.level.isClientSide) {
 
+            long time = level.getGameTime();
             this.checkAndUpdateAxis();
-            this.combineBody();
+
+            if (time % 5 == 0) {
+                this.combineBody();
+            }
 
             mainBody.ifPresent(body -> {
-                body.updateAngle(level.getGameTime());
+                body.updateAngle(time);
             });
 
             level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
@@ -66,6 +72,7 @@ public class AxleTile extends PtMachineTile {
         super.save(nbt);
         nbt.putString("CurrentAxis", this.currentAxis.getName());
         this.mainBody.ifPresent(body -> nbt.put("MainBody", body.save(new CompoundNBT())));
+        nbt.putLong("SelfInertia", this.selfInertia);
         return nbt;
     }
 
@@ -74,6 +81,7 @@ public class AxleTile extends PtMachineTile {
         super.load(state, nbt);
         this.currentAxis = Direction.Axis.byName(nbt.getString("CurrentAxis"));
         this.mainBody.ifPresent(body -> body.load(nbt.getCompound("MainBody")));
+        this.selfInertia = nbt.getLong("SelfInertia");
     }
 
     public float getAngle(Direction direction) {
@@ -85,44 +93,37 @@ public class AxleTile extends PtMachineTile {
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == PtCapabilities.RIGID_BODY) {
-            if (side != null && side.getAxis() == this.currentAxis) return this.mainBody.cast();
+            if (side != null && side.getAxis() == this.getBlockState().getValue(AXIS)) return this.mainBody.cast();
             return LazyOptional.empty();
         }
         return super.getCapability(cap, side);
     }
 
     /**
-     * depart selfBody from mainBody, called when tile remove/AXIS change/other's combine request.
-     * if there are AxleTile on both sides, divide their mainBody into two pieces
-     * @param rebuild - if true, create new RotateBody for this tile.
+     * depart selfBody from mainBody, called when tile remove or AXIS change.
+     * this method will only check the axis positive direction.
      */
-    public void departBody(boolean rebuild) {
+    protected void departBody() {
         assert this.level != null;
         this.mainBody.ifPresent(body -> {
             float omega = body.getOmega();
             float angle = body.getAngle();
-            body.setInertia(body.getInertia() - 100);
+            ((PtVariableRotateBody)body).set(PtVariableRotateBody.of(PtRotateBody.create(this.selfInertia)));
+            body.setOmega(omega);
+            body.setAngle(angle);
 
-            TileEntity tile;
             Direction direction = AxisHelper.getAxisPositiveDirection(this.currentAxis);
             BlockPos.Mutable pos = new BlockPos.Mutable(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ());
 
-            PtRotateBody newBody = PtRotateBody.create(0);
-            newBody.setOmega(omega);
-            newBody.setAngle(angle);
-            int step = 0;
-            while ((tile = level.getBlockEntity(pos.move(direction))) instanceof AxleTile) {
-                body.setInertia(body.getInertia() - 100);
+            TileEntity tile;
+            if ((tile = level.getBlockEntity(pos.move(direction))) instanceof AxleTile) {
+                AxleTile axle = (AxleTile) tile;
                 tile.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite()).ifPresent(other -> {
-                    ((PtVariableRotateBody) other).set(newBody);
-                    newBody.setInertia(newBody.getInertia() + 100);
+                    float otherOmega = other.getOmega();
+                    ((PtVariableRotateBody) other).set(PtRotateBody.create(axle.selfInertia));
+                    other.setOmega(otherOmega);
+                    axle.combineBody();
                 });
-                if (++step >= 64) break;
-            }
-            if (rebuild) {
-                ((PtVariableRotateBody)body).set(PtRotateBody.create(100));
-                body.setOmega(omega);
-                body.setAngle(angle);
             }
         });
     }
@@ -130,38 +131,35 @@ public class AxleTile extends PtMachineTile {
     /**
      * combine RotateBody with nearby Axle.
      * this method will only check the axis positive direction.
-     * if tile A is not combined with this, call A.departBody()
-     * then combine with A.
      */
     protected void combineBody() {
         assert this.level != null;
         this.mainBody.ifPresent(body -> {
+
             Direction direction = AxisHelper.getAxisPositiveDirection(this.currentAxis);
-            TileEntity tile = level.getBlockEntity(this.worldPosition.relative(direction));
-            if (tile instanceof AxleTile) {
-                tile.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite()).ifPresent(other -> {
 
-                    // FIXME why output is 0?
-                    LogManager.getLogger().info(other.getOmega());
-                    LogManager.getLogger().info(other.getInertia());
-
+            byte step = 0;
+            if (!(level.getBlockEntity(this.worldPosition.relative(direction.getOpposite())) instanceof AxleTile)) {
+                body.setInertia(this.selfInertia);
+                BlockPos.Mutable pos = new BlockPos.Mutable(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ());
+                TileEntity tile;
+                while ((tile = level.getBlockEntity(pos.move(direction))) instanceof AxleTile) {
                     PtVariableRotateBody r1 = (PtVariableRotateBody) body;
-                    PtVariableRotateBody r2 = (PtVariableRotateBody) other;
-                    if (r1.get() != r2.get()) {
+                    PtVariableRotateBody r2 = (PtVariableRotateBody) tile.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite()).orElse(PtVariableRotateBody.of(PtRotateBody.create(0)));
+                    if (r2.getInertia() == 0) break;
 
-                        IRotateBody.kineticTransfer(r1.get(), r2.get());
-                        ((AxleTile) tile).departBody(true);
-                        r1.setInertia(r1.getInertia() + r2.getInertia());
-                        r2.set(r1.get());
-                    }
-                });
+                    IRotateBody.kineticTransfer(r1.get(), r2.get());
+                    r1.setInertia(r1.getInertia() + ((AxleTile) tile).selfInertia);
+                    r2.set(r1.get());
+                    if (++step >= 16) break;
+                }
             }
         });
     }
 
     @Override
     public void setRemoved() {
-        this.departBody(false);
+        this.departBody();
         super.setRemoved();
     }
 }

@@ -69,7 +69,7 @@ public class AxleBlock extends Block {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new AxleTile();
+        return new AxleTile(100);
     }
 
     @Override

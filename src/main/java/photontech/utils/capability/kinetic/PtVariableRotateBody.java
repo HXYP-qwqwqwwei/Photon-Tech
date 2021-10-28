@@ -37,7 +37,7 @@ public class PtVariableRotateBody implements IRotateBody {
     }
 
     @Override
-    public double getInertia() {
+    public long getInertia() {
         return body.getInertia();
     }
 
@@ -72,7 +72,7 @@ public class PtVariableRotateBody implements IRotateBody {
     }
 
     @Override
-    public void setInertia(double inertia) {
+    public void setInertia(long inertia) {
         body.setInertia(inertia);
     }
 }
