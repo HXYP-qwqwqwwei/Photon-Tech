@@ -6,7 +6,7 @@ public interface IRotateBody {
 
     IRotateBody AIR = PtRotateBody.create(0);
     double DOUBLE_PI = Math.PI * 2;
-    public static final long INFINITY = 0x3f3f3f3f3f3f3f3fL;
+    long INFINITY = 0x3f3f3f3f3f3f3f3fL;
 
     float getOmega();
 
