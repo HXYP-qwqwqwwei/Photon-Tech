@@ -6,6 +6,7 @@ public interface IRotateBody {
 
     IRotateBody AIR = PtRotateBody.create(0);
     double DOUBLE_PI = Math.PI * 2;
+    long INFINITY = 0x3f3f3f3f3f3f3f3fL;
 
     float getOmega();
 
@@ -13,13 +14,15 @@ public interface IRotateBody {
 
     int getKinetic();
 
-    double getInertia();
+    long getInertia();
+
+    void setInertia(long inertia);
 
     float getAngle();
 
     void setAngle(float angle);
 
-    void updateAngle();
+    void updateAngle(long time);
 
     CompoundNBT save(CompoundNBT nbt);
 

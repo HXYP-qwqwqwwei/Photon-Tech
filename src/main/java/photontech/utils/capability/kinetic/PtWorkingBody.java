@@ -10,7 +10,7 @@ public class PtWorkingBody extends PtRotateBody {
     private int convertedKineticEnergy = 0;
     private final WorkingMode mode;
     
-    protected PtWorkingBody(double inertia, WorkingMode mode) {
+    protected PtWorkingBody(long inertia, WorkingMode mode) {
         super(inertia);
         this.mode = mode;
     }

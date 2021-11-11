@@ -13,13 +13,12 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.model.data.EmptyModelData;
+import photontech.utils.PtConstants;
 import photontech.utils.Utils;
 
 import javax.annotation.Nonnull;
 
 public class PtGearsTER extends TileEntityRenderer<PtGearsTile> {
-
-    public static final ResourceLocation WOODEN_GEAR = new ResourceLocation(Utils.MOD_ID, "special/wooden_gear_model");
 
     public PtGearsTER(TileEntityRendererDispatcher p_i226006_1_) {
         super(p_i226006_1_);
@@ -30,7 +29,7 @@ public class PtGearsTER extends TileEntityRenderer<PtGearsTile> {
         ModelManager manager = Minecraft.getInstance().getModelManager();
         BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 
-        IBakedModel woodenGearModel = manager.getModel(WOODEN_GEAR);
+        IBakedModel woodenGearModel = manager.getModel(PtConstants.MODELS.WOODEN_GEAR_MODEL);
 
         matrixStack.pushPose();
 

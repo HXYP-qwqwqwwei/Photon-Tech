@@ -2,6 +2,8 @@ package photontech.utils;
 
 
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import photontech.utils.recipe.PtConditionalRecipe;
 import photontech.utils.recipe.RecipeCondition;
 
@@ -41,6 +43,22 @@ public class PtConstants {
 
     // Properties
     public static final BooleanProperty HOLDING_INPUT = BooleanProperty.create("holding_input");
+
+    public static class MODELS {
+        // MIRROR
+        public static final ResourceLocation MIRROR_FRAME = new ResourceLocation(Utils.MOD_ID, "special/frame");
+        public static final ResourceLocation MIRROR_SUPPORT = new ResourceLocation(Utils.MOD_ID, "special/support");
+        public static final ResourceLocation SILVER_MIRROR = new ResourceLocation(Utils.MOD_ID, "special/silver_mirror");
+
+        // DC BRUSH MOTOR
+        public static final ResourceLocation DC_BRUSH_MODEL_PART_A_BRUSH = new ResourceLocation(Utils.MOD_ID, "block/brush_motor_models/part_a_brush_model");
+        public static final ResourceLocation DC_BRUSH_MODEL_PART_A_CONTACTOR = new ResourceLocation(Utils.MOD_ID, "block/brush_motor_models/part_a_contactor_model");
+        public static final ResourceLocation DC_BRUSH_MODEL_PART_A_WIRES = new ResourceLocation(Utils.MOD_ID, "block/brush_motor_models/wires_model");
+        public static final ResourceLocation DC_BRUSH_MODEL_PART_B = new ResourceLocation(Utils.MOD_ID, "block/brush_motor_models/part_b_model");
+
+        public static final ResourceLocation IRON_AXLE_MODEL = new ResourceLocation(Utils.MOD_ID, "special/iron_axle_model");
+        public static final ResourceLocation WOODEN_GEAR_MODEL = new ResourceLocation(Utils.MOD_ID, "special/wooden_gear_model");
+    }
 
 
     public static final Comparator<PtConditionalRecipe> NATURAL_HEAT_RECIPE_COMPARATOR = (r1, r2) -> {

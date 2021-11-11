@@ -11,7 +11,9 @@ import photontech.block.heater.solid.PtBurningItemHeaterBlock;
 import photontech.block.PtPowderBlock;
 import photontech.block.crucible.PtCrucibleBlock;
 import photontech.block.PtNormalBlock;
+import photontech.block.kinetic.motor.dc_brush.DCMotorBlockPartA;
 import photontech.block.mirror.PtMirrorBlock;
+import photontech.block.kinetic.motor.dc_brush.DCMotorBlockPartB;
 import photontech.utils.Utils;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;
@@ -66,7 +68,9 @@ public class PtBlocks {
     public static final RegistryObject<Block> MIRROR = BLOCKS.register("mirror", PtMirrorBlock::new);
 
     // KINETIC BLOCKS
-    public static final RegistryObject<Block> AXLE = BLOCKS.register("axle", AxleBlock::new);
+    public static final RegistryObject<Block> AXLE = BLOCKS.register("axle", () -> new AxleBlock(16, 4));
     public static final RegistryObject<Block> GEARS_BLOCK = BLOCKS.register("gears_block", PtGearsBlock::new);
+    public static final RegistryObject<Block> BRUSH_DC_MOTOR_PART_A = BLOCKS.register("brush_dc_motor_part_a", DCMotorBlockPartA::new);
+    public static final RegistryObject<Block> BRUSH_DC_MOTOR_PART_B = BLOCKS.register("brush_dc_motor_part_b", DCMotorBlockPartB::new);
 
 }

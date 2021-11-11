@@ -6,6 +6,8 @@ import net.minecraftforge.client.model.ModelLoader;
 import photontech.block.kinetic.axle.AxleTER;
 import photontech.block.kinetic.gears.PtGearsTER;
 import photontech.block.heater.solid.PtBurningItemHeaterTER;
+import photontech.block.kinetic.motor.dc_brush.DCBrushMotorTERPartA;
+import photontech.block.kinetic.motor.dc_brush.DCBrushMotorTERPartB;
 import photontech.block.mirror.PtMirrorTER;
 import photontech.init.PtBlocks;
 import photontech.init.PtFluids;
@@ -18,6 +20,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import photontech.utils.PtConstants;
 import photontech.utils.Utils;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -30,6 +33,7 @@ public class ClientEventHandler {
             RenderTypeLookup.setRenderLayer(PtBlocks.AXLE.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.SUN_GLASS.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(PtBlocks.SUN_GLASS_REVERSE.get(), RenderType.translucent());
+            RenderTypeLookup.setRenderLayer(PtBlocks.GEARS_BLOCK.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.GEARS_BLOCK.get(), RenderType.cutout());
 
             RenderTypeLookup.setRenderLayer(PtFluids.MILK_FLUID.get(), RenderType.translucent());
@@ -46,15 +50,21 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.MIRROR_TILEENTITY.get(), PtMirrorTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.AXLE_TILE.get(), AxleTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.GEARS_TILEENTITY.get(), PtGearsTER::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), DCBrushMotorTERPartA::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), DCBrushMotorTERPartB::new);
         });
     }
 
     @SubscribeEvent
     public static void onModelRegistryEvent(ModelRegistryEvent event) {
-        ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/frame"));
-        ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/support"));
-        ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/silver_mirror"));
-        ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/iron_axle_model"));
-        ModelLoader.addSpecialModel(new ResourceLocation(Utils.MOD_ID, "special/wooden_gear_model"));
+        ModelLoader.addSpecialModel(PtConstants.MODELS.DC_BRUSH_MODEL_PART_B);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.DC_BRUSH_MODEL_PART_A_CONTACTOR);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.DC_BRUSH_MODEL_PART_A_BRUSH);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.DC_BRUSH_MODEL_PART_A_WIRES);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.IRON_AXLE_MODEL);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_FRAME);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_SUPPORT);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.SILVER_MIRROR);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.WOODEN_GEAR_MODEL);
     }
 }
