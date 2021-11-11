@@ -5,6 +5,8 @@ import photontech.block.kinetic.gears.PtGearsTile;
 import photontech.block.heater.photon.PhotonHeaterTile;
 import photontech.block.heater.solid.PtBurningItemHeaterTile;
 import photontech.block.crucible.PtCrucibleTileEntity;
+import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartA;
+import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartB;
 import photontech.block.mirror.PtMirrorTile;
 import photontech.utils.Utils;
 import net.minecraft.tileentity.TileEntityType;
@@ -39,13 +41,23 @@ public class PtTileEntities {
     ).build(null));
 
     public static final RegistryObject<TileEntityType<AxleTile>> AXLE_TILE = TILE_ENTITIES.register("axle_tileentity", () -> TileEntityType.Builder.of(
-            () -> new AxleTile(100),
+            () -> new AxleTile(PtTileEntities.AXLE_TILE.get(), 100),
             PtBlocks.AXLE.get()
     ).build(null));
 
     public static final RegistryObject<TileEntityType<PtGearsTile>> GEARS_TILEENTITY = TILE_ENTITIES.register("gears_tileentity", () -> TileEntityType.Builder.of(
             PtGearsTile::new,
             PtBlocks.GEARS_BLOCK.get()
+    ).build(null));
+
+    public static final RegistryObject<TileEntityType<DCBrushTilePartA>> DC_BRUSH_TILE_PART_A = TILE_ENTITIES.register("dc_brush_tileentity_part_a", () -> TileEntityType.Builder.of(
+            () -> new DCBrushTilePartA(1000),
+            PtBlocks.BRUSH_DC_MOTOR_PART_A.get()
+    ).build(null));
+
+    public static final RegistryObject<TileEntityType<DCBrushTilePartB>> DC_BRUSH_TILE_PART_B = TILE_ENTITIES.register("dc_brush_tileentity_part_b", () -> TileEntityType.Builder.of(
+            () -> new DCBrushTilePartB(1000),
+            PtBlocks.BRUSH_DC_MOTOR_PART_B.get()
     ).build(null));
 
 }

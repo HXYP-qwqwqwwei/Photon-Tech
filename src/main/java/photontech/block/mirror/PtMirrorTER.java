@@ -15,35 +15,32 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.model.data.EmptyModelData;
+import photontech.utils.PtConstants;
 import photontech.utils.Utils;
+import photontech.utils.render.PtModelRenderer;
 
 import static java.lang.Math.*;
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
 public class PtMirrorTER extends TileEntityRenderer<PtMirrorTile> {
 
-    public static final ResourceLocation SUPPORT = new ResourceLocation(Utils.MOD_ID, "special/support");
-    public static final ResourceLocation FRAME = new ResourceLocation(Utils.MOD_ID, "special/frame");
-    public static final ResourceLocation SILVER_MIRROR = new ResourceLocation(Utils.MOD_ID, "special/silver_mirror");
-
     public PtMirrorTER(TileEntityRendererDispatcher p_i226006_1_) {
         super(p_i226006_1_);
     }
 
     @Override
-    public void render(PtMirrorTile mirror, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int combinedLightIn, int combinedOverlayIn) {
+    public void render(PtMirrorTile mirrorTile, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int combinedLightIn, int combinedOverlayIn) {
 
-        Vector3d facing = mirror.getMirrorNormalVector();
+        Vector3d facing = mirrorTile.getMirrorNormalVector();
 
-        Direction baseDirection = mirror.getBlockState().getValue(FACING);
+        Direction baseDirection = mirrorTile.getBlockState().getValue(FACING);
 
         ModelManager manager = Minecraft.getInstance().getModelManager();
-        BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 
         // init model
-        IBakedModel supportModel = manager.getModel(SUPPORT);
-        IBakedModel frameModel = manager.getModel(FRAME);
-        IBakedModel mirror_test = manager.getModel(SILVER_MIRROR);
+        IBakedModel supportModel = manager.getModel(PtConstants.MODELS.MIRROR_SUPPORT);
+        IBakedModel frameModel = manager.getModel(PtConstants.MODELS.MIRROR_FRAME);
+        IBakedModel mirrorModel = manager.getModel(PtConstants.MODELS.SILVER_MIRROR);
 
         double xSupportR = 0, ySupportR = 0, zSupportR = 0;
         double xFrameR = 0, yFrameR = 0, zFrameR = 0;
@@ -88,25 +85,20 @@ public class PtMirrorTER extends TileEntityRenderer<PtMirrorTile> {
                 break;
         }
 
+        BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
+        PtModelRenderer modelRenderer = PtModelRenderer.create(blockRenderer, iRenderTypeBuffer, mirrorTile.getBlockState(), combinedLightIn, combinedOverlayIn);
+
         // begin render
         matrixStack.pushPose();
 
+        // render support
         matrixStack.translate(.5, .5, .5);
         matrixStack.mulPose(Vector3f.XP.rotation((float) xSupportR));
         matrixStack.mulPose(Vector3f.YP.rotation((float) ySupportR));
         matrixStack.mulPose(Vector3f.ZP.rotation((float) zSupportR));
         matrixStack.translate(-.5, -.5, -.5);
 
-        // render support
-        blockRenderer.getModelRenderer().renderModel(
-                matrixStack.last(),
-                iRenderTypeBuffer.getBuffer(RenderType.solid()),
-                mirror.getBlockState(),
-                supportModel,
-                1F, 1F, 1F,
-                combinedLightIn, combinedOverlayIn,
-                EmptyModelData.INSTANCE
-        );
+        modelRenderer.renderModel(matrixStack, supportModel, RenderType.solid());
 
 
         // render frame
@@ -116,26 +108,8 @@ public class PtMirrorTER extends TileEntityRenderer<PtMirrorTile> {
         matrixStack.mulPose(Vector3f.ZP.rotation((float) zFrameR));
         matrixStack.translate(-.5, -.53125, -.5);
 
-
-        blockRenderer.getModelRenderer().renderModel(
-                matrixStack.last(),
-                iRenderTypeBuffer.getBuffer(RenderType.solid()),
-                mirror.getBlockState(),
-                frameModel,
-                1F, 1F, 1F,
-                combinedLightIn, combinedOverlayIn,
-                EmptyModelData.INSTANCE
-        );
-
-        blockRenderer.getModelRenderer().renderModel(
-                matrixStack.last(),
-                iRenderTypeBuffer.getBuffer(RenderType.solid()),
-                mirror.getBlockState(),
-                mirror_test,
-                1F, 1F, 1F,
-                combinedLightIn, combinedOverlayIn,
-                EmptyModelData.INSTANCE
-        );
+        modelRenderer.renderModel(matrixStack, frameModel, RenderType.solid());
+        modelRenderer.renderModel(matrixStack, mirrorModel, RenderType.solid());
 
         // end render
         matrixStack.popPose();

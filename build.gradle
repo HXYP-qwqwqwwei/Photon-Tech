@@ -1,3 +1,7 @@
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }

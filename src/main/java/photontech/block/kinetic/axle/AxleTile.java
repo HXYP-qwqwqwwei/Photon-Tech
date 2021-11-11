@@ -3,6 +3,7 @@ package photontech.block.kinetic.axle;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
@@ -29,8 +30,8 @@ public class AxleTile extends PtMachineTile {
     Direction.Axis currentAxis = Direction.Axis.X;
     LazyOptional<IRotateBody> mainBody;
 
-    public AxleTile(long initInertia) {
-        super(PtTileEntities.AXLE_TILE.get());
+    public AxleTile(TileEntityType<?> tileEntityTypeIn, long initInertia) {
+        super(tileEntityTypeIn);
         this.selfInertia = initInertia;
         mainBody = LazyOptional.of(() -> PtVariableRotateBody.of(PtRotateBody.create(initInertia)));
     }
