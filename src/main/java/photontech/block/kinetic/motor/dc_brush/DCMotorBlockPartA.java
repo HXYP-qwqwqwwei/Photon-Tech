@@ -11,7 +11,7 @@ import photontech.block.kinetic.axle.AxleBlock;
 
 import javax.annotation.Nullable;
 
-import static net.minecraft.state.properties.BlockStateProperties.FACING;
+import static net.minecraft.state.properties.BlockStateProperties.*;
 
 public class DCMotorBlockPartA extends AxleBlock {
 
@@ -31,7 +31,9 @@ public class DCMotorBlockPartA extends AxleBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getClickedFace().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getClickedFace().getOpposite())
+                .setValue(AXIS, context.getClickedFace().getAxis());
     }
 
     @Nullable

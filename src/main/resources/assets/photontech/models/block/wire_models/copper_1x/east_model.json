@@ -1,0 +1,21 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "photontech:block/copper_wire",
+		"particle": "photontech:block/copper_wire"
+	},
+	"elements": [
+		{
+			"name": "east",
+			"from": [9, 7, 7],
+			"to": [16, 9, 9],
+			"faces": {
+				"north": {"uv": [6, 0, 8, 7], "rotation": 90, "texture": "#0"},
+				"east": {"uv": [6, 0, 8, 2], "rotation": 180, "texture": "#0"},
+				"south": {"uv": [6, 0, 8, 7], "rotation": 270, "texture": "#0"},
+				"up": {"uv": [6, 0, 8, 7], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [6, 0, 8, 7], "rotation": 270, "texture": "#0"}
+			}
+		}
+	]
+}

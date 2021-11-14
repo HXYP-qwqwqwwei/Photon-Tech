@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -26,11 +25,10 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.AbstractBlock.Properties;
 import photontech.utils.block.IFluidTankBlock;
 
 public class PtCrucibleBlock extends SixWayBlock implements IFluidTankBlock {
-    private final VoxelShape[] shapes;
+    protected final VoxelShape[] shapes;
     protected final float overloadTemp;
     protected final float heatTranferRate;
 
@@ -107,8 +105,8 @@ public class PtCrucibleBlock extends SixWayBlock implements IFluidTankBlock {
         return index;
     }
 
-    private boolean canConnectTo(IWorld world, BlockPos pos) {
-        return this.isConnectableCrucible(world.getBlockState(pos));
+    private boolean cannotConnectTo(IWorld world, BlockPos pos) {
+        return this != world.getBlockState(pos).getBlock();
     }
 
     @Nullable
@@ -117,10 +115,10 @@ public class PtCrucibleBlock extends SixWayBlock implements IFluidTankBlock {
         World world = context.getLevel();
         BlockPos currentPos = context.getClickedPos();
         return this.defaultBlockState()
-                .setValue(EAST, !canConnectTo(world, currentPos.east()))
-                .setValue(WEST, !canConnectTo(world, currentPos.west()))
-                .setValue(SOUTH, !canConnectTo(world, currentPos.south()))
-                .setValue(NORTH, !canConnectTo(world, currentPos.north()));
+                .setValue(EAST, cannotConnectTo(world, currentPos.east()))
+                .setValue(WEST, cannotConnectTo(world, currentPos.west()))
+                .setValue(SOUTH, cannotConnectTo(world, currentPos.south()))
+                .setValue(NORTH, cannotConnectTo(world, currentPos.north()));
     }
 
     @Override
@@ -133,10 +131,10 @@ public class PtCrucibleBlock extends SixWayBlock implements IFluidTankBlock {
     @Nonnull
     public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
         return this.defaultBlockState()
-                .setValue(EAST, !canConnectTo(worldIn, currentPos.east()))
-                .setValue(WEST, !canConnectTo(worldIn, currentPos.west()))
-                .setValue(SOUTH, !canConnectTo(worldIn, currentPos.south()))
-                .setValue(NORTH, !canConnectTo(worldIn, currentPos.north()));
+                .setValue(EAST, cannotConnectTo(worldIn, currentPos.east()))
+                .setValue(WEST, cannotConnectTo(worldIn, currentPos.west()))
+                .setValue(SOUTH, cannotConnectTo(worldIn, currentPos.south()))
+                .setValue(NORTH, cannotConnectTo(worldIn, currentPos.north()));
     }
 
     // Tile Entity

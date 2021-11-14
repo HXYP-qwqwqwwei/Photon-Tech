@@ -1,27 +1,7 @@
 {
   "variants": {
-    "facing=east": {
-      "model": "photontech:block/brush_motor_models/part_a_brush_model"
-    },
-    "facing=west": {
-      "model": "photontech:block/brush_motor_models/part_a_brush_model",
-      "y": 180
-    },
-    "facing=north": {
-      "model": "photontech:block/brush_motor_models/part_a_brush_model",
-      "y": 270
-    },
-    "facing=south": {
-      "model": "photontech:block/brush_motor_models/part_a_brush_model",
-      "y": 90
-    },
-    "facing=up": {
-      "model": "photontech:block/brush_motor_models/part_a_brush_model",
-      "z": 270
-    },
-    "facing=down": {
-      "model": "photontech:block/brush_motor_models/part_a_brush_model",
-      "z": 90
+    "":{
+      "model": "photontech:block/brush_motor_models/part_a_empty_model"
     }
   }
 }

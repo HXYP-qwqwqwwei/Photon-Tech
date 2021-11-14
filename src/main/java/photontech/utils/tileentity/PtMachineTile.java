@@ -42,6 +42,9 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     protected List<PtConditionalRecipe> cachedRecipes;
     protected List<PtHeatCache> heatCaches;
 
+    private int coldDown = 1;
+    private int timer = 0;
+
     // Kinetic
 //    protected LazyOptional<PtRotateBody> eastRotateBody = LazyOptional.empty();
 //    protected LazyOptional<PtRotateBody> southRotateBody = LazyOptional.empty();
@@ -185,6 +188,8 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         super.save(nbt);
         this.heatReservoir.ifPresent(reservoir -> nbt.put("HeatReservoir", reservoir.saveToNBT(new CompoundNBT())));
+        nbt.putInt("Timer", this.timer);
+        nbt.putInt("ColdDown", this.coldDown);
         return nbt;
     }
 
@@ -192,6 +197,8 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.load(state, nbt);
         this.heatReservoir.ifPresent(reservoir -> reservoir.loadFromNBT(nbt.getCompound("HeatReservoir")));
+        this.timer = nbt.getInt("Timer");
+        this.coldDown = nbt.getInt("ColdDown");
     }
 
 
@@ -220,4 +227,18 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
         }
         return super.getCapability(cap, side);
     }
+
+    public void setColdDown(int ticks) {
+        this.coldDown = ticks > 0 ? ticks : 1;
+    }
+
+    public boolean testColdDown() {
+        if (++this.timer >= this.coldDown) {
+            timer = 0;
+            this.setChanged();
+            return true;
+        }
+        return false;
+    }
+
 }

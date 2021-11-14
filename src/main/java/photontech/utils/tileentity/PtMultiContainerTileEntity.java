@@ -88,10 +88,4 @@ public abstract class PtMultiContainerTileEntity extends TileEntity implements I
         return this.mainItemHandler.orElse(new PtItemStackHandler());
     }
 
-    public boolean isFuelIn() {
-        return this.getItemHandler().getStackInSlot(0) != ItemStack.EMPTY;
-    }
-
-
-
 }

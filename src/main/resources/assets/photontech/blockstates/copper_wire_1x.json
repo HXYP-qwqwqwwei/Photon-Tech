@@ -1,0 +1,57 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/core_model"
+      }
+    },
+    {
+      "when": {
+        "east": true
+      },
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/east_model"
+      }
+    },
+    {
+      "when": {
+        "west": true
+      },
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/west_model"
+      }
+    },
+    {
+      "when": {
+        "south": true
+      },
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/south_model"
+      }
+    },
+    {
+      "when": {
+        "north": true
+      },
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/north_model"
+      }
+    },
+    {
+      "when": {
+        "up": true
+      },
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/up_model"
+      }
+    },
+    {
+      "when": {
+        "down": true
+      },
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/down_model"
+      }
+    }
+  ]
+}

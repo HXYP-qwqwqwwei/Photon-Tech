@@ -44,7 +44,7 @@ public class PtConstants {
     // Properties
     public static final BooleanProperty HOLDING_INPUT = BooleanProperty.create("holding_input");
 
-    public static class MODELS {
+    public static final class MODELS {
         // MIRROR
         public static final ResourceLocation MIRROR_FRAME = new ResourceLocation(Utils.MOD_ID, "special/frame");
         public static final ResourceLocation MIRROR_SUPPORT = new ResourceLocation(Utils.MOD_ID, "special/support");

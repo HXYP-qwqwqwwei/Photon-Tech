@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -60,6 +61,10 @@ public class PtBurningItemHeaterTile extends PtBurningHeaterTile implements INam
     public Container createMenu(int sysID, @Nonnull PlayerInventory inventory, @Nonnull PlayerEntity player) {
         assert this.level != null;
         return new PtBurningItemHeaterContainer(sysID, inventory, this.worldPosition, this.level);
+    }
+
+    public boolean isFuelIn() {
+        return this.getItemHandler().getStackInSlot(0) != ItemStack.EMPTY;
     }
 
 }

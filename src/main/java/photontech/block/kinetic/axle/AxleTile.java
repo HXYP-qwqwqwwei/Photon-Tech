@@ -34,6 +34,7 @@ public class AxleTile extends PtMachineTile {
         super(tileEntityTypeIn);
         this.selfInertia = initInertia;
         mainBody = LazyOptional.of(() -> PtVariableRotateBody.of(PtRotateBody.create(initInertia)));
+        this.setColdDown(5);
     }
 
 
@@ -52,7 +53,7 @@ public class AxleTile extends PtMachineTile {
             long time = level.getGameTime();
             this.checkAndUpdateAxis();
 
-            if (time % 5 == 0) {
+            if (this.testColdDown()) {
                 this.combineBody();
             }
 
@@ -131,7 +132,7 @@ public class AxleTile extends PtMachineTile {
      * this method will only check the axis positive direction.
      */
     protected void combineBody() {
-        assert this.level != null;
+        assert this.level != null && !this.level.isClientSide;
         this.mainBody.ifPresent(body -> {
 
             Direction direction = AxisHelper.getAxisPositiveDirection(this.currentAxis);
