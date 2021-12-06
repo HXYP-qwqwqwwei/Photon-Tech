@@ -1,0 +1,6 @@
+{
+  "package": "photontech.mixins",
+  "mixins": [],
+  "client": ["MixinMinecraft"],
+  "server": []
+}
