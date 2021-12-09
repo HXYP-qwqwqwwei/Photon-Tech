@@ -1,5 +1,6 @@
 package photontech.block.kinetic.axle;
 
+import io.netty.handler.codec.DecoderException;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -10,12 +11,14 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import org.apache.logging.log4j.LogManager;
+import photontech.event.PtExtraThread;
+import photontech.event.PtExtraThreadHandler;
 import photontech.init.PtCapabilities;
-import photontech.init.PtTileEntities;
 import photontech.utils.capability.kinetic.IRotateBody;
 import photontech.utils.capability.kinetic.PtRotateBody;
 import photontech.utils.capability.kinetic.PtVariableRotateBody;
 import photontech.utils.helper.AxisHelper;
+import photontech.utils.tileentity.IPtTickable;
 import photontech.utils.tileentity.PtMachineTile;
 
 import javax.annotation.Nonnull;
@@ -24,7 +27,7 @@ import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
-public class AxleTile extends PtMachineTile {
+public class AxleTile extends PtMachineTile implements IPtTickable {
 
     public long selfInertia;
     Direction.Axis currentAxis = Direction.Axis.X;
@@ -50,20 +53,46 @@ public class AxleTile extends PtMachineTile {
     public void tick() {
         if (this.level != null && !this.level.isClientSide) {
 
-            long time = level.getGameTime();
-            this.checkAndUpdateAxis();
-
-            if (this.testColdDown()) {
-                this.combineBody();
-            }
-
-            mainBody.ifPresent(body -> {
-                body.updateAngle(time);
-            });
+//            long time = level.getGameTime();
+//            this.checkAndUpdateAxis();
+//
+//            if (this.testColdDown()) {
+//                this.combineBody();
+//            }
+//
+//            mainBody.ifPresent(body -> {
+//                body.updateAngle(time);
+//            });
 
             level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
         }
     }
+
+    @Override
+    public void ptTick() {
+        LogManager.getLogger().info(level);
+    }
+
+//    @Override
+//    public void ptTick() {
+//        LogManager.getLogger().info(level);
+//        if (level != null && !level.isClientSide) {
+//            LogManager.getLogger().info(level.isClientSide);
+//            long time = PtExtraThread.getPtTime();
+//            this.checkAndUpdateAxis();
+//
+////            if (this.testColdDown()) {
+////                this.combineBody();
+////                PtExtraThread.submitTask(this::combineBody);
+////            }
+//
+//            mainBody.ifPresent(body -> {
+//                body.updateAngle(time, PtExtraThreadHandler.PERIOD);
+//            });
+//            level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+//
+//        }
+//    }
 
     @Nonnull
     @Override
@@ -160,5 +189,17 @@ public class AxleTile extends PtMachineTile {
     public void setRemoved() {
         this.departBody();
         super.setRemoved();
+        PtExtraThread.removeMachine(this);
+    }
+
+    @Override
+    public void onLoad() {
+        PtExtraThread.registerMachine(this);
+        super.onLoad();
+    }
+
+    @Override
+    public void onChunkUnloaded() {
+        PtExtraThread.removeMachine(this);
     }
 }

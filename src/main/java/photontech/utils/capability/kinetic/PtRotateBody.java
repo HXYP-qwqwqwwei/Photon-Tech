@@ -1,7 +1,6 @@
 package photontech.utils.capability.kinetic;
 
 import net.minecraft.nbt.CompoundNBT;
-import org.apache.logging.log4j.LogManager;
 
 public class PtRotateBody implements IRotateBody {
 
@@ -69,9 +68,9 @@ public class PtRotateBody implements IRotateBody {
     }
 
     @Override
-    public void updateAngle(long time) {
+    public void updateAngle(long time, int dtMilliseconds) {
         if (time != this.lastUpdateTime) {
-            this.angle += omega;
+            this.angle += omega * dtMilliseconds * 0.001;
             this.lastUpdateTime = time;
             this.formatAngle();
         }

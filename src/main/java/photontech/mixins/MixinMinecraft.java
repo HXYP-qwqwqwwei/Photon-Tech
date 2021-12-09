@@ -9,11 +9,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-@Mixin(Minecraft.class)
+@Mixin(value = Minecraft.class, priority = 1001)
 public abstract class MixinMinecraft {
 
-    @Inject(method = "createTitle", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILEXCEPTION, cancellable = true)
-    private void onCreateTitle(CallbackInfoReturnable<String> cir, StringBuilder stringbuilder, ClientPlayNetHandler clientplaynethandler) {
-        cir.setReturnValue(stringbuilder.append("-PtTest").toString());
+    @Inject(method = "createTitle", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+    private String onCreateTitle(CallbackInfoReturnable<String> cir, StringBuilder stringbuilder, ClientPlayNetHandler clientplaynethandler) {
+//        cir.setReturnValue(stringbuilder.append("-PtTest").toString());
+        stringbuilder.append("-PtTest");
+        return stringbuilder.toString();
+//        stringbuilder.append("-PtTest");
     }
+
+
 }

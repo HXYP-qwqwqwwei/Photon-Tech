@@ -22,7 +22,7 @@ public interface IRotateBody {
 
     void setAngle(float angle);
 
-    void updateAngle(long time);
+    void updateAngle(long time, int periodTick);
 
     CompoundNBT save(CompoundNBT nbt);
 

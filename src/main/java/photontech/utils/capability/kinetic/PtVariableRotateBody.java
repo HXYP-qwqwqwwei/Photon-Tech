@@ -52,8 +52,8 @@ public class PtVariableRotateBody implements IRotateBody {
     }
 
     @Override
-    public void updateAngle(long time) {
-        body.updateAngle(time);
+    public void updateAngle(long time, int periodTick) {
+        body.updateAngle(time, periodTick);
     }
 
     @Override
