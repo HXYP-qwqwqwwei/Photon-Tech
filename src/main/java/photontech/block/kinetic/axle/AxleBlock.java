@@ -20,6 +20,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
+//import photontech.event.PtExtraThread;
 import photontech.init.PtCapabilities;
 import photontech.init.PtItems;
 import photontech.init.PtTileEntities;
@@ -91,9 +92,14 @@ public class AxleBlock extends Block {
                 ItemStack itemStack = player.getItemInHand(handIn);
                 if (itemStack.getItem() == PtItems.WRENCH.get()) {
                     axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() + 0.1F));
+//                    PtExtraThread.submitTask(() ->
+//                    );
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == PtItems.PROTRACTOR.get()) {
+                    axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() - 0.1F));
+//                    PtExtraThread.submitTask(() ->
+//                    );
                     axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() - 0.1F));
                     return ActionResultType.SUCCESS;
                 }

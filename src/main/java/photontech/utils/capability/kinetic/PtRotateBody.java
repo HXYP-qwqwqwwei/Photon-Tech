@@ -7,10 +7,14 @@ public class PtRotateBody implements IRotateBody {
     protected long inertia;
     protected float omega = 0F;
     protected float angle = 0;
-    protected long lastUpdateTime = 0L;
+    protected long lastUpdateTick = 0L;
 
     public static PtRotateBody create(long inertia) {
         return new PtRotateBody(inertia);
+    }
+
+    public static PtVariableRotateBody createMutable(long inertia) {
+        return PtVariableRotateBody.of(new PtRotateBody(inertia));
     }
 
     public static PtRotateBody createFromNBT(CompoundNBT nbt) {
@@ -68,10 +72,10 @@ public class PtRotateBody implements IRotateBody {
     }
 
     @Override
-    public void updateAngle(long time, int dtMilliseconds) {
-        if (time != this.lastUpdateTime) {
-            this.angle += omega * dtMilliseconds * 0.001;
-            this.lastUpdateTime = time;
+    public void updateAngle(long tick, int dTMilliseconds) {
+        if (tick != this.lastUpdateTick) {
+            this.angle += omega * dTMilliseconds * 0.001;
+            this.lastUpdateTick = tick;
             this.formatAngle();
         }
     }
@@ -103,7 +107,7 @@ public class PtRotateBody implements IRotateBody {
         nbt.putLong("Inertia", this.inertia);
         nbt.putFloat("Omega", this.omega);
         nbt.putFloat("Angle", this.angle);
-        nbt.putLong("LastUpdateTime", this.lastUpdateTime);
+        nbt.putLong("LastUpdateTime", this.lastUpdateTick);
         return nbt;
     }
 
@@ -112,6 +116,6 @@ public class PtRotateBody implements IRotateBody {
         this.inertia = nbt.getLong("Inertia");
         this.omega = nbt.getFloat("Omega");
         this.angle = nbt.getFloat("Angle");
-        this.lastUpdateTime = nbt.getLong("LastUpdateTime");
+        this.lastUpdateTick = nbt.getLong("LastUpdateTime");
     }
 }
