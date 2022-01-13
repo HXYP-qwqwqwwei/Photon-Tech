@@ -5,6 +5,7 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Container;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -25,6 +26,8 @@ public class PtBaseContainer extends Container {
         if (this.tileEntity == null || this.tileEntity.isRemoved()) {
             return false;
         }
+        // 在有效的时候发送方块更新以保持同步
+        Objects.requireNonNull(tileEntity.getLevel()).sendBlockUpdated(tileEntity.getBlockPos(), tileEntity.getBlockState(), tileEntity.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
         return !this.isDistanceOutOfRange(this.tileEntity, playerIn);
     }
 
@@ -68,4 +71,9 @@ public class PtBaseContainer extends Container {
         return tileEntity.getBlockPos().distSqr(playerEntity.blockPosition()) > maxDis;
     }
 
+//    @Override
+//    public void setData(int p_75137_1_, int p_75137_2_) {
+//        super.setData(p_75137_1_, p_75137_2_);
+//        Objects.requireNonNull(tileEntity.getLevel()).sendBlockUpdated(tileEntity.getBlockPos(), tileEntity.getBlockState(), tileEntity.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+//    }
 }

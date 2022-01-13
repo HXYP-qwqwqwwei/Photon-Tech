@@ -1,3 +1,11 @@
+/**
+ * 类似于管道的方块
+ * 这类方块拥有向周围连接的能力
+ * Thickness决定其连接部分的粗细（碰撞箱）
+ * 能连接的方向由getValidDirections定义
+ * 连接的条件由canConnectTo定义
+ */
+
 package photontech.utils.block;
 
 import net.minecraft.block.Block;
@@ -60,9 +68,9 @@ public abstract class PipeLikeBlock extends SixWayBlock {
     /**
      * 构造管道型方块的碰撞箱
      * @param thickness 管道粗细参数。
-     * @param addedShape 管道的基础碰撞箱，在管道具有一部分固定碰撞箱时使用。
+     * @param baseShape 管道的基础碰撞箱，在管道具有一部分固定碰撞箱时使用。
      */
-    protected void makeShapes(Thickness thickness, @Nullable VoxelShape addedShape) {
+    protected void makeShapes(Thickness thickness, @Nullable VoxelShape baseShape) {
         int minX = thickness.minX;
         int maxX = thickness.maxX;
 
@@ -78,8 +86,8 @@ public abstract class PipeLikeBlock extends SixWayBlock {
 
         for (int index = 0; index < NSHAPES; ++index) {
             shapes[index] = core;
-            if (addedShape != null) {
-                shapes[index] = VoxelShapes.or(shapes[index], addedShape);
+            if (baseShape != null) {
+                shapes[index] = VoxelShapes.or(shapes[index], baseShape);
             }
             for (int directionNumber = 0; directionNumber < 6; ++directionNumber) {
                 if ((index & (1 << directionNumber)) != 0) {

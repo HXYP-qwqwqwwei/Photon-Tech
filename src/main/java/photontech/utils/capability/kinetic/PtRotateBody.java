@@ -13,8 +13,8 @@ public class PtRotateBody implements IRotateBody {
         return new PtRotateBody(inertia);
     }
 
-    public static PtVariableRotateBody createMutable(long inertia) {
-        return PtVariableRotateBody.of(new PtRotateBody(inertia));
+    public static PtMutableRotateBody createMutable(long inertia) {
+        return PtMutableRotateBody.of(new PtRotateBody(inertia));
     }
 
     public static PtRotateBody createFromNBT(CompoundNBT nbt) {

@@ -39,13 +39,16 @@ public class PtBurningItemHeaterTile extends PtBurningHeaterTile implements INam
 
             this.isIgnited = this.getHeatCacheForBurning().isInProcess();
 
-            level.setBlock(
-                    this.worldPosition,
-                    heaterBlock.setValue(BlockStateProperties.LIT, this.isIgnited).setValue(PtConstants.HOLDING_INPUT, this.isFuelIn()),
-                    1
-            );
+            if (this.isIgnited != this.getBlockState().getValue(BlockStateProperties.LIT) || this.isFuelIn() != this.getBlockState().getValue(PtConstants.HOLDING_INPUT)) {
+                level.setBlock(
+                        this.worldPosition,
+                        heaterBlock.setValue(BlockStateProperties.LIT, this.isIgnited).setValue(PtConstants.HOLDING_INPUT, this.isFuelIn()),
+                        1
+                );
 
-            level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+                level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+            }
+
         }
     }
 

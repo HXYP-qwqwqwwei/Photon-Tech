@@ -91,5 +91,6 @@ public class PtItems {
     // WIRE ITEMS
     public static final RegistryObject<Item> COPPER_WIRE_1X = ITEMS.register("copper_wire_1x", () -> new BlockItem(PtBlocks.COPPER_WIRE_1X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
+    public static final RegistryObject<Item> INFINITE_BATTERY = ITEMS.register("infinite_battery", () -> new BlockItem(PtBlocks.INFINITE_BATTERY.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
 }

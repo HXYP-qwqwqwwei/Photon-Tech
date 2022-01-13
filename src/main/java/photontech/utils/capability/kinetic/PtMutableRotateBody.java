@@ -2,21 +2,27 @@ package photontech.utils.capability.kinetic;
 
 import net.minecraft.nbt.CompoundNBT;
 
-public class PtVariableRotateBody implements IRotateBody {
+public class PtMutableRotateBody implements IMutableBody {
     private IRotateBody body;
 
-    private PtVariableRotateBody(PtRotateBody body) {
+    private PtMutableRotateBody(PtRotateBody body) {
         this.body = body;
     }
 
-    public static PtVariableRotateBody of(PtRotateBody body) {
-        return new PtVariableRotateBody(body);
+    public static PtMutableRotateBody of(PtRotateBody body) {
+        return new PtMutableRotateBody(body);
     }
 
+    public static PtMutableRotateBody create(long inertia) {
+        return of(PtRotateBody.create(inertia));
+    }
+
+    @Override
     public IRotateBody get() {
         return this.body;
     }
 
+    @Override
     public void set(IRotateBody newBody) {
         this.body = newBody;
     }

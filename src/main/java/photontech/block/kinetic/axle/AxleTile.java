@@ -10,9 +10,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.init.PtCapabilities;
+import photontech.utils.capability.kinetic.IMutableBody;
 import photontech.utils.capability.kinetic.IRotateBody;
 import photontech.utils.capability.kinetic.PtRotateBody;
-import photontech.utils.capability.kinetic.PtVariableRotateBody;
+import photontech.utils.capability.kinetic.PtMutableRotateBody;
 import photontech.utils.helper.AxisHelper;
 import photontech.utils.helper.MutableLong;
 import photontech.utils.tileentity.PtMachineTile;
@@ -25,7 +26,7 @@ public class AxleTile extends PtMachineTile {
 
     public long selfInertia;
     Direction.Axis currentAxis = Direction.Axis.X;
-    LazyOptional<IRotateBody> mainBody;
+    LazyOptional<IMutableBody> mainBody;
     private final int maxConnects = 16;
     private int searchDepth = 0;
     private final TileEntity[] canConnectTiles = new TileEntity[maxConnects];
@@ -33,7 +34,7 @@ public class AxleTile extends PtMachineTile {
     public AxleTile(TileEntityType<?> tileEntityTypeIn, long initInertia) {
         super(tileEntityTypeIn);
         this.selfInertia = initInertia;
-        mainBody = LazyOptional.of(() -> PtVariableRotateBody.of(PtRotateBody.create(initInertia)));
+        mainBody = LazyOptional.of(() -> PtMutableRotateBody.create(initInertia));
         this.setColdDown(5);
     }
 
@@ -47,18 +48,23 @@ public class AxleTile extends PtMachineTile {
     public void tick() {
         if (this.level != null) {
 
-            long time = level.getGameTime();
-
-            mainBody.ifPresent(body -> {
-                body.updateAngle(time, 50);
-            });
-            this.setChanged();
+            // 发起合并
             if (!this.combineSearchOneStep()) {
                 this.combineAll();
             }
 
-            if (!level.isClientSide && this.isTerminalAxle()) {
-                level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+            // 只在服务端的逻辑
+            if (!level.isClientSide) {
+                long time = level.getGameTime();
+
+                mainBody.ifPresent(body -> {
+                    body.updateAngle(time, 50);
+                    IRotateBody.kineticTransferWithEnv(body, 1.0D);
+                });
+
+                if (this.isTerminalAxle()) {
+                    level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+                }
             }
         }
     }
@@ -88,12 +94,10 @@ public class AxleTile extends PtMachineTile {
         this.currentAxis = Direction.Axis.byName(nbt.getString("CurrentAxis"));
         this.mainBody.ifPresent(body -> body.load(nbt.getCompound("MainBody")));
         this.selfInertia = nbt.getLong("SelfInertia");
-//        this.angle = nbt.getFloat("Angle");
     }
 
     public float getAngle(Direction direction) {
-        return this.mainBody.orElse(PtRotateBody.create(0)).getAngle();
-//        return angle;
+        return this.mainBody.orElse(PtMutableRotateBody.create(0)).getAngle();
     }
 
     @Nonnull
@@ -129,9 +133,9 @@ public class AxleTile extends PtMachineTile {
                 if (axle.currentAxis != this.currentAxis)break IF;
                 tile.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite()).ifPresent(other -> {
                     // 未连接
-                    if (((PtVariableRotateBody) other).get() != ((PtVariableRotateBody) body).get()) return;
+                    if (other.get() != body.get()) return;
                     // 为自己正方向相邻的轴创建新的刚体对象，调用其searchAndCombine()，然后将自身的惯量减去分离出去的部分（包括自身）
-                    ((PtVariableRotateBody) other).set(PtRotateBody.create(axle.selfInertia));
+                    other.set(PtRotateBody.create(axle.selfInertia));
 
                     // A little trick
                     Direction.Axis currAxis = this.currentAxis;
@@ -145,7 +149,7 @@ public class AxleTile extends PtMachineTile {
                 });
             }
             // 拆分结束后，为自己新建刚体对象，并继承拆分前的角速度和角度
-            ((PtVariableRotateBody)body).set(PtVariableRotateBody.of(PtRotateBody.create(this.selfInertia)));
+            body.set(PtMutableRotateBody.of(PtRotateBody.create(this.selfInertia)));
             body.setOmega(oldOmega);
             body.setAngle(oldAngle);
         });
@@ -210,12 +214,11 @@ public class AxleTile extends PtMachineTile {
                         break;
                     }
 
-                    PtVariableRotateBody r1 = (PtVariableRotateBody) body;
-                    PtVariableRotateBody r2 = (PtVariableRotateBody) tileEntity.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite()).orElse(PtVariableRotateBody.of(PtRotateBody.create(0)));
-                    if (r2.getInertia() == 0) break;
+                    IMutableBody other = tileEntity.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite()).orElse(PtMutableRotateBody.create(0));
+                    if (other.getInertia() == 0) break;
 
-                    IRotateBody.kineticTransfer(r1.get(), r2.get());
-                    r2.set(r1.get());
+                    IRotateBody.kineticTransfer(body.get(), other.get());
+                    other.set(body.get());
                     sumInertia.value += ((AxleTile) tileEntity).selfInertia;
 
                     // 设置为null以免强引用导致已不存在的Tile无法回收

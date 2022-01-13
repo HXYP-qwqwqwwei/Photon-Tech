@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import photontech.block.electric.electrode.PtElectrodeBlock;
+import photontech.block.electric.infiniteBattery.PtInfiniteBatteryBlock;
 import photontech.block.electric.wire.PtWireBlock;
 import photontech.block.kinetic.gears.PtGearsBlock;
 import photontech.block.PtModifiedGlassBlock;
@@ -83,4 +84,6 @@ public class PtBlocks {
 
     // WIRE BLOCKS
     public static final RegistryObject<Block> COPPER_WIRE_1X = BLOCKS.register("copper_wire_1x", () -> new PtWireBlock(PipeLikeBlock.Thickness.SIZE_1X, 0.1));
+
+    public static final RegistryObject<Block> INFINITE_BATTERY = BLOCKS.register("infinite_battery", PtInfiniteBatteryBlock::new);
 }

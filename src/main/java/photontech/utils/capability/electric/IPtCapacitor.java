@@ -1,43 +1,48 @@
 package photontech.utils.capability.electric;
 
+import org.apache.logging.log4j.LogManager;
+
 public interface IPtCapacitor {
     long INF = Long.MAX_VALUE;
 
-    /**
-     * 获取高电势。
-     * @return 高电势值
-     */
-    double getHv();
+    double getU();
 
-    /**
-     * 获取低电势。
-     * @return 低电势值
-     */
-    double getLv();
-
-    /**
-     * 获取电容。
-     * @return 电容值
-     */
     double getC();
 
-    /**
-     * 获取电阻。
-     * @return 电阻值
-     */
+    void setC(double capacity);
+
     double getR();
 
-    /**
-     * 充电。
-     * @return 实际输入的电荷量
-     */
-    long charge(long q);
+    void setR(double resistance);
 
-    /**
-     * 放电。
-     * @return 实际放出的电荷量
-     */
-    long discharge(long q);
+    double getQ();
 
+    void setQ(double charge);
+
+    static double chargeExchange(IPtCapacitor cp1, IPtCapacitor cp2) {
+        if (cp1 == cp2) {
+            return 0.0;
+        }
+        final double U1 = cp1.getU();
+        final double U2 = cp2.getU();
+//        LogManager.getLogger().info("dU = " + (U1 - U2));
+        if (U1 <= U2) {
+            return 0.0;
+        }
+        final double C1 = cp1.getC();
+        final double C2 = cp2.getC();
+        final double R1 = cp1.getR();
+        final double R2 = cp2.getR();
+        final double Q1 = cp1.getQ();
+        final double Q2 = cp2.getQ();
+
+        double dQ = (U2 - U1) / (R1 + R2) * 2 * 0.05;
+        double dQ0 = (Q2 * C1 - Q1 * C2) / (C1 + C2);
+        // dQ0 <= dQ < 0
+        dQ = Math.max(dQ, dQ0);
+        cp1.setQ(Q1 + dQ);
+        cp2.setQ(Q2 - dQ);
+        return dQ;
+    }
 
 }

@@ -1,5 +1,7 @@
 package photontech.init;
 
+import photontech.block.electric.infiniteBattery.PtInfiniteBatteryTile;
+import photontech.block.electric.wire.PtWireTile;
 import photontech.block.kinetic.axle.AxleTile;
 import photontech.block.kinetic.gears.PtGearsTile;
 import photontech.block.heater.photon.PhotonHeaterTile;
@@ -60,4 +62,13 @@ public class PtTileEntities {
             PtBlocks.BRUSH_DC_MOTOR_PART_B.get()
     ).build(null));
 
+    public static final RegistryObject<TileEntityType<PtWireTile>> WIRE = TILE_ENTITIES.register("wire_tileentity", () -> TileEntityType.Builder.of(
+            () -> new PtWireTile(1, 10),
+            PtBlocks.COPPER_WIRE_1X.get()
+    ).build(null));
+
+    public static final RegistryObject<TileEntityType<PtInfiniteBatteryTile>> INFINITE_BATTERY = TILE_ENTITIES.register("infinite_battery_tileentity", () -> TileEntityType.Builder.of(
+            () -> new PtInfiniteBatteryTile(10.0),
+            PtBlocks.INFINITE_BATTERY.get()
+    ).build(null));
 }
