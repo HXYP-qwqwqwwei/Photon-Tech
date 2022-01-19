@@ -1,5 +1,7 @@
 package photontech.utils.capability.electric;
 
+import net.minecraft.nbt.CompoundNBT;
+
 public class InfiniteCapacitor implements IMutableConductor {
     private double U;
 
@@ -18,7 +20,7 @@ public class InfiniteCapacitor implements IMutableConductor {
 
     @Override
     public double getC() {
-        return 0;
+        return Long.MAX_VALUE;
     }
 
     @Override
@@ -38,12 +40,23 @@ public class InfiniteCapacitor implements IMutableConductor {
 
     @Override
     public double getQ() {
-        return this.U * Double.POSITIVE_INFINITY;
+        return this.U * this.getC();
     }
 
     @Override
     public void setQ(double charge) {
 
+    }
+
+    @Override
+    public CompoundNBT save(CompoundNBT nbt) {
+        nbt.putDouble("Voltage", this.U);
+        return nbt;
+    }
+
+    @Override
+    public void load(CompoundNBT nbt) {
+        this.U = nbt.getDouble("Voltage");
     }
 
     public void setU(double u) {

@@ -1,5 +1,6 @@
 package photontech.utils.helper;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +21,35 @@ public class AxisHelper {
 
 
     private AxisHelper() { }
+
+    /**
+     * 获取与输入的两个轴垂直的另一个轴
+     * @param axis 第一个轴
+     * @param verticalAxis 与第一个轴垂直的另一个轴
+     * @return 与上面两个轴垂直的轴，如果输入的两个轴不垂直（即相等），则返回null
+     */
+    public static Direction.Axis getVerticalAxis(Direction.Axis axis, Direction.Axis verticalAxis) {
+        switch (axis) {
+            case X:
+                switch (verticalAxis) {
+                    case Y: return Direction.Axis.Z;
+                    case Z: return Direction.Axis.Y;
+                    default: return null;
+                }
+            case Y:
+                switch (verticalAxis) {
+                    case X: return Direction.Axis.Z;
+                    case Z: return Direction.Axis.X;
+                    default: return null;
+                }
+            default:
+                switch (verticalAxis) {
+                    case X: return Direction.Axis.Y;
+                    case Y: return Direction.Axis.X;
+                    default: return null;
+                }
+        }
+    }
 
 
     public static Direction getAxisPositiveDirection(@Nonnull Direction.Axis axis) {

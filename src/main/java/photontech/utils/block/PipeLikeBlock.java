@@ -13,6 +13,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -20,6 +21,9 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraftforge.common.capabilities.Capability;
+import org.apache.logging.log4j.LogManager;
+import photontech.init.PtCapabilities;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,6 +32,7 @@ public abstract class PipeLikeBlock extends SixWayBlock {
     public static final int BSIZE = 16;
     public static final int BZERO = 0;
     public static final int NSHAPES = 1 << 6;
+    protected final Thickness thickness;
 
     public enum Thickness {
         SIZE_1X(7, 9),
@@ -48,17 +53,25 @@ public abstract class PipeLikeBlock extends SixWayBlock {
 
     public PipeLikeBlock(Thickness thickness, Properties properties) {
         super(0, properties);
+        this.thickness = thickness;
         this.makeShapes(thickness, null);
     }
 
     public PipeLikeBlock(Thickness thickness, VoxelShape addedShape, Properties properties) {
         super(0, properties);
+        this.thickness = thickness;
         this.makeShapes(thickness, addedShape);
     }
 
-    abstract public boolean canConnectTo(IWorld world, BlockPos currentPos, Direction direction);
+    public final boolean canConnectTo(IWorld world, BlockPos currentPos, Direction direction) {
+        TileEntity tile = world.getBlockEntity(currentPos.relative(direction));
+        return tile != null && tile.getCapability(this.getConnectCapability(), direction.getOpposite()).isPresent();
+    }
 
     abstract protected Direction[] getValidDirections();
+
+    @Nonnull
+    protected abstract Capability<?> getConnectCapability();
 
     @Override
     protected void createBlockStateDefinition(@Nonnull StateContainer.Builder<Block, BlockState> builder) {

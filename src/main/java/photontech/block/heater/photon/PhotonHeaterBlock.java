@@ -12,9 +12,8 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
-import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FACING;
-import static net.minecraft.state.properties.BlockStateProperties.LIT;
-import static photontech.utils.PtConstants.HOLDING_INPUT;
+import static net.minecraft.state.properties.BlockStateProperties.*;
+import static photontech.utils.PtConstants.BlockStateProperties.*;
 
 public class PhotonHeaterBlock extends Block {
     public PhotonHeaterBlock() {

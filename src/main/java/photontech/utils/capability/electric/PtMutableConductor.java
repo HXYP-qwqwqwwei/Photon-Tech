@@ -1,5 +1,7 @@
 package photontech.utils.capability.electric;
 
+import net.minecraft.nbt.CompoundNBT;
+
 public class PtMutableConductor implements IMutableConductor {
     IPtCapacitor capacitor;
 
@@ -11,8 +13,8 @@ public class PtMutableConductor implements IMutableConductor {
         return new PtMutableConductor(capacitor);
     }
 
-    public static PtMutableConductor create(double resistance, double capacity) {
-        return of(PtConductor.create(resistance, capacity));
+    public static PtMutableConductor create(double capacity, double resistance) {
+        return of(PtConductor.create(capacity, resistance));
     }
 
     @Override
@@ -58,5 +60,15 @@ public class PtMutableConductor implements IMutableConductor {
     @Override
     public void setQ(double charge) {
         this.capacitor.setQ(charge);
+    }
+
+    @Override
+    public CompoundNBT save(CompoundNBT nbt) {
+        return this.get().save(nbt);
+    }
+
+    @Override
+    public void load(CompoundNBT nbt) {
+        this.get().load(nbt);
     }
 }

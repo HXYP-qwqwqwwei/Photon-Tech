@@ -25,8 +25,8 @@ import java.util.Arrays;
 public class AxleTile extends PtMachineTile {
 
     public long selfInertia;
-    Direction.Axis currentAxis = Direction.Axis.X;
-    LazyOptional<IMutableBody> mainBody;
+    protected Direction.Axis currentAxis = Direction.Axis.X;
+    protected LazyOptional<IMutableBody> mainBody;
     private final int maxConnects = 16;
     private int searchDepth = 0;
     private final TileEntity[] canConnectTiles = new TileEntity[maxConnects];
@@ -83,8 +83,9 @@ public class AxleTile extends PtMachineTile {
     public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         super.save(nbt);
         nbt.putString("CurrentAxis", this.currentAxis.getName());
-        this.mainBody.ifPresent(body -> nbt.put("MainBody", body.save(new CompoundNBT())));
         nbt.putLong("SelfInertia", this.selfInertia);
+        this.saveCap(this.mainBody, "MainBody", nbt);
+//        this.mainBody.ifPresent(body -> nbt.put("MainBody", body.save(new CompoundNBT())));
         return nbt;
     }
 
@@ -92,8 +93,9 @@ public class AxleTile extends PtMachineTile {
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.load(state, nbt);
         this.currentAxis = Direction.Axis.byName(nbt.getString("CurrentAxis"));
-        this.mainBody.ifPresent(body -> body.load(nbt.getCompound("MainBody")));
         this.selfInertia = nbt.getLong("SelfInertia");
+        this.loadCap(this.mainBody, "MainBody", nbt);
+//        this.mainBody.ifPresent(body -> body.load(nbt.getCompound("MainBody")));
     }
 
     public float getAngle(Direction direction) {
@@ -105,7 +107,7 @@ public class AxleTile extends PtMachineTile {
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == PtCapabilities.RIGID_BODY) {
             if (side != null && side.getAxis() == this.currentAxis) return this.mainBody.cast();
-            return LazyOptional.empty();
+            else return LazyOptional.empty();
         }
         return super.getCapability(cap, side);
     }
@@ -130,7 +132,7 @@ public class AxleTile extends PtMachineTile {
             if ((tile = level.getBlockEntity(pos.move(direction))) instanceof AxleTile) {
 
                 AxleTile axle = (AxleTile) tile;
-                if (axle.currentAxis != this.currentAxis)break IF;
+                if (axle.currentAxis != this.currentAxis) break IF;
                 tile.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite()).ifPresent(other -> {
                     // 未连接
                     if (other.get() != body.get()) return;

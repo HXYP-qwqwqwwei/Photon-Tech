@@ -2,36 +2,33 @@ package photontech.block.electric.wire;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SixWayBlock;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import photontech.block.electric.PtElectricTile;
+import photontech.block.electric.PtElectricMachineTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
 import photontech.utils.capability.electric.IMutableConductor;
-import photontech.utils.capability.electric.IPtCapacitor;
 import photontech.utils.capability.electric.PtMutableConductor;
-import photontech.utils.helper.MutableDouble;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
-public class PtWireTile extends PtElectricTile {
+public class PtWireTile extends PtElectricMachineTile {
     protected LazyOptional<IMutableConductor> conductor;
 
 
-    public PtWireTile(double resistance, double capacity) {
+    public PtWireTile(double capacity, double resistance) {
         super(PtTileEntities.WIRE.get());
-        this.conductor = LazyOptional.of(() -> PtMutableConductor.create(resistance, capacity));
+        this.conductor = LazyOptional.of(() -> PtMutableConductor.create(capacity, resistance));
     }
 
     @Override
     public void tick() {
         if (this.level != null && !this.level.isClientSide) {
-            BlockState state = this.getBlockState();
-            this.exchangeCharge(state, Direction.values());
+            this.chargeExchangeByDirections(this.getValidDirections());
         }
     }
 
@@ -39,11 +36,26 @@ public class PtWireTile extends PtElectricTile {
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == PtCapabilities.CONDUCTOR) {
-            if (side == null || this.getBlockState().getValue(SixWayBlock.PROPERTY_BY_DIRECTION.get(side))) {
-                return this.conductor.cast();
-            }
-            return LazyOptional.empty();
+            return this.conductor.cast();
         }
-        return super.getCapability(cap, side);
+        else return super.getCapability(cap, side);
+    }
+
+    @Nonnull
+    @Override
+    public CompoundNBT save(@Nonnull CompoundNBT nbt) {
+        super.save(nbt);
+        this.saveCap(this.conductor, "Conductor", nbt);
+        return nbt;
+    }
+
+    @Override
+    public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
+        super.load(state, nbt);
+        this.loadCap(this.conductor, "Conductor", nbt);
+    }
+
+    public Direction[] getValidDirections() {
+        return Arrays.stream(Direction.values()).filter(direction -> this.getBlockState().getValue(SixWayBlock.PROPERTY_BY_DIRECTION.get(direction))).toArray(Direction[]::new);
     }
 }

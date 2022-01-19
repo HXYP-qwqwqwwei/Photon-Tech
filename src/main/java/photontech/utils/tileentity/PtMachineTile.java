@@ -9,8 +9,6 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -19,11 +17,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import photontech.init.PtCapabilities;
 import photontech.init.PtRecipes;
+import photontech.utils.capability.ISaveLoad;
 import photontech.utils.capability.heat.IHeatReservoir;
 import photontech.utils.capability.heat.PtHeatCache;
 import photontech.utils.capability.heat.PtHeatReservoir;
 import photontech.utils.capability.item.PtIOLimitedItemHandler;
-import photontech.utils.capability.kinetic.PtRotateBody;
 import photontech.utils.recipe.PtConditionalRecipe;
 import photontech.utils.recipe.RecipeCondition;
 
@@ -45,14 +43,6 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
 
     private int coldDown = 1;
     private int timer = 0;
-
-    // Kinetic
-//    protected LazyOptional<PtRotateBody> eastRotateBody = LazyOptional.empty();
-//    protected LazyOptional<PtRotateBody> southRotateBody = LazyOptional.empty();
-//    protected LazyOptional<PtRotateBody> westRotateBody = LazyOptional.empty();
-//    protected LazyOptional<PtRotateBody> northRotateBody = LazyOptional.empty();
-//    protected LazyOptional<PtRotateBody> upRotateBody = LazyOptional.empty();
-//    protected LazyOptional<PtRotateBody> downRotateBody = LazyOptional.empty();
 
     public PtMachineTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
@@ -106,9 +96,9 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     }
 
     /**
-     *
-     * @param recipe
-     * @param heatCache
+     * 尝试开始或继续配方
+     * @param recipe 目标配方（热合成）
+     * @param heatCache 目标配方所使用的缓存容器
      * @return whether this recipe is still in process
      */
     protected boolean startHeatRecipeProcess(PtConditionalRecipe recipe, PtHeatCache heatCache) {
@@ -188,7 +178,7 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     @Override
     public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         super.save(nbt);
-        this.heatReservoir.ifPresent(reservoir -> nbt.put("HeatReservoir", reservoir.saveToNBT(new CompoundNBT())));
+        this.saveCap(heatReservoir, "HeatReservoir", nbt);
         nbt.putInt("Timer", this.timer);
         nbt.putInt("ColdDown", this.coldDown);
         return nbt;
@@ -197,9 +187,17 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     @Override
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.load(state, nbt);
-        this.heatReservoir.ifPresent(reservoir -> reservoir.loadFromNBT(nbt.getCompound("HeatReservoir")));
+        this.loadCap(this.heatReservoir, "HeatReservoir", nbt);
         this.timer = nbt.getInt("Timer");
         this.coldDown = nbt.getInt("ColdDown");
+    }
+
+    public void saveCap(LazyOptional<? extends ISaveLoad> thing, String name, CompoundNBT nbt) {
+        thing.ifPresent(saveLoad -> nbt.put(name, saveLoad.save(new CompoundNBT())));
+    }
+
+    public void loadCap(LazyOptional<? extends ISaveLoad> thing, String name, CompoundNBT nbt) {
+        thing.ifPresent(saveLoad -> saveLoad.load(nbt.getCompound(name)));
     }
 
 
@@ -233,13 +231,14 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
         this.coldDown = ticks > 0 ? ticks : 1;
     }
 
-    public boolean testColdDown() {
+    public boolean inColdDown() {
         if (++this.timer >= this.coldDown) {
             timer = 0;
             this.setChanged();
-            return true;
+            return false;
         }
-        return false;
+        this.setChanged();
+        return true;
     }
 
 }

@@ -16,6 +16,7 @@ import photontech.utils.render.PtModelRenderer;
 import javax.annotation.Nonnull;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
+import static photontech.utils.PtConstants.BlockStateProperties.*;
 
 public class DCBrushMotorTERPartA extends TileEntityRenderer<DCBrushTilePartA> {
 
@@ -33,6 +34,7 @@ public class DCBrushMotorTERPartA extends TileEntityRenderer<DCBrushTilePartA> {
 
         // 初始化朝向
         Direction facing = partATile.getBlockState().getValue(FACING);
+        boolean axisRotated = partATile.getBlockState().getValue(AXIS_ROTATED);
         matrixStack.translate(0.5F, 0.5F, 0.5F);
         float angle = partATile.getAngle(facing);
 
@@ -52,6 +54,9 @@ public class DCBrushMotorTERPartA extends TileEntityRenderer<DCBrushTilePartA> {
             case NORTH:
                 matrixStack.mulPose(Vector3f.YP.rotation((float) (Math.PI * 1.5)));
                 break;
+        }
+        if (axisRotated) {
+            matrixStack.mulPose(Vector3f.XP.rotation((float) (Math.PI * 0.5)));
         }
         matrixStack.translate(-0.5F, -0.5F, -0.5F);
         // 渲染固定不动的电刷部分

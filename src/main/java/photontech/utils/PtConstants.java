@@ -42,7 +42,10 @@ public class PtConstants {
     public static final String COUNT = "count";
 
     // Properties
-    public static final BooleanProperty HOLDING_INPUT = BooleanProperty.create("holding_input");
+    public static final class BlockStateProperties {
+        public static final BooleanProperty HOLDING_INPUT = BooleanProperty.create("holding_input");
+        public static final BooleanProperty AXIS_ROTATED = BooleanProperty.create("axis_rotated");
+    }
 
     public static final class MODELS {
         // MIRROR

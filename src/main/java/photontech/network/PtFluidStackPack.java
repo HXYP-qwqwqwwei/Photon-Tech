@@ -15,12 +15,12 @@ public class PtFluidStackPack {
     private final PtMultiFluidTank tanks = new PtMultiFluidTank();
 
     public PtFluidStackPack(PacketBuffer buffer) {
-        this.tanks.readFromNBT(buffer.readNbt());
+        this.tanks.load(buffer.readNbt());
     }
 
 
     public void toBytes(PacketBuffer buf) {
-        buf.writeNbt(tanks.writeToNBT(new CompoundNBT()));
+        buf.writeNbt(tanks.save(new CompoundNBT()));
     }
 
     public void handler(Supplier<NetworkEvent.Context> ctx) {

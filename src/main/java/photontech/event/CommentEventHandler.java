@@ -9,8 +9,14 @@ import photontech.network.PtNetWorking;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import photontech.utils.capability.electric.IMutableConductor;
+import photontech.utils.capability.electric.PtMutableConductor;
 import photontech.utils.capability.heat.IHeatReservoir;
 import photontech.utils.capability.heat.PtHeatReservoir;
+import photontech.utils.capability.kinetic.IMutableBody;
+import photontech.utils.capability.kinetic.PtMutableRotateBody;
+
+import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommentEventHandler {
@@ -24,7 +30,6 @@ public class CommentEventHandler {
                 CompoundNBT nbt = new CompoundNBT();
                 nbt.putInt("Heat", instance.getHeat());
                 nbt.putFloat("Capacity", instance.getCapacity());
-
                 return nbt;
             }
 
@@ -35,5 +40,27 @@ public class CommentEventHandler {
                 instance.setCapacity(compoundNBT.getFloat("Capacity"));
             }
         }, () -> new PtHeatReservoir(1000F, 0)));
+
+        event.enqueueWork(() -> CapabilityManager.INSTANCE.register(IMutableBody.class, new Capability.IStorage<IMutableBody>() {
+            @Nullable
+            @Override
+            public INBT writeNBT(Capability<IMutableBody> capability, IMutableBody instance, Direction side) {
+                return null;
+            }
+
+            @Override
+            public void readNBT(Capability<IMutableBody> capability, IMutableBody instance, Direction side, INBT nbt) {}
+        }, () -> PtMutableRotateBody.create(1000)));
+
+        event.enqueueWork(() -> CapabilityManager.INSTANCE.register(IMutableConductor.class, new Capability.IStorage<IMutableConductor>() {
+            @Nullable
+            @Override
+            public INBT writeNBT(Capability<IMutableConductor> capability, IMutableConductor instance, Direction side) {
+                return null;
+            }
+
+            @Override
+            public void readNBT(Capability<IMutableConductor> capability, IMutableConductor instance, Direction side, INBT nbt) {}
+        }, () -> PtMutableConductor.create(1000, Long.MAX_VALUE)));
     }
 }

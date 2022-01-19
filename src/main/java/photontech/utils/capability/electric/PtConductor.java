@@ -1,6 +1,8 @@
 package photontech.utils.capability.electric;
 
-public class PtConductor implements IPtCapacitor{
+import net.minecraft.nbt.CompoundNBT;
+
+public class PtConductor implements IPtCapacitor {
     // 电容
     protected double capacity;
     // 电阻
@@ -50,6 +52,21 @@ public class PtConductor implements IPtCapacitor{
     @Override
     public void setQ(double charge) {
         this.charge = charge;
+    }
+
+    @Override
+    public CompoundNBT save(CompoundNBT nbt) {
+        nbt.putDouble("Capacity", this.capacity);
+        nbt.putDouble("Charge", this.charge);
+        nbt.putDouble("Resistance", this.resistance);
+        return nbt;
+    }
+
+    @Override
+    public void load(CompoundNBT nbt) {
+        this.capacity = nbt.getFloat("Capacity");
+        this.charge = nbt.getDouble("Charge");
+        this.resistance = nbt.getDouble("Resistance");
     }
 
 }

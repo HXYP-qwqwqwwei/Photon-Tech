@@ -3,10 +3,11 @@ package photontech.utils.capability.fluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import photontech.utils.capability.ISaveLoad;
 
 import java.util.List;
 
-public interface IMultiFluidTank extends IFluidHandler {
+public interface IMultiFluidTank extends IFluidHandler, ISaveLoad {
 
     void setSize(int size);
 

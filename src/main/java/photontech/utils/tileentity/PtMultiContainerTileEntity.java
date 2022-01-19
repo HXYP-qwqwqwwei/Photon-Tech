@@ -1,6 +1,5 @@
 package photontech.utils.tileentity;
 
-import net.minecraft.item.ItemStack;
 import photontech.utils.capability.item.PtItemStackHandler;
 import photontech.utils.capability.fluid.PtMultiFluidTank;
 import net.minecraft.block.BlockState;
@@ -32,7 +31,7 @@ public abstract class PtMultiContainerTileEntity extends TileEntity implements I
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.load(state, nbt);
         this.mainItemHandler.ifPresent(handler -> handler.deserializeNBT(nbt.getCompound("Inventory")));
-        this.fluidTanks.ifPresent(tank -> tank.readFromNBT(nbt.getCompound("FluidTank")));
+        this.fluidTanks.ifPresent(tank -> tank.load(nbt.getCompound("FluidTank")));
     }
 
     @Nonnull
@@ -40,7 +39,7 @@ public abstract class PtMultiContainerTileEntity extends TileEntity implements I
     public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         super.save(nbt);
         this.mainItemHandler.ifPresent(handler -> nbt.put("Inventory", handler.serializeNBT()));
-        this.fluidTanks.ifPresent(tank -> nbt.put("FluidTank", tank.writeToNBT(new CompoundNBT())));
+        this.fluidTanks.ifPresent(tank -> nbt.put("FluidTank", tank.save(new CompoundNBT())));
         return nbt;
     }
 

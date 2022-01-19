@@ -1,8 +1,8 @@
 package photontech.utils.capability.kinetic;
 
-import net.minecraft.nbt.CompoundNBT;
+import photontech.utils.capability.ISaveLoad;
 
-public interface IRotateBody {
+public interface IRotateBody extends ISaveLoad {
 
     double DOUBLE_PI = Math.PI * 2;
     long INFINITY = 0x3f3f3f3f3f3f3f3fL;
@@ -22,10 +22,6 @@ public interface IRotateBody {
     void setAngle(float angle);
 
     void updateAngle(long tick, int dTMilliseconds);
-
-    CompoundNBT save(CompoundNBT nbt);
-
-    void load(CompoundNBT nbt);
 
     void reverse();
 

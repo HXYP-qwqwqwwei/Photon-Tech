@@ -6,7 +6,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.Constants;
@@ -16,6 +15,8 @@ import photontech.init.PtTileEntities;
 import photontech.utils.PtConstants;
 import photontech.utils.Utils;
 
+import static net.minecraft.state.properties.BlockStateProperties.*;
+import static photontech.utils.PtConstants.BlockStateProperties.*;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -39,10 +40,10 @@ public class PtBurningItemHeaterTile extends PtBurningHeaterTile implements INam
 
             this.isIgnited = this.getHeatCacheForBurning().isInProcess();
 
-            if (this.isIgnited != this.getBlockState().getValue(BlockStateProperties.LIT) || this.isFuelIn() != this.getBlockState().getValue(PtConstants.HOLDING_INPUT)) {
+            if (this.isIgnited != this.getBlockState().getValue(LIT) || this.isFuelIn() != this.getBlockState().getValue(HOLDING_INPUT)) {
                 level.setBlock(
                         this.worldPosition,
-                        heaterBlock.setValue(BlockStateProperties.LIT, this.isIgnited).setValue(PtConstants.HOLDING_INPUT, this.isFuelIn()),
+                        heaterBlock.setValue(LIT, this.isIgnited).setValue(HOLDING_INPUT, this.isFuelIn()),
                         1
                 );
 

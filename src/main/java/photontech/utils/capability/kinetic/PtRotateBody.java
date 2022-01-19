@@ -1,6 +1,7 @@
 package photontech.utils.capability.kinetic;
 
 import net.minecraft.nbt.CompoundNBT;
+import photontech.utils.capability.ISaveLoad;
 
 public class PtRotateBody implements IRotateBody {
 
