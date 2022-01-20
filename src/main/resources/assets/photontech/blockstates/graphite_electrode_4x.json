@@ -1,0 +1,41 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "photontech:block/electrode_models/graphite_electrode_4x_model"
+      }
+    },
+    {
+      "when": {
+        "east": true
+      },
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/east_model"
+      }
+    },
+    {
+      "when": {
+        "west": true
+      },
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/west_model"
+      }
+    },
+    {
+      "when": {
+        "south": true
+      },
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/south_model"
+      }
+    },
+    {
+      "when": {
+        "north": true
+      },
+      "apply": {
+        "model": "photontech:block/wire_models/copper_1x/north_model"
+      }
+    }
+  ]
+}

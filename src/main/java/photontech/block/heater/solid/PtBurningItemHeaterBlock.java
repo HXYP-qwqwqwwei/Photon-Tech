@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
-import static photontech.utils.PtConstants.*;
+import static photontech.utils.PtConstants.BlockStateProperties.*;
 
 public class PtBurningItemHeaterBlock extends Block {
 

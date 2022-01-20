@@ -1,6 +1,8 @@
 package photontech.utils.capability.heat;
 
-public interface IHeatReservoir {
+import photontech.utils.capability.ISaveLoad;
+
+public interface IHeatReservoir extends ISaveLoad {
 
     float getTemperature();
 

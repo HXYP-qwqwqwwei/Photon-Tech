@@ -37,29 +37,29 @@ public class PtCrucibleScreen extends PtBaseScreen<PtCrucibleContainer> implemen
         // Temperature
         if (isMouseInArea(beginX + 10, beginY + 18, 6, 84, mouseX, mouseY)) {
             NonNullList<ITextComponent> temperatureInfo = NonNullList.create();
-            temperatureInfo.add(new TranslationTextComponent("text.photontech.current_temperature", String.format("%.2f", this.menu.getTemperature())));
-            temperatureInfo.add(new TranslationTextComponent("text.photontech.overload_temperature", String.format("%.2f", this.menu.getOverloadTemperature())));
+            temperatureInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".current_temperature", String.format("%.2f", this.menu.getTemperature())));
+            temperatureInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".overload_temperature", String.format("%.2f", this.menu.getOverloadTemperature())));
             renderComponentTooltip(matrixStack, temperatureInfo, mouseX, mouseY);
         }
 
         // Melting process
         if (isMouseInArea(beginX + 101, beginY + 84, 24, 17, mouseX, mouseY)) {
             NonNullList<ITextComponent> processInfo = NonNullList.create();
-            processInfo.add(new TranslationTextComponent("text.photontech.recipe_process", String.format("%.1f", this.menu.getCoolingProcess() * 100)));
+            processInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".recipe_process", String.format("%.1f", this.menu.getCoolingProcess() * 100)));
             renderComponentTooltip(matrixStack, processInfo, mouseX, mouseY);
         }
 
         // Cooling process
         if (isMouseInArea(beginX + 101, beginY + 38, 24, 17, mouseX, mouseY)) {
             NonNullList<ITextComponent> processInfo = NonNullList.create();
-            processInfo.add(new TranslationTextComponent("text.photontech.recipe_process", String.format("%.1f", this.menu.getMeltingProcess() * 100)));
+            processInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".recipe_process", String.format("%.1f", this.menu.getMeltingProcess() * 100)));
             renderComponentTooltip(matrixStack, processInfo, mouseX, mouseY);
         }
 
         // Other process
         if (isMouseInArea(beginX + 53, beginY + 56, 17, 24, mouseX, mouseY)) {
             NonNullList<ITextComponent> processInfo = NonNullList.create();
-            processInfo.add(new TranslationTextComponent("text.photontech.recipe_process", String.format("%.1f", this.menu.getOtherProcess() * 100)));
+            processInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".recipe_process", String.format("%.1f", this.menu.getOtherProcess() * 100)));
             renderComponentTooltip(matrixStack, processInfo, mouseX, mouseY);
         }
 

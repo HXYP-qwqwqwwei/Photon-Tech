@@ -96,6 +96,4 @@ public class PtProtractorItem extends PtNormalItem {
         return ActionResultType.FAIL;
     }
 
-
-
 }

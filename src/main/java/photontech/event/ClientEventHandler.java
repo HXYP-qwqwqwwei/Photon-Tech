@@ -38,7 +38,6 @@ public class ClientEventHandler {
 
             RenderTypeLookup.setRenderLayer(PtFluids.MILK_FLUID.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(PtFluids.MILK_FLUID_FLOWING.get(), RenderType.translucent());
-            // TODO
         });
     }
 

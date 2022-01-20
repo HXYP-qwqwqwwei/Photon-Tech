@@ -5,7 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.Constants;
@@ -15,6 +15,8 @@ import photontech.init.PtTileEntities;
 import photontech.utils.PtConstants;
 import photontech.utils.Utils;
 
+import static net.minecraft.state.properties.BlockStateProperties.*;
+import static photontech.utils.PtConstants.BlockStateProperties.*;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -38,13 +40,16 @@ public class PtBurningItemHeaterTile extends PtBurningHeaterTile implements INam
 
             this.isIgnited = this.getHeatCacheForBurning().isInProcess();
 
-            level.setBlock(
-                    this.worldPosition,
-                    heaterBlock.setValue(BlockStateProperties.LIT, this.isIgnited).setValue(PtConstants.HOLDING_INPUT, this.isFuelIn()),
-                    1
-            );
+            if (this.isIgnited != this.getBlockState().getValue(LIT) || this.isFuelIn() != this.getBlockState().getValue(HOLDING_INPUT)) {
+                level.setBlock(
+                        this.worldPosition,
+                        heaterBlock.setValue(LIT, this.isIgnited).setValue(HOLDING_INPUT, this.isFuelIn()),
+                        1
+                );
 
-            level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+                level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+            }
+
         }
     }
 
@@ -60,6 +65,10 @@ public class PtBurningItemHeaterTile extends PtBurningHeaterTile implements INam
     public Container createMenu(int sysID, @Nonnull PlayerInventory inventory, @Nonnull PlayerEntity player) {
         assert this.level != null;
         return new PtBurningItemHeaterContainer(sysID, inventory, this.worldPosition, this.level);
+    }
+
+    public boolean isFuelIn() {
+        return this.getItemHandler().getStackInSlot(0) != ItemStack.EMPTY;
     }
 
 }

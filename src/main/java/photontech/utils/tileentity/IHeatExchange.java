@@ -12,6 +12,8 @@ import photontech.init.PtCapabilities;
 import photontech.utils.capability.heat.IHeatReservoir;
 import photontech.utils.capability.heat.PtHeatReservoir;
 
+import javax.annotation.Nullable;
+
 public interface IHeatExchange {
 
     float ENVIRONMENT_TEMPERATURE = 298.15F;
@@ -100,11 +102,15 @@ public interface IHeatExchange {
         }
     }
 
-    default void heatExchangeWithTile(PtHeatReservoir reservoir, TileEntity other, Direction side) {
+    /**
+     * 和附近的TileEntity之间进行热量交换
+     * @param from 自身交换所使用的热容器
+     * @param other 其他Tile
+     * @param side 相对于other的方位
+     */
+    default void heatExchangeWithTile(PtHeatReservoir from, @Nullable TileEntity other, Direction side) {
         if (other == null) return;
-        other.getCapability(PtCapabilities.HEAT_RESERVOIR, side).ifPresent(to -> {
-            IHeatReservoir.heatExchange(reservoir, to);
-        });
+        other.getCapability(PtCapabilities.HEAT_RESERVOIR, side).ifPresent(to -> IHeatReservoir.heatExchange(from, to));
     }
 
 }

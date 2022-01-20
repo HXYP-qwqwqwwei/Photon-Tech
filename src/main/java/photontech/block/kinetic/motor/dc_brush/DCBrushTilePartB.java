@@ -15,4 +15,12 @@ public class DCBrushTilePartB extends AxleTile {
             super.tick();
         }
     }
+
+    public double getR() {
+        return 1.0;
+    }
+
+    public double getK() {
+        return 100;
+    }
 }

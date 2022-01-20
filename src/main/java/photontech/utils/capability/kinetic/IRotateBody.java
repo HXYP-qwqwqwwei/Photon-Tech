@@ -1,10 +1,9 @@
 package photontech.utils.capability.kinetic;
 
-import net.minecraft.nbt.CompoundNBT;
+import photontech.utils.capability.ISaveLoad;
 
-public interface IRotateBody {
+public interface IRotateBody extends ISaveLoad {
 
-    IRotateBody AIR = PtRotateBody.create(0);
     double DOUBLE_PI = Math.PI * 2;
     long INFINITY = 0x3f3f3f3f3f3f3f3fL;
 
@@ -22,11 +21,7 @@ public interface IRotateBody {
 
     void setAngle(float angle);
 
-    void updateAngle(long time);
-
-    CompoundNBT save(CompoundNBT nbt);
-
-    void load(CompoundNBT nbt);
+    void updateAngle(long tick, int dTMilliseconds);
 
     void reverse();
 
@@ -56,17 +51,15 @@ public interface IRotateBody {
         kineticTransfer(r1, r2, false);
     }
 
-    static void synchronizeRotateAngle(IRotateBody reference, IRotateBody target, float offset) {
-//        synchronizeRotateAngle(reference, target, offset, false);
-    }
+    static void kineticTransferWithEnv(IRotateBody body, double rate) {
+        float w1 = body.getOmega();
+        float w2 = 0;
+        double I1 = body.getInertia();
 
-    static void synchronizeRotateAngle(IRotateBody reference, IRotateBody target, float offset, boolean reverse) {
-        if (reverse) {
-            target.setAngle(-reference.getAngle() - offset);
-        }
-        else {
-            target.setAngle(reference.getAngle() + offset);
-        }
+        // I1w1 + I2w2 = w_eq(I1+I2)
+        float w_eq = (float) ((I1*w1 + rate *w2) / (I1 + rate));
+
+        body.setOmega(w_eq);
     }
 
 }

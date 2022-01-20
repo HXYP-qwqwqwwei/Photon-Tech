@@ -96,16 +96,15 @@ public class PtHeatReservoir implements IHeatReservoir {
         this.overloadTemp = overloadTemp;
     }
 
-    public PtHeatReservoir loadFromNBT(CompoundNBT nbt) {
+    public void load(CompoundNBT nbt) {
         this.setCapacity(nbt.getFloat("Capacity"));
         this.setHeatTransferRate(nbt.getFloat("Rate"));
         this.setHeat(nbt.getInt("Heat"));
         this.setOverloadTemp(nbt.getFloat("OverloadTemp"));
-        return this;
     }
 
 
-    public CompoundNBT saveToNBT(CompoundNBT nbt) {
+    public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("Heat", this.getHeat());
         nbt.putFloat("Capacity", this.getCapacity());
         nbt.putFloat("Rate", heatTransferRate);

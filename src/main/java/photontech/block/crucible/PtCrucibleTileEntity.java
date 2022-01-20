@@ -43,7 +43,7 @@ public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTile
     private enum RecipeMode {
         MELTING(0), COOLING(1), OTHER(2);
 
-        int cacheListIndex;
+        final int cacheListIndex;
 
         RecipeMode(int index) {
             this.cacheListIndex = index;
@@ -155,12 +155,12 @@ public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTile
         saveCachedRecipe(nbt, this.cachedRecipes.get(RecipeMode.MELTING.getIndex()), "CachedMeltingRecipe");
         saveCachedRecipe(nbt, this.cachedRecipes.get(RecipeMode.COOLING.getIndex()), "CachedCoolingRecipe");
         saveCachedRecipe(nbt, this.cachedRecipes.get(RecipeMode.OTHER.getIndex()), "CachedOtherRecipe");
-        nbt.put("HeatCacheForMelting", this.heatCaches.get(RecipeMode.MELTING.getIndex()).saveToNBT(new CompoundNBT()));
-        nbt.put("HeatCacheForCooling", this.heatCaches.get(RecipeMode.COOLING.getIndex()).saveToNBT(new CompoundNBT()));
-        nbt.put("HeatCacheForOther", this.heatCaches.get(RecipeMode.OTHER.getIndex()).saveToNBT(new CompoundNBT()));
+        nbt.put("HeatCacheForMelting", this.heatCaches.get(RecipeMode.MELTING.getIndex()).save(new CompoundNBT()));
+        nbt.put("HeatCacheForCooling", this.heatCaches.get(RecipeMode.COOLING.getIndex()).save(new CompoundNBT()));
+        nbt.put("HeatCacheForOther", this.heatCaches.get(RecipeMode.OTHER.getIndex()).save(new CompoundNBT()));
 
         // MAIN
-        this.heatReservoir.ifPresent(reservoir -> nbt.put("HeatReservoir", reservoir.saveToNBT(new CompoundNBT())));
+        this.heatReservoir.ifPresent(reservoir -> nbt.put("HeatReservoir", reservoir.save(new CompoundNBT())));
         return nbt;
     }
 
@@ -171,9 +171,9 @@ public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTile
         this.cachedRecipes.set(RecipeMode.MELTING.getIndex(), PtConditionalRecipe.loadFromNBT(nbt.getCompound("CachedMeltingRecipe")));
         this.cachedRecipes.set(RecipeMode.COOLING.getIndex(), PtConditionalRecipe.loadFromNBT(nbt.getCompound("CachedCoolingRecipe")));
         this.cachedRecipes.set(RecipeMode.OTHER.getIndex(), PtConditionalRecipe.loadFromNBT(nbt.getCompound("CachedOtherRecipe")));
-        this.heatCaches.get(RecipeMode.MELTING.getIndex()).loadFromNBT(nbt.getCompound("HeatCacheForMelting"));
-        this.heatCaches.get(RecipeMode.COOLING.getIndex()).loadFromNBT(nbt.getCompound("HeatCacheForCooling"));
-        this.heatCaches.get(RecipeMode.OTHER.getIndex()).loadFromNBT(nbt.getCompound("HeatCacheForOther"));
+        this.heatCaches.get(RecipeMode.MELTING.getIndex()).load(nbt.getCompound("HeatCacheForMelting"));
+        this.heatCaches.get(RecipeMode.COOLING.getIndex()).load(nbt.getCompound("HeatCacheForCooling"));
+        this.heatCaches.get(RecipeMode.OTHER.getIndex()).load(nbt.getCompound("HeatCacheForOther"));
 
     }
 

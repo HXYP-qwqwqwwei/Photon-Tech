@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import photontech.utils.PtNBTUtils;
 
 import javax.annotation.Nonnull;
 import java.util.Comparator;
@@ -237,9 +238,8 @@ public class PtMultiFluidTank implements IMultiFluidTank {
         }
     }
 
-
-    public PtMultiFluidTank readFromNBT(CompoundNBT nbt) {
-
+    @Override
+    public void load(CompoundNBT nbt) {
         int size = nbt.getInt("Size");
         if (this.size != size) {
             this.setSize(size);
@@ -248,11 +248,11 @@ public class PtMultiFluidTank implements IMultiFluidTank {
             FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(nbt.getCompound("Tank_" + i));
             tanks.set(i, fluidStack);
         }
-        return this;
     }
 
-
-    public CompoundNBT writeToNBT(CompoundNBT nbt) {
+    @Override
+    public CompoundNBT save(CompoundNBT nbt) {
+        PtNBTUtils.saveFluidsToNBT(tanks, nbt);
         int size = tanks.size();
         nbt.putInt("Size", size);
         for (int i = 0; i < size; ++i) {

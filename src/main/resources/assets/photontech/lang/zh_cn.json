@@ -24,5 +24,8 @@
   "text.photontech.current_temperature": "当前温度:%sK",
   "text.photontech.overload_temperature" : "最高耐受:%sK",
   "text.photontech.recipe_process" : "进度:%s%%",
-  "text.photontech.pos": "坐标%s%s%s"
+  "text.photontech.pos": "坐标%s%s%s",
+
+  "cmd.photontech.pttps": "Pt专属线程状态：\n当前任务数量:%d, %d, %d, %d\ntick总用时:%sms\n机器用时:%sms\n删除任务用时:%sms\n注册任务用时:%sms\n普通任务用时:%sms\ntps=%s"
+
 }

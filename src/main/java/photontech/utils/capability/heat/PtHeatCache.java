@@ -88,17 +88,16 @@ public class PtHeatCache extends PtHeatReservoir implements IHeatCache {
     }
 
     @Override
-    public PtHeatReservoir loadFromNBT(CompoundNBT nbt) {
-        super.loadFromNBT(nbt);
+    public void load(CompoundNBT nbt) {
+        super.load(nbt);
         this.requiredTransitionHeat = nbt.getInt("TransitionHeat");
         this.transitionTemperature = nbt.getFloat("TransitionTemperature");
         this.surplusHeat = nbt.getInt("SurplusHeat");
-        return this;
     }
 
     @Override
-    public CompoundNBT saveToNBT(CompoundNBT nbt) {
-        super.saveToNBT(nbt);
+    public CompoundNBT save(CompoundNBT nbt) {
+        super.save(nbt);
         nbt.putInt("TransitionHeat", this.requiredTransitionHeat);
         nbt.putFloat("TransitionTemperature", this.transitionTemperature);
         nbt.putInt("SurplusHeat", this.surplusHeat);

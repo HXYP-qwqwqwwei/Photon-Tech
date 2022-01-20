@@ -1,6 +1,7 @@
 package photontech.init;
 
 import photontech.group.PtItemGroups;
+import photontech.item.PtElectrodeItem;
 import photontech.item.PtNormalItem;
 import photontech.item.PtProtractorItem;
 import photontech.utils.Utils;
@@ -79,5 +80,17 @@ public class PtItems {
 
     // AXLE BLOCK ITEMS
     public static final RegistryObject<Item> AXLE = ITEMS.register("axle", () -> new BlockItem(PtBlocks.AXLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> DC_BRUSH_MOTOR_A = ITEMS.register("dc_brush_motor_a", () -> new BlockItem(PtBlocks.BRUSH_DC_MOTOR_PART_A.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> DC_BRUSH_MOTOR_B = ITEMS.register("dc_brush_motor_b", () -> new BlockItem(PtBlocks.BRUSH_DC_MOTOR_PART_B.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+
+    // ELECTRODE ITEMS
+    public static final RegistryObject<Item> GRAPHITE_ELECTRODE_1X = ITEMS.register("graphite_electrode_1x", () -> new PtElectrodeItem(PtBlocks.GRAPHITE_ELECTRODE_1X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> GRAPHITE_ELECTRODE_4X = ITEMS.register("graphite_electrode_4x", () -> new PtElectrodeItem(PtBlocks.GRAPHITE_ELECTRODE_4X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> GRAPHITE_ELECTRODE_9X = ITEMS.register("graphite_electrode_9x", () -> new PtElectrodeItem(PtBlocks.GRAPHITE_ELECTRODE_9X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+
+    // WIRE ITEMS
+    public static final RegistryObject<Item> COPPER_WIRE_1X = ITEMS.register("copper_wire_1x", () -> new BlockItem(PtBlocks.COPPER_WIRE_1X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+
+    public static final RegistryObject<Item> INFINITE_BATTERY = ITEMS.register("infinite_battery", () -> new BlockItem(PtBlocks.INFINITE_BATTERY.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
 }

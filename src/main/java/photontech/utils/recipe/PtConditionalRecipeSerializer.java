@@ -72,9 +72,7 @@ public class PtConditionalRecipeSerializer extends PtRecipeSerializer<PtConditio
         NonNullList<ItemStack> outputItems = this.itemsFromNetwork(packetBuffer);
         NonNullList<FluidStack> outputFluids = this.fluidsFromNetwork(packetBuffer);
 
-        byte[] buff = new byte[Short.MAX_VALUE];
-        packetBuffer.readBytes(buff);
-        String group = new String(buff);
+        String group = packetBuffer.readUtf();
 
         return new PtConditionalRecipe(location, group, condition, 0, inputItems, inputFluids, outputItems, outputFluids);
     }
@@ -90,7 +88,6 @@ public class PtConditionalRecipeSerializer extends PtRecipeSerializer<PtConditio
         this.itemsToNetwork(recipe.getOutputItems(), packetBuffer);
         this.fluidsToNetwork(recipe.getOutputFluids(), packetBuffer);
 
-        byte[] buff = recipe.getGroup().getBytes(StandardCharsets.US_ASCII);
-        packetBuffer.writeBytes(buff);
+        packetBuffer.writeUtf(recipe.getGroup());
     }
 }

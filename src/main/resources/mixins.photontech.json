@@ -1,0 +1,7 @@
+{
+  "minVersion": "0.8.4",
+  "package": "photontech.mixins",
+  "mixins": [],
+  "client": ["MixinMinecraft"],
+  "server": []
+}
