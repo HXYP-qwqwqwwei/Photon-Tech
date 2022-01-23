@@ -1,23 +1,17 @@
 package photontech.utils.helper;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import photontech.block.kinetic.axle.AxleBlock;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import static net.minecraft.state.properties.BlockStateProperties.*;
 
 public class AxisHelper {
 
     public static final Direction[] X_DIRECTIONS = { Direction.EAST, Direction.WEST };
     public static final Direction[] Y_DIRECTIONS = { Direction.UP, Direction.DOWN };
     public static final Direction[] Z_DIRECTIONS = { Direction.SOUTH, Direction.NORTH };
-    public static final Direction[] HORIZONTAL_DIRECTION = { Direction.EAST, Direction.WEST, Direction.SOUTH, Direction.NORTH };
+    public static final Direction[] XZ_DIRECTIONS = { Direction.EAST, Direction.WEST, Direction.SOUTH, Direction.NORTH };
+    public static final Direction[] XY_DIRECTIONS = { Direction.EAST, Direction.WEST, Direction.UP, Direction.DOWN };
+    public static final Direction[] YZ_DIRECTIONS = { Direction.UP, Direction.DOWN, Direction.SOUTH, Direction.NORTH };
 
 
     private AxisHelper() { }
@@ -48,6 +42,14 @@ public class AxisHelper {
                     case Y: return Direction.Axis.X;
                     default: return null;
                 }
+        }
+    }
+
+    public static Direction[] getVerticalDirections(Direction.Axis axis) {
+        switch (axis) {
+            case X: return YZ_DIRECTIONS;
+            case Y: return XZ_DIRECTIONS;
+            default: return XY_DIRECTIONS;
         }
     }
 

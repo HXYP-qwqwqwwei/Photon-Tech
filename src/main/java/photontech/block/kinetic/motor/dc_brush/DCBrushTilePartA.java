@@ -51,10 +51,12 @@ public class DCBrushTilePartA extends AxleTile implements IChargeExchange {
                 positive.ifPresent(p -> {
                     negative.ifPresent(n -> {
                         double dU = p.getU() - n.getU();
-                        double K = partB.getK();
+                        double B = partB.getB(this.electricValidAxis);
+                        double L = partB.getWireLength();
+                        double K = B * L;
                         this.mainBody.ifPresent(body -> {
                             float omega = body.getOmega();
-                            double I = (dU - K * omega / 100) / partB.getR();
+                            double I = (dU - K * omega / 1024) / partB.getR();
                             double F = I * K;
                             float accelerate = (float) (F / body.getInertia());
                             body.setOmega(omega + accelerate * 0.05F);

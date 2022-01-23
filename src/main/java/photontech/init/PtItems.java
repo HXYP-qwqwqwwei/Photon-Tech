@@ -11,9 +11,11 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+@SuppressWarnings("all")
 public class PtItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Utils.MOD_ID);
 
+    // MATERIAL
     public static final RegistryObject<Item> SILICON_WAFER_BIG = ITEMS.register("silicon_wafer_small", PtNormalItem::new);
     public static final RegistryObject<Item> SILICON_WAFER_SMALL = ITEMS.register("silicon_wafer_big", PtNormalItem::new);
 
@@ -43,6 +45,7 @@ public class PtItems {
     public static final RegistryObject<Item> SAPPHIRE = ITEMS.register("sapphire", PtNormalItem::new);
     public static final RegistryObject<Item> SAPPHIRE_LENS = ITEMS.register("sapphire_lens", PtNormalItem::new);
     public static final RegistryObject<Item> SAPPHIRE_LENS_UNPOLISHED = ITEMS.register("sapphire_lens_unpolished", PtNormalItem::new);
+    public static final RegistryObject<Item> BTC = ITEMS.register("btc", PtNormalItem::new);
 //    public static final RegistryObject<Item> RUBY = ITEMS.register("ruby", PtNormalItem::new);
 //    public static final RegistryObject<Item> RUBY = ITEMS.register("ruby", PtNormalItem::new);
 
@@ -91,6 +94,10 @@ public class PtItems {
     // WIRE ITEMS
     public static final RegistryObject<Item> COPPER_WIRE_1X = ITEMS.register("copper_wire_1x", () -> new BlockItem(PtBlocks.COPPER_WIRE_1X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
+    // BATTERY
     public static final RegistryObject<Item> INFINITE_BATTERY = ITEMS.register("infinite_battery", () -> new BlockItem(PtBlocks.INFINITE_BATTERY.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+
+    // MAGNET
+    public static final RegistryObject<Item> FERRITE_MAGNET_PAINTED = ITEMS.register("ferrite_magnet_painted", () -> new BlockItem(PtBlocks.FERRITE_MAGNET_PAINTED.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
 }

@@ -1,0 +1,26 @@
+{
+  "variants": {
+    "axis=x,reversed=false": {
+      "model": "photontech:block/magnet/ferrite_magnet_painted_x"
+    },
+    "axis=x,reversed=true": {
+      "model": "photontech:block/magnet/ferrite_magnet_painted_x",
+      "y": 180
+    },
+    "axis=y,reversed=false": {
+      "model": "photontech:block/magnet/ferrite_magnet_painted_y",
+      "x": 180
+    },
+    "axis=y,reversed=true": {
+      "model": "photontech:block/magnet/ferrite_magnet_painted_y"
+    },
+    "axis=z,reversed=false": {
+      "model": "photontech:block/magnet/ferrite_magnet_painted_x",
+      "y": 90
+    },
+    "axis=z,reversed=true": {
+      "model": "photontech:block/magnet/ferrite_magnet_painted_x",
+      "y": 270
+    }
+  }
+}

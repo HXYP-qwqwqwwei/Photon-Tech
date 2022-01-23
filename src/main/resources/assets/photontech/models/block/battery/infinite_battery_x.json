@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"parent": "block/block",
 	"texture_size": [64, 48],
 	"textures": {
 		"0": "photontech:block/battery/infinite_battery",
@@ -81,12 +82,7 @@
 			}
 		}
 	],
-	"display": {
-		"gui": {
-			"rotation": [-2, -30, -6],
-			"scale": [0.87, 0.87, 0.87]
-		}
-	},
+	"display": {},
 	"groups": [
 		{
 			"name": "model",

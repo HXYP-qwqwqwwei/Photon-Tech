@@ -9,6 +9,7 @@ import photontech.block.heater.solid.PtBurningItemHeaterTile;
 import photontech.block.crucible.PtCrucibleTileEntity;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartA;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartB;
+import photontech.block.magnet.permanent.PermanentMagnetTile;
 import photontech.block.mirror.PtMirrorTile;
 import photontech.utils.Utils;
 import net.minecraft.tileentity.TileEntityType;
@@ -70,5 +71,10 @@ public class PtTileEntities {
     public static final RegistryObject<TileEntityType<PtInfiniteBatteryTile>> INFINITE_BATTERY = TILE_ENTITIES.register("infinite_battery_tileentity", () -> TileEntityType.Builder.of(
             () -> new PtInfiniteBatteryTile(10.0),
             PtBlocks.INFINITE_BATTERY.get()
+    ).build(null));
+
+    public static final RegistryObject<TileEntityType<PermanentMagnetTile>> PERMANENT_MAGNET = TILE_ENTITIES.register("permanent_magnet_tileentity", () -> TileEntityType.Builder.of(
+            () -> new PermanentMagnetTile(1.0),
+            PtBlocks.FERRITE_MAGNET_PAINTED.get()
     ).build(null));
 }
