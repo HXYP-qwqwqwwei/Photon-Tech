@@ -1,0 +1,35 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "photontech:block/magnet/ferrite_magnet_painted",
+		"particle": "photontech:block/magnet/ferrite_magnet_painted"
+	},
+	"elements": [
+		{
+			"from": [4.5, 8, 4.5],
+			"to": [11.5, 15, 11.5],
+			"rotation": {"angle": 0, "axis": "z", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [8.25, 0.25, 15.25, 7.25], "rotation": 270, "texture": "#0"},
+				"east": {"uv": [8.25, 0.25, 15.25, 7.25], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [8.25, 0.25, 15.25, 7.25], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [8.25, 0.25, 15.25, 7.25], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [9, 9, 16, 16], "rotation": 270, "texture": "#0"}
+			}
+		},
+		{
+			"from": [4.5, 1, 4.5],
+			"to": [11.5, 8, 11.5],
+			"rotation": {"angle": 0, "axis": "z", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0.25, 0.25, 7.25, 7.25], "rotation": 270, "texture": "#0"},
+				"east": {"uv": [0.25, 0.25, 7.25, 7.25], "rotation": 270, "texture": "#0"},
+				"south": {"uv": [0.25, 0.25, 7.25, 7.25], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [0.25, 0.25, 7.25, 7.25], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [0, 9, 7, 16], "rotation": 270, "texture": "#0"}
+			}
+		}
+	]
+}

@@ -15,6 +15,8 @@ import photontech.block.PtPowderBlock;
 import photontech.block.crucible.PtCrucibleBlock;
 import photontech.block.PtNormalBlock;
 import photontech.block.kinetic.motor.dc_brush.DCMotorBlockPartA;
+import photontech.block.magnet.MagnetBlock;
+import photontech.block.magnet.permanent.PermanentMagnetBlock;
 import photontech.block.mirror.PtMirrorBlock;
 import photontech.block.kinetic.motor.dc_brush.DCMotorBlockPartB;
 import photontech.utils.Utils;
@@ -86,4 +88,8 @@ public class PtBlocks {
     public static final RegistryObject<Block> COPPER_WIRE_1X = BLOCKS.register("copper_wire_1x", () -> new PtWireBlock(PipeLikeBlock.Thickness.SIZE_1X, 1.75e-8));
 
     public static final RegistryObject<Block> INFINITE_BATTERY = BLOCKS.register("infinite_battery", PtInfiniteBatteryBlock::new);
+
+    // MAGNET BLOCKS
+    public static final RegistryObject<Block> FERRITE_MAGNET_PAINTED = BLOCKS.register("ferrite_magnet_painted", () -> new PermanentMagnetBlock(7, 10.0));
+
 }

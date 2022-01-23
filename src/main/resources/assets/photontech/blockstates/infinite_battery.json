@@ -1,25 +1,25 @@
 {
   "variants": {
     "facing=east": {
-      "model": "photontech:block/infinite_battery/infinite_battery_x"
+      "model": "photontech:block/battery/infinite_battery_x"
     },
     "facing=west": {
-      "model": "photontech:block/infinite_battery/infinite_battery_x",
+      "model": "photontech:block/battery/infinite_battery_x",
       "y": 180
     },
     "facing=south": {
-      "model": "photontech:block/infinite_battery/infinite_battery_x",
+      "model": "photontech:block/battery/infinite_battery_x",
       "y": 90
     },
     "facing=north": {
-      "model": "photontech:block/infinite_battery/infinite_battery_x",
+      "model": "photontech:block/battery/infinite_battery_x",
       "y": 270
     },
     "facing=up": {
-      "model": "photontech:block/infinite_battery/infinite_battery_y"
+      "model": "photontech:block/battery/infinite_battery_y"
     },
     "facing=down": {
-      "model": "photontech:block/infinite_battery/infinite_battery_y",
+      "model": "photontech:block/battery/infinite_battery_y",
       "x": 180
     }
   }

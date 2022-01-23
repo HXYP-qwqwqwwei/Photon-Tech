@@ -19,55 +19,26 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
+import photontech.block.AxisAlignedBlock;
 import photontech.init.PtCapabilities;
 import photontech.init.PtItems;
 import photontech.init.PtTileEntities;
 import photontech.utils.helper.AxisHelper;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
-import static net.minecraft.util.Direction.Axis.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class AxleBlock extends Block {
+public class AxleBlock extends AxisAlignedBlock {
 
-    private final VoxelShape[] shapes;
 
     public AxleBlock(double length, double width) {
-        super(Properties.of(Material.STONE).strength(2).noOcclusion());
-        this.shapes = this.initShapes(length, width);
-        this.registerDefaultState(
-                this.getStateDefinition().any()
-                .setValue(AXIS, X)
-        );
+        this(length, width, 0);
     }
 
-    @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(AXIS));
-    }
-
-    private VoxelShape[] initShapes(double length, double width) {
-        VoxelShape[] shapes = new VoxelShape[3];
-        double maxX = 8 + 0.5*width;
-        double minX = 8 - 0.5*width;
-        shapes[X.ordinal()] = Block.box(0, minX, minX, length, maxX, maxX);
-        shapes[Y.ordinal()] = Block.box(minX, 0, minX, maxX, length, maxX);
-        shapes[Z.ordinal()] = Block.box(minX, minX, 0, maxX, maxX, length);
-        return shapes;
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState blockState, IBlockReader reader, BlockPos pos, ISelectionContext context) {
-        Direction.Axis axis = blockState.getValue(AXIS);
-        return shapes[axis.ordinal()];
-    }
-
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(AXIS, context.getClickedFace().getAxis());
+    public AxleBlock(double length, double width, double offset) {
+        super(length, width, offset);
     }
 
     @Nullable

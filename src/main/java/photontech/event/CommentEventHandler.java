@@ -15,6 +15,8 @@ import photontech.utils.capability.heat.IHeatReservoir;
 import photontech.utils.capability.heat.PtHeatReservoir;
 import photontech.utils.capability.kinetic.IMutableBody;
 import photontech.utils.capability.kinetic.PtMutableRotateBody;
+import photontech.utils.capability.magnet.IMagnet;
+import photontech.utils.capability.magnet.PtMagnet;
 
 import javax.annotation.Nullable;
 
@@ -62,5 +64,15 @@ public class CommentEventHandler {
             @Override
             public void readNBT(Capability<IMutableConductor> capability, IMutableConductor instance, Direction side, INBT nbt) {}
         }, () -> PtMutableConductor.create(1000, Long.MAX_VALUE)));
+
+        event.enqueueWork(() -> CapabilityManager.INSTANCE.register(IMagnet.class, new Capability.IStorage<IMagnet>() {
+            @Nullable
+            @Override
+            public INBT writeNBT(Capability<IMagnet> capability, IMagnet instance, Direction side) {return null;}
+
+            @Override
+            public void readNBT(Capability<IMagnet> capability, IMagnet instance, Direction side, INBT nbt) {}
+        }, () -> PtMagnet.create(IMagnet.MagneticPole.N, 0)));
+
     }
 }
