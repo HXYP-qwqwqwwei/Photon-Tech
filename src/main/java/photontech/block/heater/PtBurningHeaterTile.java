@@ -36,7 +36,7 @@ public abstract class PtBurningHeaterTile extends PtHeaterTile {
     }
 
 
-    protected void startBurningRecipe(int inputSlotBegin, int inputSlotEnd, int inputTankBegin, int inputTankEnd, @Nullable Comparator<PtConditionalRecipe> comparator) {
+    protected void startBurningRecipe(int inputSlotBegin, int inputSlotEnd, int slotCatalyst, int inputTankBegin, int inputTankEnd, @Nullable Comparator<PtConditionalRecipe> comparator) {
         if (!this.isIgnited) {
             this.heatCaches.get(0).init(1, 0);
             this.cachedRecipes.set(0, null);
@@ -44,8 +44,8 @@ public abstract class PtBurningHeaterTile extends PtHeaterTile {
         }
         if (!startHeatRecipeProcess(this.cachedRecipes.get(0), this.heatCaches.get(0))) {
             this.handleRecipeResult(this.cachedRecipes.get(0));
-            this.updateCachedRecipe("burning", 0, inputSlotBegin, inputSlotEnd, inputTankBegin, inputTankEnd, comparator);
-            this.handleRecipeInput(this.cachedRecipes.get(0), inputSlotBegin, inputSlotEnd, inputTankBegin, inputTankEnd);
+            this.updateCachedRecipe("burning", 0, inputSlotBegin, inputSlotEnd, slotCatalyst, inputTankBegin, inputTankEnd, comparator);
+            this.handleRecipeInput(this.cachedRecipes.get(0), inputSlotBegin, inputSlotEnd, slotCatalyst, inputTankBegin, inputTankEnd);
         }
     }
 

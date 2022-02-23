@@ -1,8 +1,8 @@
 package photontech.utils.capability.electric;
 
-import photontech.utils.capability.ISaveLoad;
+import photontech.world_data.PtComplexCapabilityData;
 
-public interface IPtCapacitor extends ISaveLoad {
+public interface IEtCapacitor extends PtComplexCapabilityData.ISaveLoadWithID {
     long INF = Long.MAX_VALUE;
 
     double getU();
@@ -19,17 +19,20 @@ public interface IPtCapacitor extends ISaveLoad {
 
     void setQ(double charge);
 
-    static double chargeExchange(IPtCapacitor cp1, IPtCapacitor cp2) {
+    static double chargeExchange(IEtCapacitor cp1, IEtCapacitor cp2) {
         return chargeExchange(cp1, cp2, -1);
     }
 
-    static double chargeExchange(IPtCapacitor cp1, IPtCapacitor cp2, double R) {
+    static double quickExchange(IEtCapacitor cp1, IEtCapacitor cp2) {
+        return chargeExchange(cp1, cp2, 0.05);
+    }
+
+    static double chargeExchange(IEtCapacitor cp1, IEtCapacitor cp2, double R) {
         if (cp1 == cp2) {
             return 0.0;
         }
         final double U1 = cp1.getU();
         final double U2 = cp2.getU();
-//        LogManager.getLogger().info("dU = " + (U1 - U2));
         if (U1 <= U2) {
             return 0.0;
         }

@@ -33,7 +33,7 @@ public class PtBurningItemHeaterTile extends PtBurningHeaterTile implements INam
     public void tick() {
         if (level != null && !level.isClientSide) {
 
-            this.startBurningRecipe(0, 1, 0, 0, null);
+            this.startBurningRecipe(0, 1, -1, 0, 0, null);
             this.heatExchangeWithEnvironment(this.getHeatReservoir());
 
             BlockState heaterBlock = level.getBlockState(this.worldPosition);

@@ -1,6 +1,8 @@
 package photontech.init;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import photontech.block.electric.electrode.PtElectrodeBlock;
@@ -63,7 +65,7 @@ public class PtBlocks {
     public static final RegistryObject<Block> PLATINUM_CRUCIBLE = BLOCKS.register("platinum_crucible", () -> new PtCrucibleBlock(2000, 70));
 
     // FLUID BLOCKS
-//    public static final RegistryObject<FlowingFluidBlock> NORMAL_FLUID = BLOCKS.register("normal_fluid", () -> new FlowingFluidBlock(PtFluids.MUILK_FLUID, Block.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops()));
+//    public static final RegistryObject<FlowingFluidBlock> MILK_FLUID = BLOCKS.register("milk_fluid", () -> new FlowingFluidBlock(PtFluids.MILK_FLUID, Block.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops()));
 
     // HEATER BLOCKS
     public static final RegistryObject<Block> BURNING_ITEM_HEATER = BLOCKS.register("burning_item_heater", PtBurningItemHeaterBlock::new);

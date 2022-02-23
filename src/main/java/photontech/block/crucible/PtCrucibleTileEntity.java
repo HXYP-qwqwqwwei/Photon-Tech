@@ -59,10 +59,12 @@ public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTile
     public PtCrucibleTileEntity(float overloadTemp, float heatTransferRate) {
         super(PtTileEntities.CRUCIBLE_TILEENTITY.get());
 
-        this.mainItemHandler = LazyOptional.of(() -> this.createItemHandler(18));
+        this.mainItemHandler = LazyOptional.of(() -> this.createItemHandler(10));
         this.fluidTanks = LazyOptional.of(() -> this.createFluidTanks(8, 16000));
-        this.itemIOHandler = LazyOptional.of(() -> this.createIOLimitedHandler(slot -> slot >= 0 && slot < 8, slot -> slot >= 8 && slot < 16));
-        this.recipeIOHandler = LazyOptional.of(() -> this.createIOLimitedHandler(slot -> slot >= 8 && slot < 16, slot -> slot >= 0 && slot < 8));
+        // 输入输出栏和合成栏初始化
+        this.itemIOHandler = LazyOptional.of(() -> this.createIOLimitedHandler(slot -> slot < 9, slot -> slot < 9));
+        this.recipeIOHandler = LazyOptional.of(() -> this.createIOLimitedHandler(slot -> true, slot -> true));
+        // 热容初始化
         this.heatReservoir = LazyOptional.of(() -> this.createHeatReservoir(ENVIRONMENT_TEMPERATURE, overloadTemp, 500, heatTransferRate));
 
         cachedRecipes = Arrays.asList(null, null, null);
@@ -88,8 +90,11 @@ public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTile
             for (Direction direction : directions) {
                 heatExchangeWithTile(this.getHeatReservoir(), this.level.getBlockEntity(this.worldPosition.relative(direction)), direction.getOpposite());
             }
+            // 向环境散热
             this.heatExchangeWithEnvironment(this.getHeatReservoir());
+            // 尝试从篝火中获取热量
             this.heatExchangeWithCampfireHeat(this.level, this.worldPosition, this.getHeatReservoir());
+            // 尝试从雨中接水
             this.tryAcceptWaterFromRain();
 
             this.startHeatProcess("melting", RecipeMode.MELTING);
@@ -119,10 +124,10 @@ public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTile
 
     private void startHeatProcess(String group, RecipeMode mode) {
 
-        this.updateCachedRecipe(group, mode.getIndex(), 0, 8, 0, 8, PtConstants.NATURAL_HEAT_RECIPE_COMPARATOR);
+        this.updateCachedRecipe(group, mode.getIndex(), 0, 8, 9, 0, 8, PtConstants.NATURAL_HEAT_RECIPE_COMPARATOR);
 
         if (!this.startHeatRecipeProcess(this.cachedRecipes.get(mode.getIndex()), this.heatCaches.get(mode.getIndex()))) {
-            if (this.handleRecipeInput(this.cachedRecipes.get(mode.getIndex()), 0, 8, 0, 8)) {
+            if (this.handleRecipeInput(this.cachedRecipes.get(mode.getIndex()), 0, 8, 9, 0, 8)) {
                 this.handleRecipeResult(this.cachedRecipes.get(mode.getIndex()));
             }
         }

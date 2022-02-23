@@ -21,7 +21,9 @@ public interface IRotateBody extends ISaveLoad {
 
     void setAngle(float angle);
 
-    void updateAngle(long tick, int dTMilliseconds);
+    void addP(float p);
+
+    void updateAngle();
 
     void reverse();
 

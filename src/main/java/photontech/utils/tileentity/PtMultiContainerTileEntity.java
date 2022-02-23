@@ -1,5 +1,6 @@
 package photontech.utils.tileentity;
 
+import net.minecraftforge.common.util.Constants;
 import photontech.utils.capability.item.PtItemStackHandler;
 import photontech.utils.capability.fluid.PtMultiFluidTank;
 import net.minecraft.block.BlockState;
@@ -21,6 +22,7 @@ public abstract class PtMultiContainerTileEntity extends TileEntity implements I
 
     protected LazyOptional<PtItemStackHandler> mainItemHandler = LazyOptional.empty();
     protected LazyOptional<PtMultiFluidTank> fluidTanks = LazyOptional.empty();
+    protected boolean isDirty = false;
 
 
     public PtMultiContainerTileEntity(TileEntityType<?> tileEntityTypeIn) {
@@ -86,5 +88,16 @@ public abstract class PtMultiContainerTileEntity extends TileEntity implements I
     public PtItemStackHandler getItemHandler() {
         return this.mainItemHandler.orElse(new PtItemStackHandler());
     }
+
+    public void updateIfDirty() {
+        if (!isDirty || level == null || level.isClientSide) return;
+        level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+        this.setDirty(false);
+    }
+
+    public void setDirty(boolean dirty) {
+        isDirty = dirty;
+    }
+
 
 }

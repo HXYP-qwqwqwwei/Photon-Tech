@@ -1,5 +1,8 @@
 package photontech.init;
 
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.item.Items;
 import photontech.utils.Utils;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
@@ -29,7 +32,7 @@ public class PtFluids {
     public static RegistryObject<FlowingFluid> MILK_FLUID = FLUIDS.register("milk_fluid", () -> new ForgeFlowingFluid.Source(PtFluids.PROPERTIES));
     public static RegistryObject<FlowingFluid> MILK_FLUID_FLOWING = FLUIDS.register("milk_fluid_flowing", () -> new ForgeFlowingFluid.Flowing(PtFluids.PROPERTIES));
     public static ForgeFlowingFluid.Properties PROPERTIES = new ForgeFlowingFluid.Properties(MILK_FLUID, MILK_FLUID_FLOWING, FluidAttributes.builder(SOLID_WATER_STILL_TEXTURE, SOLID_WATER_FLOWING_TEXTURE).color(0xFFFFFFFF).density(1020))
-//            .bucket(() -> Items.MILK_BUCKET)
+            .bucket(() -> Items.MILK_BUCKET)
 //            .block(PtBlocks.NORMAL_FLUID)
             .slopeFindDistance(3)
             .explosionResistance(100F);

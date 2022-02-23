@@ -2,7 +2,8 @@ package photontech.block.crucible;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.fluid.Fluids;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -18,7 +19,15 @@ import net.minecraft.util.text.ITextComponent;
 public class PtCrucibleScreen extends PtBaseScreen<PtCrucibleContainer> implements IScreenFluidRenderer {
 
     private final ResourceLocation CRUCIBLE_CONTAINER = new ResourceLocation(Utils.MOD_ID, "textures/gui/crucible.png");
-
+    // FluidTank绘制的起始坐标（左下角）
+    private final int fluidTankBeginX = 60;
+    private final int fluidTankBeginY = 101;
+    // FLuidTank的长宽
+    private final int tankWidth = 82;
+    private final int tankHeight = 82;
+    // 绘制机器物品栏的起始坐标（左上角）
+//    private final int inventoryBeginX = 71;
+//    private final int inventoryBeginY = 33;
 
     public PtCrucibleScreen(PtCrucibleContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
@@ -42,28 +51,33 @@ public class PtCrucibleScreen extends PtBaseScreen<PtCrucibleContainer> implemen
             renderComponentTooltip(matrixStack, temperatureInfo, mouseX, mouseY);
         }
 
-        // Melting process
-        if (isMouseInArea(beginX + 101, beginY + 84, 24, 17, mouseX, mouseY)) {
-            NonNullList<ITextComponent> processInfo = NonNullList.create();
-            processInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".recipe_process", String.format("%.1f", this.menu.getCoolingProcess() * 100)));
-            renderComponentTooltip(matrixStack, processInfo, mouseX, mouseY);
-        }
+//        // Melting process
+//        if (isMouseInArea(beginX + 101, beginY + 84, 24, 17, mouseX, mouseY)) {
+//            NonNullList<ITextComponent> processInfo = NonNullList.create();
+//            processInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".recipe_process", String.format("%.1f", this.menu.getCoolingProcess() * 100)));
+//            renderComponentTooltip(matrixStack, processInfo, mouseX, mouseY);
+//        }
+//
+//        // Cooling process
+//        if (isMouseInArea(beginX + 101, beginY + 38, 24, 17, mouseX, mouseY)) {
+//            NonNullList<ITextComponent> processInfo = NonNullList.create();
+//            processInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".recipe_process", String.format("%.1f", this.menu.getMeltingProcess() * 100)));
+//            renderComponentTooltip(matrixStack, processInfo, mouseX, mouseY);
+//        }
+//
+//        // Other process
+//        if (isMouseInArea(beginX + 53, beginY + 56, 17, 24, mouseX, mouseY)) {
+//            NonNullList<ITextComponent> processInfo = NonNullList.create();
+//            processInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".recipe_process", String.format("%.1f", this.menu.getOtherProcess() * 100)));
+//            renderComponentTooltip(matrixStack, processInfo, mouseX, mouseY);
+//        }
 
-        // Cooling process
-        if (isMouseInArea(beginX + 101, beginY + 38, 24, 17, mouseX, mouseY)) {
-            NonNullList<ITextComponent> processInfo = NonNullList.create();
-            processInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".recipe_process", String.format("%.1f", this.menu.getMeltingProcess() * 100)));
-            renderComponentTooltip(matrixStack, processInfo, mouseX, mouseY);
+        drawMultiFluidTank(matrixStack, mouseX, mouseY, beginX + fluidTankBeginX, beginY + fluidTankBeginY);
+        if (isMouseInArea(beginX + 60, beginY + 19, 82, 82, mouseX, mouseY)) {
+            if (!hasControlDown())
+            renderTooltip(matrixStack, mouseX, mouseY);
         }
-
-        // Other process
-        if (isMouseInArea(beginX + 53, beginY + 56, 17, 24, mouseX, mouseY)) {
-            NonNullList<ITextComponent> processInfo = NonNullList.create();
-            processInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".recipe_process", String.format("%.1f", this.menu.getOtherProcess() * 100)));
-            renderComponentTooltip(matrixStack, processInfo, mouseX, mouseY);
-        }
-
-        drawMultiFluidTank(matrixStack, mouseX, mouseY, beginX + 131, beginY + 119);
+        else renderTooltip(matrixStack, mouseX, mouseY);
 
     }
 
@@ -81,8 +95,11 @@ public class PtCrucibleScreen extends PtBaseScreen<PtCrucibleContainer> implemen
 
             int leftDownY = beginY - yOffset;
 
+            // 使用接口提供的方法进行流体渲染
             int fluidHeight = drawFluid(matrixStack, beginX, leftDownY, stack);
-            if (this.isMouseInArea(beginX, leftDownY - fluidHeight, 28, fluidHeight, mouseX, mouseY)) {
+
+            // 渲染鼠标指针经过时的指示标签
+            if (hasControlDown() && this.isMouseInArea(beginX, leftDownY - fluidHeight, tankWidth, fluidHeight, mouseX, mouseY)) {
                 NonNullList<ITextComponent> stackInfo = NonNullList.create();
                 stackInfo.add(new TranslationTextComponent(stack.getTranslationKey()));
                 stackInfo.add(new StringTextComponent(stack.getAmount() + "mB"));
@@ -93,6 +110,7 @@ public class PtCrucibleScreen extends PtBaseScreen<PtCrucibleContainer> implemen
                         mouseY
                 );
             }
+            // 更新流体高度
             yOffset += fluidHeight;
         }
     }
@@ -115,24 +133,26 @@ public class PtCrucibleScreen extends PtBaseScreen<PtCrucibleContainer> implemen
         tempHeight = Math.max(tempHeight, 0);
         blit(matrixStack, beginX + 11, beginY + 101 - tempHeight, 173, 154 - tempHeight, 4, tempHeight);
 
+//        blit(matrixStack, beginX + 77, beginY + 34, 197, 0, 54, 54);
 
-        // draw melting process
-        int processWidth = (int) (this.menu.getMeltingProcess() * 24);
-        processWidth = Math.min(processWidth, 24);
-        processWidth = Math.max(processWidth, 0);
-        blit(matrixStack, beginX + 101, beginY + 38, 173, 0, processWidth, 17);
 
-        // draw cooling process
-        processWidth = (int) (this.menu.getCoolingProcess() * 24);
-        processWidth = Math.min(processWidth, 24);
-        processWidth = Math.max(processWidth, 0);
-        blit(matrixStack, beginX + 125 - processWidth, beginY + 84, 197 - processWidth, 17, processWidth, 17);
-
-        // draw other process
-        int processHeight = (int) (this.menu.getOtherProcess() * 24);
-        processHeight = Math.min(processHeight, 24);
-        processHeight = Math.max(processHeight, 0);
-        blit(matrixStack, beginX + 53, beginY + 56, 173, 34, 17, processHeight);
+//        // draw melting process
+//        int processWidth = (int) (this.menu.getMeltingProcess() * 24);
+//        processWidth = Math.min(processWidth, 24);
+//        processWidth = Math.max(processWidth, 0);
+//        blit(matrixStack, beginX + 101, beginY + 38, 173, 0, processWidth, 17);
+//
+//        // draw cooling process
+//        processWidth = (int) (this.menu.getCoolingProcess() * 24);
+//        processWidth = Math.min(processWidth, 24);
+//        processWidth = Math.max(processWidth, 0);
+//        blit(matrixStack, beginX + 125 - processWidth, beginY + 84, 197 - processWidth, 17, processWidth, 17);
+//
+//        // draw other process
+//        int processHeight = (int) (this.menu.getOtherProcess() * 24);
+//        processHeight = Math.min(processHeight, 24);
+//        processHeight = Math.max(processHeight, 0);
+//        blit(matrixStack, beginX + 53, beginY + 56, 173, 34, 17, processHeight);
 
 
     }
@@ -144,12 +164,12 @@ public class PtCrucibleScreen extends PtBaseScreen<PtCrucibleContainer> implemen
 
     @Override
     public int getTankHeight() {
-        return 82;
+        return this.tankHeight;
     }
 
     @Override
     public int getTankWidth() {
-        return 28;
+        return this.tankWidth;
     }
 
 

@@ -1,6 +1,7 @@
 package photontech.init;
 
 import photontech.group.PtItemGroups;
+import photontech.item.PtCatalyzedItem;
 import photontech.item.PtElectrodeItem;
 import photontech.item.PtNormalItem;
 import photontech.item.PtProtractorItem;
@@ -49,8 +50,7 @@ public class PtItems {
 //    public static final RegistryObject<Item> RUBY = ITEMS.register("ruby", PtNormalItem::new);
 //    public static final RegistryObject<Item> RUBY = ITEMS.register("ruby", PtNormalItem::new);
 
-
-    // NORMAL BLOCK ITEMS
+    // BLOCK ITEMS
     public static final RegistryObject<Item> RUBY_BLOCK = ITEMS.register("ruby_block", () -> new BlockItem(PtBlocks.RUBY_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> SAPPHIRE_BLOCK = ITEMS.register("sapphire_block", () -> new BlockItem(PtBlocks.SAPPHIRE_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> GRAPHITE_BLOCK = ITEMS.register("graphite_block", () -> new BlockItem(PtBlocks.GRAPHITE_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
@@ -60,22 +60,28 @@ public class PtItems {
     public static final RegistryObject<Item> SUN_GLASS = ITEMS.register("sun_glass", () -> new BlockItem(PtBlocks.SUN_GLASS.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> SUN_GLASS_REVERSE = ITEMS.register("sun_glass_reverse", () -> new BlockItem(PtBlocks.SUN_GLASS_REVERSE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
+
     // CRUCIBLE BLOCK ITEMS
     public static final RegistryObject<Item> GRAPHITE_CRUCIBLE = ITEMS.register("graphite_crucible", () -> new BlockItem(PtBlocks.GRAPHITE_CRUCIBLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> STEEL_CRUCIBLE = ITEMS.register("steel_crucible", () -> new BlockItem(PtBlocks.STEEL_CRUCIBLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> QUARTZ_CRUCIBLE = ITEMS.register("quartz_crucible", () -> new BlockItem(PtBlocks.QUARTZ_CRUCIBLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> PLATINUM_CRUCIBLE = ITEMS.register("platinum_crucible", () -> new BlockItem(PtBlocks.PLATINUM_CRUCIBLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
+    // GAS
+
     // PHOTON ITEMS
     public static final RegistryObject<Item> MIRROR = ITEMS.register("mirror", () -> new BlockItem(PtBlocks.MIRROR.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> PROTRACTOR = ITEMS.register("protractor", PtProtractorItem::new);
-
 
     // FLUID BUCKET ITEMS
 //    public static final RegistryObject<Item> NORMAL_FLUID_BUCKET = ITEMS.register("normal_fluid_bucket", () -> new BucketItem(PtFluids.MILK_FLUID, new Item.Properties().tab(ItemGroup.TAB_MATERIALS).craftRemainder(BUCKET)));
 
     // Tools
     public static final RegistryObject<Item> WRENCH = ITEMS.register("wrench", PtNormalItem::new);
+
+    // CATALYST
+    public static final RegistryObject<Item> EMPTY_CATALYST = ITEMS.register("empty_catalyst", () -> new PtCatalyzedItem(10));
+
 
     // HEATER BLOCK ITEMS
     public static final RegistryObject<Item> SOLID_HEATER = ITEMS.register("burning_item_heater", () -> new BlockItem(PtBlocks.BURNING_ITEM_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));

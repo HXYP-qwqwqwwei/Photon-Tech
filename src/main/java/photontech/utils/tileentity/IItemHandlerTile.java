@@ -13,10 +13,10 @@ public interface IItemHandlerTile {
         return new PtItemStackHandler(slots);
     }
 
-    default PtIOLimitedItemHandler createIOLimitedHandler(Predicate<Integer> insertOnly, Predicate<Integer> extractOnly) {
+    default PtIOLimitedItemHandler createIOLimitedHandler(Predicate<Integer> insertOK, Predicate<Integer> extractOK) {
         return new PtIOLimitedItemHandler(this.getItemHandler())
-                .setInsertOnly(insertOnly)
-                .setExtractOnly(extractOnly);
+                .setInsertOK(insertOK)
+                .setExtractOK(extractOK);
     }
 
 }

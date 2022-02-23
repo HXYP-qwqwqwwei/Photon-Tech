@@ -9,12 +9,13 @@ import photontech.network.PtNetWorking;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import photontech.utils.capability.electric.EtTransmissionLine;
+import photontech.utils.capability.electric.IEtCapacitor;
 import photontech.utils.capability.electric.IMutableConductor;
-import photontech.utils.capability.electric.PtMutableConductor;
 import photontech.utils.capability.heat.IHeatReservoir;
 import photontech.utils.capability.heat.PtHeatReservoir;
-import photontech.utils.capability.kinetic.IMutableBody;
-import photontech.utils.capability.kinetic.PtMutableRotateBody;
+import photontech.utils.capability.kinetic.IRotateBody;
+import photontech.utils.capability.kinetic.PtRotateBody;
 import photontech.utils.capability.magnet.IMagnet;
 import photontech.utils.capability.magnet.PtMagnet;
 
@@ -43,27 +44,27 @@ public class CommentEventHandler {
             }
         }, () -> new PtHeatReservoir(1000F, 0)));
 
-        event.enqueueWork(() -> CapabilityManager.INSTANCE.register(IMutableBody.class, new Capability.IStorage<IMutableBody>() {
+        event.enqueueWork(() -> CapabilityManager.INSTANCE.register(IRotateBody.class, new Capability.IStorage<IRotateBody>() {
             @Nullable
             @Override
-            public INBT writeNBT(Capability<IMutableBody> capability, IMutableBody instance, Direction side) {
+            public INBT writeNBT(Capability<IRotateBody> capability, IRotateBody instance, Direction side) {
                 return null;
             }
 
             @Override
-            public void readNBT(Capability<IMutableBody> capability, IMutableBody instance, Direction side, INBT nbt) {}
-        }, () -> PtMutableRotateBody.create(1000)));
+            public void readNBT(Capability<IRotateBody> capability, IRotateBody instance, Direction side, INBT nbt) {}
+        }, () -> PtRotateBody.create(1000)));
 
-        event.enqueueWork(() -> CapabilityManager.INSTANCE.register(IMutableConductor.class, new Capability.IStorage<IMutableConductor>() {
+        event.enqueueWork(() -> CapabilityManager.INSTANCE.register(IEtCapacitor.class, new Capability.IStorage<IEtCapacitor>() {
             @Nullable
             @Override
-            public INBT writeNBT(Capability<IMutableConductor> capability, IMutableConductor instance, Direction side) {
+            public INBT writeNBT(Capability<IEtCapacitor> capability, IEtCapacitor instance, Direction side) {
                 return null;
             }
 
             @Override
-            public void readNBT(Capability<IMutableConductor> capability, IMutableConductor instance, Direction side, INBT nbt) {}
-        }, () -> PtMutableConductor.create(1000, Long.MAX_VALUE)));
+            public void readNBT(Capability<IEtCapacitor> capability, IEtCapacitor instance, Direction side, INBT nbt) {}
+        }, () -> EtTransmissionLine.create(1000, Long.MAX_VALUE)));
 
         event.enqueueWork(() -> CapabilityManager.INSTANCE.register(IMagnet.class, new Capability.IStorage<IMagnet>() {
             @Nullable

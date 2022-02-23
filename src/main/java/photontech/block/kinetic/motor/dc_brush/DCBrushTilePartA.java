@@ -4,15 +4,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import org.apache.logging.log4j.LogManager;
 import photontech.block.kinetic.axle.AxleTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
+import photontech.utils.capability.electric.EtTransmissionLine;
+import photontech.utils.capability.electric.IEtCapacitor;
 import photontech.utils.capability.electric.IMutableConductor;
-import photontech.utils.capability.electric.IPtCapacitor;
-import photontech.utils.capability.electric.PtMutableConductor;
-import photontech.utils.capability.kinetic.IMutableBody;
-import photontech.utils.capability.kinetic.PtMutableRotateBody;
 import photontech.utils.helper.AxisHelper;
 import photontech.utils.helper.MutableDouble;
 import photontech.utils.tileentity.IChargeExchange;
@@ -27,8 +24,8 @@ public class DCBrushTilePartA extends AxleTile implements IChargeExchange {
     public MutableDouble I = new MutableDouble(0);
     public Direction.Axis electricValidAxis;
 
-    protected LazyOptional<IMutableConductor> positive = LazyOptional.of(() -> PtMutableConductor.create(10.0, 0.0));
-    protected LazyOptional<IMutableConductor> negative = LazyOptional.of(() -> PtMutableConductor.create(10.0, 0.0));
+    protected LazyOptional<IEtCapacitor> positive = LazyOptional.of(() -> EtTransmissionLine.create(10.0, 0.0));
+    protected LazyOptional<IEtCapacitor> negative = LazyOptional.of(() -> EtTransmissionLine.create(10.0, 0.0));
     protected DCBrushTilePartB partB = null;
 
     public DCBrushTilePartA(long initInertia) {
@@ -54,7 +51,7 @@ public class DCBrushTilePartA extends AxleTile implements IChargeExchange {
                         double B = partB.getB(this.electricValidAxis);
                         double L = partB.getWireLength();
                         double K = B * L;
-                        this.mainBody.ifPresent(body -> {
+                        this.getMainBody().ifPresent(body -> {
                             float omega = body.getOmega();
                             double I = (dU - K * omega / 1024) / partB.getR();
                             double F = I * K;
@@ -88,7 +85,7 @@ public class DCBrushTilePartA extends AxleTile implements IChargeExchange {
 
     protected void updateElectricValidAxis() {
         boolean axisRotated = this.getBlockState().getValue(AXIS_ROTATED);
-        switch (this.currentAxis) {
+        switch (this.getAxis()) {
             case X:
                 this.electricValidAxis = axisRotated ? Direction.Axis.Y : Direction.Axis.Z;
                 break;

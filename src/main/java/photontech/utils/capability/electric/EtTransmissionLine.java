@@ -2,21 +2,23 @@ package photontech.utils.capability.electric;
 
 import net.minecraft.nbt.CompoundNBT;
 
-public class PtConductor implements IPtCapacitor {
+public class EtTransmissionLine implements IEtCapacitor {
     // 电容
     protected double capacity;
-    // 电阻
-    protected double resistance;
     // 存储的电荷量
     protected double charge;
+    // 过载电流
+    protected double overloadEtCurrent;
+    protected int id;
+    public int refCnt = 1;
 
-    private PtConductor(double capacity, double resistance) {
+    private EtTransmissionLine(double capacity, double overloadEtCurrent) {
         this.capacity = capacity;
-        this.resistance = resistance;
+        this.overloadEtCurrent = overloadEtCurrent;
     }
 
-    public static PtConductor create(double capacity, double resistance) {
-        return new PtConductor(capacity, resistance);
+    public static EtTransmissionLine create(double capacity, double overloadEtCurrent) {
+        return new EtTransmissionLine(capacity, overloadEtCurrent);
     }
 
     @Override
@@ -36,13 +38,11 @@ public class PtConductor implements IPtCapacitor {
 
     @Override
     public double getR() {
-        return resistance;
+        return 0;
     }
 
     @Override
-    public void setR(double resistance) {
-        this.resistance = resistance;
-    }
+    public void setR(double resistance) {}
 
     @Override
     public double getQ() {
@@ -58,7 +58,8 @@ public class PtConductor implements IPtCapacitor {
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putDouble("Capacity", this.capacity);
         nbt.putDouble("Charge", this.charge);
-        nbt.putDouble("Resistance", this.resistance);
+        nbt.putDouble("OverloadEtCurrent", this.overloadEtCurrent);
+        nbt.putInt("RefCnt", this.refCnt);
         return nbt;
     }
 
@@ -66,7 +67,17 @@ public class PtConductor implements IPtCapacitor {
     public void load(CompoundNBT nbt) {
         this.capacity = nbt.getFloat("Capacity");
         this.charge = nbt.getDouble("Charge");
-        this.resistance = nbt.getDouble("Resistance");
+        this.overloadEtCurrent = nbt.getDouble("OverloadEtCurrent");
+        this.refCnt = nbt.getInt("RefCnt");
     }
 
+    @Override
+    public int getID() {
+        return id;
+    }
+
+    @Override
+    public void setID(int id) {
+        this.id = id;
+    }
 }

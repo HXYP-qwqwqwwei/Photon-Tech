@@ -9,11 +9,8 @@ import net.minecraft.client.renderer.model.ModelManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import photontech.utils.PtConstants;
-import photontech.utils.Utils;
-import photontech.utils.helper.AxisHelper;
 import photontech.utils.render.PtModelRenderer;
 
 import javax.annotation.Nonnull;
@@ -46,7 +43,7 @@ public class DCBrushMotorTERPartB extends TileEntityRenderer<DCBrushTilePartB> {
             default:
                 break;
         }
-        float angle = motorTile.getAngle(AxisHelper.getAxisPositiveDirection(axis));
+        float angle = motorTile.getAngle();
         matrixStack.mulPose(Vector3f.XP.rotation(angle));
         matrixStack.translate(-0.5F, -0.5F, -0.5F);
 

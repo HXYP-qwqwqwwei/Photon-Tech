@@ -23,16 +23,13 @@ public class PtCrucibleContainer extends PtBaseContainer {
 
         this.crucibleTileEntity = (PtCrucibleTileEntity) this.tileEntity;
 
-        // input [0, 8)
         assert crucibleTileEntity != null;
-        this.addSlotBox(crucibleTileEntity.getItemHandler(), 0, 2, 4, 27, 19);
-        // output [8, 16)
-        this.addSlotBox(crucibleTileEntity.getItemHandler(), 8, 2, 4, 27, 85, true);
-        // catalyst[16] and cache[17]
-        this.addSlot(new PtSlotItemHandler(crucibleTileEntity.getItemHandler(), 16, 86, 61));
-        this.addSlot(new PtSlotItemHandler(crucibleTileEntity.getItemHandler(), 17, 105, 20).setRemoveOnly());
+        // I/O [0, 9)
+        this.addSlotBox(crucibleTileEntity.getItemHandler(), 0, 3, 3, 68, 41);
+        // Catalyze [9, 10)
+        this.addSlotBox(crucibleTileEntity.getItemHandler(), 9, 1, 1, 31, 85);
 
-        // player inventory [18, 54)
+        // player inventory [10, 46)
         this.layoutPlayerInventorySlots(inventory, 6, 133);
     }
 
@@ -46,18 +43,21 @@ public class PtCrucibleContainer extends PtBaseContainer {
         if (slot != null && slot.hasItem()) {
             ItemStack stackInSlot = slot.getItem();
             ret = stackInSlot.copy();
-            if (index >= 8 && index < 16) {
-                if (!this.moveItemStackTo(stackInSlot, 18, 54, true)) {
+            if (index < 9) {
+                if (!this.moveItemStackTo(stackInSlot, 10, 46, true)) {
                     return ItemStack.EMPTY;
                 }
 
                 slot.onQuickCraft(stackInSlot, ret);
-            } else if (index >= 18 && index < 54) {
-                if (!this.moveItemStackTo(stackInSlot, 0, 8, false)) {
+            } else if (index == 9) {
+                if (!this.moveItemStackTo(stackInSlot, 10, 46, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(stackInSlot, 18, 54, false)) {
-                return ItemStack.EMPTY;
+            }
+            else if (index < 46) {
+                if (!this.moveItemStackTo(stackInSlot, 0, 9, false)) {
+                    return ItemStack.EMPTY;
+                }
             }
 
             if (stackInSlot.isEmpty()) {

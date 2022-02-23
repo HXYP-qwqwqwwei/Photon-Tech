@@ -3,7 +3,6 @@ package photontech.utils;
 
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
 import photontech.utils.recipe.PtConditionalRecipe;
 import photontech.utils.recipe.RecipeCondition;
 
@@ -34,12 +33,14 @@ public class PtConstants {
     public static final String OUTPUT_FLUIDS = "output_fluids";
     public static final String FLUID = "fluid";
     public static final String AMOUNT = "amount";
+    public static final String FLUID_CATALYST = "fluid_catalyst";
 
     // Item
     public static final String INPUT_ITEMS = "input_items";
     public static final String OUTPUT_ITEMS = "output_items";
     public static final String ITEM = "item";
     public static final String COUNT = "count";
+    public static final String ITEM_CATALYST = "item_catalyst";
 
     // Properties
     public static final class BlockStateProperties {
@@ -74,6 +75,6 @@ public class PtConstants {
         if (c1.heat > 0 && c2.heat > 0) {
             return (int) Math.ceil(c1.temperature - c2.temperature);
         }
-        else return (int) Math.ceil(c2.rate - c1.rate);
+        else return (int) Math.ceil(r2.rate - r1.rate);
     };
 }

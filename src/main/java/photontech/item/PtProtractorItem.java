@@ -25,12 +25,7 @@ import photontech.init.PtItems;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PtProtractorItem extends PtNormalItem {
-
-    @Override
-    public int getItemStackLimit(ItemStack stack) {
-        return 1;
-    }
+public class PtProtractorItem extends PtRecipeToolItem {
 
     @Override
     public void appendHoverText(@Nonnull ItemStack itemStack, @Nullable World world, @Nonnull List<ITextComponent> list, @Nonnull ITooltipFlag flag) {

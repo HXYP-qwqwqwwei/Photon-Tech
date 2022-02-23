@@ -31,7 +31,7 @@ public class DCBrushTilePartB extends AxleTile {
 
             if (inColdDown()) return;
             // 获取周围的磁场信息
-            for (Direction direction : AxisHelper.getVerticalDirections(this.currentAxis)) {
+            for (Direction direction : AxisHelper.getVerticalDirections(this.getAxis())) {
                 BlockPos fromPos = this.worldPosition.relative(direction);
                 TileEntity tile = level.getBlockEntity(fromPos);
                 if (tile == null) continue;

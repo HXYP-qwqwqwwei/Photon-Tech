@@ -7,8 +7,8 @@ import photontech.group.PtItemGroups;
 import photontech.init.PtItems;
 
 /**
- * 工具物品类
- * 这类物品在工作台合成的时候不会消耗
+ * 合成用工具类
+ * 这类物品在配方中用于合成的时候不会被直接消耗（可能损耗耐久）
  */
 public class PtRecipeToolItem extends Item {
 

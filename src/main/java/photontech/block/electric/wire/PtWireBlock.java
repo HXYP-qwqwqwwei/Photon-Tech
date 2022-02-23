@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import org.apache.logging.log4j.LogManager;
 import photontech.init.PtCapabilities;
+import photontech.init.PtItems;
 import photontech.utils.block.PipeLikeBlock;
 
 import javax.annotation.Nonnull;
@@ -101,6 +102,12 @@ public class PtWireBlock extends PipeLikeBlock {
                         LogManager.getLogger().info("Q = " + self.getQ());
                         LogManager.getLogger().info("U = " + self.getU());
                         LogManager.getLogger().info("R = " + self.getR());
+                    });
+                    return ActionResultType.SUCCESS;
+                }
+                if (itemStack.getItem() == PtItems.WRENCH.get()) {
+                    wire.getCapability(PtCapabilities.CONDUCTOR).ifPresent(self -> {
+                        self.setQ(self.getQ() + 1);
                     });
                     return ActionResultType.SUCCESS;
                 }

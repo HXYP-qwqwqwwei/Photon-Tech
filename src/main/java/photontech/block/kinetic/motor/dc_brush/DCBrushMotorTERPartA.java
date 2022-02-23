@@ -36,7 +36,7 @@ public class DCBrushMotorTERPartA extends TileEntityRenderer<DCBrushTilePartA> {
         Direction facing = partATile.getBlockState().getValue(FACING);
         boolean axisRotated = partATile.getBlockState().getValue(AXIS_ROTATED);
         matrixStack.translate(0.5F, 0.5F, 0.5F);
-        float angle = partATile.getAngle(facing);
+        float angle = partATile.getAngle();
 
         switch (facing) {
             case EAST:

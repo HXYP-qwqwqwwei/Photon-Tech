@@ -66,11 +66,11 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
         return null;
     }
 
-    protected boolean handleRecipeInput(PtConditionalRecipe recipe, int inputSlotBegin, int inputSlotEnd, int inputTankBegin, int inputTankEnd) {
+    protected boolean handleRecipeInput(PtConditionalRecipe recipe, int inputSlotBegin, int inputSlotEnd, int slotCatalyst, int inputTankBegin, int inputTankEnd) {
         if (recipe == null) {
             return false;
         }
-        return recipe.extractAllInput(this.getRecipeIOHandler(), inputSlotBegin, inputSlotEnd, this.getFluidTanks(), inputTankBegin, inputTankEnd);
+        return recipe.extractAllInput(this.getRecipeIOHandler(), inputSlotBegin, inputSlotEnd, slotCatalyst, this.getFluidTanks(), inputTankBegin, inputTankEnd);
     }
 
     protected void handleRecipeResult(PtConditionalRecipe recipe) {
@@ -106,7 +106,7 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
             return false;
         }
         RecipeCondition condition = recipe.getCondition();
-        float rate = condition.rate < 0 ? heatCache.getHeatTransferRate() : condition.rate;
+        float rate = recipe.rate < 0 ? heatCache.getHeatTransferRate() : recipe.rate;
 
         IHeatReservoir.heatExchange(this.getHeatReservoir(), heatCache, rate);
 
@@ -117,10 +117,10 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
         return true;
     }
 
-    protected void updateCachedRecipe(String group, int cacheIndex, int inputSlotBegin, int inputSlotEnd, int inputTankBegin, int inputTankEnd, @Nullable Comparator<PtConditionalRecipe> comparator) {
+    protected void updateCachedRecipe(String group, int cacheIndex, int inputSlotBegin, int inputSlotEnd, int slotCatalyst, int inputTankBegin, int inputTankEnd, @Nullable Comparator<PtConditionalRecipe> comparator) {
         PtConditionalRecipe newRecipe = this.getConditionalRecipe(
                 group,
-                recipe -> recipe.testInput(this.getItemIOHandler(), inputSlotBegin, inputSlotEnd, this.getFluidTanks(), inputTankBegin, inputTankEnd),
+                recipe -> recipe.testInput(this.getItemIOHandler(), inputSlotBegin, inputSlotEnd, slotCatalyst, this.getFluidTanks(), inputTankBegin, inputTankEnd),
                 comparator
         );
 

@@ -15,7 +15,16 @@ public abstract class PtBaseScreen<T extends Container> extends ContainerScreen<
         super(screenContainer, inv, titleIn);
     }
 
-
+    /**
+     * 判断鼠标指针是否在矩形区域内
+     * @param xMin 左上角x
+     * @param yMin 左上角y
+     * @param dx 长度
+     * @param dy 宽度
+     * @param mouseX 指针x坐标
+     * @param mouseY 指针y坐标
+     * @return 如果在区域内，返回true
+     */
     protected boolean isMouseInArea(int xMin, int yMin, int dx, int dy, int mouseX, int mouseY) {
         return (mouseX >= xMin && mouseY >= yMin && mouseX < xMin + dx && mouseY < yMin + dy);
     }
@@ -23,6 +32,5 @@ public abstract class PtBaseScreen<T extends Container> extends ContainerScreen<
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        renderTooltip(matrixStack, mouseX, mouseY);
     }
 }

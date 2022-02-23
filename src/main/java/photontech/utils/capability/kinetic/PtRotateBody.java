@@ -1,22 +1,25 @@
 package photontech.utils.capability.kinetic;
 
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import photontech.utils.capability.ISaveLoad;
+import photontech.utils.helper.AxisHelper;
 
 public class PtRotateBody implements IRotateBody {
+
+    public static final int MAX_LENGTH = 32;
 
     protected long inertia;
     protected float omega = 0F;
     protected float angle = 0;
-    protected long lastUpdateTick = 0L;
 
     public static PtRotateBody create(long inertia) {
         return new PtRotateBody(inertia);
     }
 
-    public static PtMutableRotateBody createMutable(long inertia) {
-        return PtMutableRotateBody.of(new PtRotateBody(inertia));
-    }
 
     public static PtRotateBody createFromNBT(CompoundNBT nbt) {
         PtRotateBody body = new PtRotateBody(0);
@@ -58,6 +61,9 @@ public class PtRotateBody implements IRotateBody {
         if (inertia < 0) {
             inertia = INFINITY;
         }
+        if (inertia > this.inertia) {
+            this.omega = this.inertia * this.omega / inertia;
+        }
         this.inertia = inertia;
     }
 
@@ -73,12 +79,16 @@ public class PtRotateBody implements IRotateBody {
     }
 
     @Override
-    public void updateAngle(long tick, int dTMilliseconds) {
-        if (tick != this.lastUpdateTick) {
-            this.angle += omega * dTMilliseconds * 0.001;
-            this.lastUpdateTick = tick;
-            this.formatAngle();
-        }
+    public void addP(float p) {
+        float thisP = this.omega * this.inertia;
+        thisP += p;
+        this.omega = thisP / this.inertia;
+    }
+
+    @Override
+    public void updateAngle() {
+        this.angle += omega * 0.05;
+        this.formatAngle();
     }
 
     private void formatAngle() {
@@ -108,7 +118,6 @@ public class PtRotateBody implements IRotateBody {
         nbt.putLong("Inertia", this.inertia);
         nbt.putFloat("Omega", this.omega);
         nbt.putFloat("Angle", this.angle);
-        nbt.putLong("LastUpdateTime", this.lastUpdateTick);
         return nbt;
     }
 
@@ -117,6 +126,5 @@ public class PtRotateBody implements IRotateBody {
         this.inertia = nbt.getLong("Inertia");
         this.omega = nbt.getFloat("Omega");
         this.angle = nbt.getFloat("Angle");
-        this.lastUpdateTick = nbt.getLong("LastUpdateTime");
     }
 }

@@ -64,12 +64,22 @@ public class InfiniteCapacitor implements IMutableConductor {
     }
 
     @Override
-    public void set(IPtCapacitor capacitor) {
+    public void set(IEtCapacitor capacitor) {
 
     }
 
     @Override
-    public IPtCapacitor get() {
+    public IEtCapacitor get() {
         return this;
+    }
+
+    @Override
+    public int getID() {
+        return 0;
+    }
+
+    @Override
+    public void setID(int id) {
+
     }
 }

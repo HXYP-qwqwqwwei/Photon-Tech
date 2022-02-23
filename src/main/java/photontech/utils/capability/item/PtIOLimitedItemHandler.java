@@ -17,12 +17,12 @@ public class PtIOLimitedItemHandler implements IItemHandler {
         this.handler = handler;
     }
 
-    public PtIOLimitedItemHandler setInsertOnly(Predicate<Integer> predicate) {
+    public PtIOLimitedItemHandler setInsertOK(Predicate<Integer> predicate) {
         this.insertable = predicate;
         return this;
     }
 
-    public PtIOLimitedItemHandler setExtractOnly(Predicate<Integer> predicate) {
+    public PtIOLimitedItemHandler setExtractOK(Predicate<Integer> predicate) {
         this.extractable = predicate;
         return this;
     }

@@ -1,7 +1,7 @@
 package photontech.utils.capability.electric;
 
-public interface IMutableConductor extends IPtCapacitor {
-    void set(IPtCapacitor capacitor);
+public interface IMutableConductor extends IEtCapacitor {
+    void set(IEtCapacitor capacitor);
 
-    IPtCapacitor get();
+    IEtCapacitor get();
 }
