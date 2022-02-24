@@ -12,8 +12,23 @@
   "item.photontech.silicon_99999": "Silicon (Super)",
   "item.photontech.silicon_wafer_small": "Silicon Wafer (S)",
   "item.photontech.silicon_wafer_big": "Silicon Wafer (L)",
+
   "item.photontech.ruby": "Ruby",
+  "item.photontech.ruby_rod": "Ruby Rod",
   "item.photontech.ruby_lens": "Ruby Lens",
+  "item.photontech.ruby_lens_unpolished": "Ruby Lens (unpolished)",
+
   "item.photontech.sapphire": "Sapphire",
-  "item.photontech.sapphire_lens": "Sapphire Lens"
+  "item.photontech.sapphire_rod": "Sapphire Rod",
+  "item.photontech.sapphire_lens": "Sapphire Lens",
+  "item.photontech.sapphire_lens_unpolished": "Sapphire Lens (unpolished)",
+
+
+  "text.photontech.current_temperature": "Current Temperature:%sK",
+  "text.photontech.overload_temperature" : "Overload Temprature:%sK",
+  "text.photontech.recipe_process" : "Process:%s%%",
+  "text.photontech.pos": "Position%s%s%s",
+
+  "cmd.photontech.etsys": "Electric System Statue:\nTransmission line amount:%d.\nSystem size:%d"
+
 }

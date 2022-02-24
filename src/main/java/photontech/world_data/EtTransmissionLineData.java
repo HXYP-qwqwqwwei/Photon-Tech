@@ -24,7 +24,8 @@ public class EtTransmissionLineData extends PtComplexCapabilityData<IEtCapacitor
         for (int i = 0; i < size; ++i) {
             CompoundNBT capNBT = (CompoundNBT) listNBT.get(i);
             if (!capNBT.isEmpty()) {
-                datas.get(i).load(capNBT);
+                ISaveLoadWithID cap = datas.get(i);
+                cap.load(capNBT);
             }
             else datas.set(i, null);
         }

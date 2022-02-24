@@ -1,4 +1,4 @@
-package photontech.event;
+package photontech.event.block_event;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import static net.minecraft.state.properties.BlockStateProperties.AXIS;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class BlockEventHandler {
+public class AxleBlockEventHandler {
     public static final int AXLE_MAX_LENGTH = 8;
 
     @SubscribeEvent

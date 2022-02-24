@@ -3,7 +3,7 @@ package photontech.world_data;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.world.storage.WorldSavedData;
-import photontech.utils.Utils;
+import org.apache.logging.log4j.LogManager;
 import photontech.utils.capability.ISaveLoad;
 
 import javax.annotation.Nonnull;
@@ -23,7 +23,7 @@ public abstract class PtComplexCapabilityData<T extends PtComplexCapabilityData.
     @Override
     public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         ListNBT listNBT = new ListNBT();
-        for (ISaveLoadWithID value : datas.toArray()) {
+        for (ISaveLoadWithID value : datas.toSaveLoadArray()) {
             if (value != null) listNBT.add(value.save(new CompoundNBT()));
             else listNBT.add(new CompoundNBT());
         }
@@ -46,111 +46,120 @@ public abstract class PtComplexCapabilityData<T extends PtComplexCapabilityData.
         this.setDirty();
     }
 
-    public static interface ISaveLoadWithID extends ISaveLoad {
+    public int getCount() {
+        return datas.count;
+    }
+
+    public int getSize() {
+        return datas.values.length;
+    }
+
+    public interface ISaveLoadWithID extends ISaveLoad {
         int getID();
 
         void setID(int id);
     }
 
-}
+    static class PtCyclicList<T extends PtComplexCapabilityData.ISaveLoadWithID> {
+        private Object[] values;
+        private int count = 0;
+        private int current = 0;
+        public static final int MIN_SIZE = 4;
 
-class PtCyclicList<T extends PtComplexCapabilityData.ISaveLoadWithID> {
-    private Object[] values;
-    private int count = 0;
-    private int current = 0;
-    public static final int MIN_SIZE = 128;
+        protected PtCyclicList(int initSize) {
+            this.values = new Object[initSize];
+        }
 
-    protected PtCyclicList(int initSize) {
-        this.values = new Object[initSize];
-    }
+        public static<T extends PtComplexCapabilityData.ISaveLoadWithID> PtCyclicList<T> create() {
+            return new PtCyclicList<>(MIN_SIZE);
+        }
 
-    public static<T extends PtComplexCapabilityData.ISaveLoadWithID> PtCyclicList<T> create() {
-        return new PtCyclicList<>(MIN_SIZE);
-    }
+        public static <T extends PtComplexCapabilityData.ISaveLoadWithID> PtCyclicList<T> create(int initSize) {
+            return new PtCyclicList<>(Math.max(MIN_SIZE, initSize));
+        }
 
-    public static <T extends PtComplexCapabilityData.ISaveLoadWithID> PtCyclicList<T> create(int initSize) {
-        return new PtCyclicList<>(Math.max(MIN_SIZE, initSize));
-    }
+        @SuppressWarnings("unchecked")
+        public T get(int index) {
+            return (T) values[index];
+        }
 
-    @SuppressWarnings("unchecked")
-    public T get(int index) {
-        return (T) values[index];
-    }
-
-    public void remove(int index) {
-        if (values[index] != null) {
-            values[index] = null;
-            count -= 1;
-            // 占有率低于50%，则进行整理，并收缩大小
-            if (count <= values.length / 2) {
-                this.shrink();
+        public void remove(int index) {
+            if (values[index] != null) {
+                values[index] = null;
+                count -= 1;
+                // 占有率低于50%，则进行整理，并收缩大小
+                if (count <= values.length / 2) {
+                    LogManager.getLogger().info(1);
+                    this.shrink();
+                }
             }
         }
-    }
 
-    public void put(T value) {
-        int index = this.allocIndex();
-        if (index < 0) {
-            this.grow();
-        }
-        index = count;
-        this.values[index] = value;
-        value.setID(index);
-        count += 1;
-    }
-
-    public void set(int index, T value) {
-        this.values[index] = value;
-    }
-
-    /**
-     * 在数组中找到一个空位
-     * 下一次匹配，环状遍历数组，直到找到一个空的位置
-     * @return 目标位置的索引，若没有空位返回-1
-     */
-    protected final int allocIndex() {
-        int len = values.length;
-        int ret = -1;
-        for (int i = 0; i < len; ++i) {
-            current = current == len ? 0 : current;
-            if (values[current] == null) {
-                ret = current;
+        public void put(T value) {
+            this.allocIndex();
+            if (current < 0) {
+                this.grow();
             }
-            current += 1;
+            current = count;
+            this.values[current] = value;
+            value.setID(current);
+            count += 1;
         }
-        return ret;
-    }
 
-    /**
-     * 生长 1/4
-     */
-    protected void grow() {
-        int oldSize = values.length;
-        int newSize = oldSize + (oldSize << 2);
-        Object[] grownValues = new Object[newSize];
-        System.arraycopy(values, 0, grownValues, 0, oldSize);
-        this.values = grownValues;
-    }
-
-    /**
-     * 收缩 1/4
-     */
-    protected void shrink() {
-        int oldSize = this.values.length;
-        int newSize = oldSize - (oldSize << 2);
-        Object[] shrunkValues = new Object[newSize];
-        Object[] validValues = Arrays.stream(this.values).filter(Objects::nonNull).toArray();
-        for (int i = 0; i < count; ++i) {
-            ((PtComplexCapabilityData.ISaveLoadWithID) validValues[i]).setID(i);
+        public void set(int index, T value) {
+            this.values[index] = value;
         }
-        System.arraycopy(validValues, 0, shrunkValues, 0, count);
-        this.values = shrunkValues;
+
+        /**
+         * 在数组中找到一个空位
+         * 下一次匹配，环状遍历数组，直到找到一个空的位置
+         */
+        protected final void allocIndex() {
+            int len = values.length;
+            for (int i = 0; i < len; ++i) {
+                current = current >= len ? 0 : current;
+                if (values[current] == null) {
+                    return;
+                }
+                current += 1;
+            }
+            current = -1;
+        }
+
+        /**
+         * 生长 1/4
+         */
+        protected void grow() {
+            int oldSize = values.length;
+            int newSize = oldSize + (oldSize >> 2);
+            Object[] grownValues = new Object[newSize];
+            System.arraycopy(values, 0, grownValues, 0, oldSize);
+            this.values = grownValues;
+        }
+
+        /**
+         * 收缩 1/4
+         */
+        protected void shrink() {
+            int oldSize = this.values.length;
+            int newSize = oldSize - (oldSize >> 2);
+            if (newSize < MIN_SIZE) return;
+            Object[] shrunkValues = new Object[newSize];
+            Object[] validValues = Arrays.stream(this.values).filter(Objects::nonNull).toArray();
+            for (int i = 0; i < count; ++i) {
+                ((PtComplexCapabilityData.ISaveLoadWithID) validValues[i]).setID(i);
+            }
+            System.arraycopy(validValues, 0, shrunkValues, 0, count);
+            this.values = shrunkValues;
+        }
+
+        @SuppressWarnings("all")
+        public PtComplexCapabilityData.ISaveLoadWithID[] toSaveLoadArray() {
+            PtComplexCapabilityData.ISaveLoadWithID[] ret = (PtComplexCapabilityData.ISaveLoadWithID[]) Array.newInstance(PtComplexCapabilityData.ISaveLoadWithID.class, values.length);
+            System.arraycopy(values, 0, ret, 0, values.length);
+            return ret;
+        }
     }
 
-    @SuppressWarnings("all")
-    public PtComplexCapabilityData.ISaveLoadWithID[] toArray() {
-        PtComplexCapabilityData.ISaveLoadWithID[] ret = (PtComplexCapabilityData.ISaveLoadWithID[]) Array.newInstance(PtComplexCapabilityData.ISaveLoadWithID.class, values.length);
-        System.arraycopy(values, 0, ret, 0, values.length);
-        return ret;
-    }
 }
+

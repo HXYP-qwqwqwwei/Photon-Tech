@@ -12,10 +12,12 @@
   "item.photontech.silicon_99999": "高纯硅",
   "item.photontech.silicon_wafer_small": "硅晶圆（8英寸）",
   "item.photontech.silicon_wafer_big": "硅晶圆（14英寸）",
+
   "item.photontech.ruby": "红宝石",
   "item.photontech.ruby_rod": "红宝石棒",
   "item.photontech.ruby_lens": "红宝石透镜",
   "item.photontech.ruby_lens_unpolished": "红宝石透镜（未抛光）",
+
   "item.photontech.sapphire": "蓝宝石",
   "item.photontech.sapphire_rod": "蓝宝石棒",
   "item.photontech.sapphire_lens": "蓝宝石透镜",
@@ -26,6 +28,6 @@
   "text.photontech.recipe_process" : "进度:%s%%",
   "text.photontech.pos": "坐标%s%s%s",
 
-  "cmd.photontech.pttps": "Pt专属线程状态：\n当前任务数量:%d, %d, %d, %d\ntick总用时:%sms\n机器用时:%sms\n删除任务用时:%sms\n注册任务用时:%sms\n普通任务用时:%sms\ntps=%s"
+  "cmd.photontech.etsys": "Electric System Statue:\nTransmission line amount:%d.\nSystem size:%d"
 
 }

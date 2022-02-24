@@ -20,6 +20,7 @@ import java.util.Arrays;
 public class PtWireTile extends PtElectricMachineTile {
     // 保存在世界数据中的一个副本
     protected IEtCapacitor conductor;
+    protected static EtTransmissionLineData datas;
 
 
     public PtWireTile(double capacity, double overloadEtCurrent) {
