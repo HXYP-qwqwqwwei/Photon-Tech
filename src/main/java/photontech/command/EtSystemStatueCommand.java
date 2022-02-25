@@ -19,10 +19,9 @@ public class EtSystemStatueCommand implements Command<CommandSource> {
         MinecraftServer server = context.getSource().getServer();
         ServerWorld serverWorld = server.getLevel(World.OVERWORLD);
         EtTransmissionLineData data = EtTransmissionLineData.get(serverWorld);
-        int count = data.getCount();
         int size = data.getSize();
         context.getSource().sendSuccess(new TranslationTextComponent(
-                "cmd." + Utils.MOD_ID + ".etsys", count, size), false
+                "cmd." + Utils.MOD_ID + ".etsys", size), false
         );
         return 0;
     }

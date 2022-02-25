@@ -1,13 +1,16 @@
 package photontech.world_data;
 
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
+import photontech.utils.capability.electric.EtTransmissionLine;
 import photontech.utils.capability.electric.IEtCapacitor;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
 
 public class EtTransmissionLineData extends PtComplexCapabilityData<IEtCapacitor> {
     public static final String NAME = "EtSystem";
@@ -18,16 +21,18 @@ public class EtTransmissionLineData extends PtComplexCapabilityData<IEtCapacitor
 
     @Override
     public void load(@Nonnull CompoundNBT nbt) {
-        ListNBT listNBT = (ListNBT) nbt.get(this.getId());
+        CompoundNBT datasNBT = nbt.getCompound(this.getId());
+        ListNBT listNBT = (ListNBT) datasNBT.get(DATAS);
+        this.nextID = datasNBT.getInt(NEXT_ID);
         assert listNBT != null;
-        int size = listNBT.size();
-        for (int i = 0; i < size; ++i) {
-            CompoundNBT capNBT = (CompoundNBT) listNBT.get(i);
-            if (!capNBT.isEmpty()) {
-                ISaveLoadWithID cap = datas.get(i);
-                cap.load(capNBT);
-            }
-            else datas.set(i, null);
+        this.datas = new HashMap<>(INITIAL_SIZE);
+
+        for (INBT inbt : listNBT) {
+            CompoundNBT entryNBT = (CompoundNBT) inbt;
+            int key = entryNBT.getInt(KEY);
+            IEtCapacitor value = EtTransmissionLine.create(1, 1);
+            value.load(entryNBT.getCompound(VALUE));
+            datas.put(key, value);
         }
     }
 

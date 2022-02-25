@@ -71,13 +71,4 @@ public class EtTransmissionLine implements IEtCapacitor {
         this.refCnt = nbt.getInt("RefCnt");
     }
 
-    @Override
-    public int getID() {
-        return id;
-    }
-
-    @Override
-    public void setID(int id) {
-        this.id = id;
-    }
 }

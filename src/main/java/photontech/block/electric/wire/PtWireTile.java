@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import org.apache.logging.log4j.LogManager;
 import photontech.block.electric.PtElectricMachineTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
@@ -18,20 +19,27 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 
 public class PtWireTile extends PtElectricMachineTile {
-    // 保存在世界数据中的一个副本
-    protected IEtCapacitor conductor;
-    protected static EtTransmissionLineData datas;
+    public static final String ID = "Id";
+    protected int id = -1;
+    protected final double capacity;
+    protected final double overloadEtCurrent;
 
 
     public PtWireTile(double capacity, double overloadEtCurrent) {
         super(PtTileEntities.WIRE.get());
-        this.conductor = EtTransmissionLine.create(capacity, overloadEtCurrent);
+        this.capacity = capacity;
+        this.overloadEtCurrent = overloadEtCurrent;
     }
 
     @Override
     public void tick() {
         if (this.level != null && !this.level.isClientSide) {
-//            this.chargeExchangeByDirections(this.getValidDirections());
+            if (id == -1) {
+                EtTransmissionLineData data = EtTransmissionLineData.get(level);
+                this.id = data.getNextID();
+                data.put(id, EtTransmissionLine.create(capacity, overloadEtCurrent));
+            }
+
         }
     }
 
@@ -39,7 +47,7 @@ public class PtWireTile extends PtElectricMachineTile {
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == PtCapabilities.CONDUCTOR) {
-            return LazyOptional.of(() -> EtTransmissionLineData.get(this.level).get(conductor.getID())).cast();
+            return LazyOptional.of(() -> EtTransmissionLineData.get(this.level).get(this.id)).cast();
         }
         else return super.getCapability(cap, side);
     }
@@ -48,13 +56,15 @@ public class PtWireTile extends PtElectricMachineTile {
     @Override
     public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         super.save(nbt);
-        nbt.put("ConductorData", this.conductor.save(new CompoundNBT()));
+//        nbt.put("ConductorData", this.conductor.save(new CompoundNBT()));
+        nbt.putInt(ID, this.id);
         return nbt;
     }
 
     @Override
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
-        this.conductor.load(nbt.getCompound("ConductorData"));
+//        this.conductor.load(nbt.getCompound("ConductorData"));
+        this.id = nbt.getInt(ID);
         super.load(state, nbt);
     }
 
@@ -63,17 +73,9 @@ public class PtWireTile extends PtElectricMachineTile {
     }
 
     @Override
-    public void onLoad() {
-        super.onLoad();
-        if (level != null && !level.isClientSide) {
-            EtTransmissionLineData.get(this.level).put(conductor);
-        }
-    }
-
-    @Override
     public void setRemoved() {
         if (level != null && !level.isClientSide){
-            EtTransmissionLineData.get(this.level).remove(conductor.getID());
+            EtTransmissionLineData.get(this.level).remove(this.id);
         }
         super.setRemoved();
     }

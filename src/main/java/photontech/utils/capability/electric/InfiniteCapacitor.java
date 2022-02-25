@@ -73,13 +73,4 @@ public class InfiniteCapacitor implements IMutableConductor {
         return this;
     }
 
-    @Override
-    public int getID() {
-        return 0;
-    }
-
-    @Override
-    public void setID(int id) {
-
-    }
 }
