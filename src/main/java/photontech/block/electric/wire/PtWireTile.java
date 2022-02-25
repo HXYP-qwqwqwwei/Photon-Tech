@@ -3,6 +3,7 @@ package photontech.block.electric.wire;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -21,8 +22,8 @@ import java.util.Arrays;
 public class PtWireTile extends PtElectricMachineTile {
     public static final String ID = "Id";
     protected int id = -1;
-    protected final double capacity;
-    protected final double overloadEtCurrent;
+    public final double capacity;
+    public final double overloadEtCurrent;
 
 
     public PtWireTile(double capacity, double overloadEtCurrent) {
@@ -34,13 +35,30 @@ public class PtWireTile extends PtElectricMachineTile {
     @Override
     public void tick() {
         if (this.level != null && !this.level.isClientSide) {
-            if (id == -1) {
-                EtTransmissionLineData data = EtTransmissionLineData.get(level);
-                this.id = data.getNextID();
-                data.put(id, EtTransmissionLine.create(capacity, overloadEtCurrent));
+            BlockState blockState = this.getBlockState();
+            int maxID = this.id;
+            for (Direction side : Direction.values()) {
+                if (blockState.getValue(SixWayBlock.PROPERTY_BY_DIRECTION.get(side))) {
+                    TileEntity tile = level.getBlockEntity(this.worldPosition.relative(side));
+                    if (tile instanceof PtWireTile) {
+                        maxID = Math.max(((PtWireTile) tile).id, maxID);
+                    }
+                }
             }
-
+            if (this.id != maxID) {
+                EtTransmissionLineData.get(this.level).remove(this.id);
+                this.id = maxID;
+                EtTransmissionLineData.get(this.level).put(this.id, null);
+            }
         }
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Nonnull

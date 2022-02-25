@@ -73,4 +73,18 @@ public class InfiniteCapacitor implements IMutableConductor {
         return this;
     }
 
+    @Override
+    public boolean isNoRef() {
+        return false;
+    }
+
+    @Override
+    public void addRef() {
+
+    }
+
+    @Override
+    public void minusRef() {
+
+    }
 }

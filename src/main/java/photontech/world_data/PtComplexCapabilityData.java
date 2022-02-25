@@ -6,9 +6,10 @@ import net.minecraft.world.storage.WorldSavedData;
 import photontech.utils.capability.ISaveLoad;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 
-public abstract class PtComplexCapabilityData<T extends PtComplexCapabilityData.ISaveLoadWithID> extends WorldSavedData {
+public abstract class PtComplexCapabilityData<T extends PtComplexCapabilityData.ISaveLoadWithRefCnt> extends WorldSavedData {
     public static final int INITIAL_SIZE = 128;
 
     protected Map<Integer, T> datas = new HashMap<>(INITIAL_SIZE);
@@ -46,13 +47,22 @@ public abstract class PtComplexCapabilityData<T extends PtComplexCapabilityData.
         return datas.get(id);
     }
 
-    public void put(int key, @Nonnull T value) {
+    public void put(int key, @Nullable T value) {
+        T existValue = datas.get(key);
+        if (existValue != null) {
+            existValue.addRef();
+            return;
+        }
         datas.put(key, Objects.requireNonNull(value));
         this.setDirty();
     }
 
-    public void remove(int id) {
-        datas.remove(id);
+    public void remove(int key) {
+        T value = datas.get(key);
+        value.minusRef();
+        if (value.isNoRef()) {
+            datas.remove(key);
+        }
         this.setDirty();
     }
 
@@ -60,8 +70,12 @@ public abstract class PtComplexCapabilityData<T extends PtComplexCapabilityData.
         return datas.size();
     }
 
-    public interface ISaveLoadWithID extends ISaveLoad {
+    public interface ISaveLoadWithRefCnt extends ISaveLoad {
+        boolean isNoRef();
 
+        void addRef();
+
+        void minusRef();
     }
 
     public int getNextID() {

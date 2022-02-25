@@ -71,4 +71,21 @@ public class EtTransmissionLine implements IEtCapacitor {
         this.refCnt = nbt.getInt("RefCnt");
     }
 
+    @Override
+    public boolean isNoRef() {
+        return refCnt == 0;
+    }
+
+    @Override
+    public void addRef() {
+        this.refCnt += 1;
+    }
+
+    @Override
+    public void minusRef() {
+        if (this.refCnt == 0) {
+            throw new RuntimeException("Dereference a Not Referenced Object");
+        }
+        this.refCnt -= 1;
+    }
 }

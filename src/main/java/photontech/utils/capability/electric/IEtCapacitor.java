@@ -1,9 +1,8 @@
 package photontech.utils.capability.electric;
 
-import photontech.utils.capability.ISaveLoad;
 import photontech.world_data.PtComplexCapabilityData;
 
-public interface IEtCapacitor extends PtComplexCapabilityData.ISaveLoadWithID {
+public interface IEtCapacitor extends PtComplexCapabilityData.ISaveLoadWithRefCnt {
     long INF = Long.MAX_VALUE;
 
     double getU();
