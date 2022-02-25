@@ -34,6 +34,7 @@ public class PtItems {
     public static final RegistryObject<Item> CARBON_BLACK_TRACE = ITEMS.register("carbon_black_trace", PtNormalItem::new);
     public static final RegistryObject<Item> NETHERITE_BRACKET = ITEMS.register("netherite_bracket", PtNormalItem::new);
     public static final RegistryObject<Item> NETHERITE_BRACKET_HOT = ITEMS.register("netherite_bracket_hot", PtNormalItem::new);
+    public static final RegistryObject<Item> TECHNOLOGY_WRENCH = ITEMS.register("technology_wrench", PtNormalItem::new);
 
     public static final RegistryObject<Item> MONOCRYSTALLINE_SILICON = ITEMS.register("monocrystalline_silicon", PtNormalItem::new);
     public static final RegistryObject<Item> MONOCRYSTALLINE_SILICON_BOLD = ITEMS.register("monocrystalline_silicon_bold", PtNormalItem::new);
