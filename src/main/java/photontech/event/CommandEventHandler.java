@@ -4,11 +4,9 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.LogManager;
 import photontech.command.EtSystemStatueCommand;
 import photontech.utils.Utils;
 
@@ -27,8 +25,4 @@ public class CommandEventHandler {
         dispatcher.register(Commands.literal("pt").redirect(cmd));
     }
 
-//    @SubscribeEvent
-//    public static void onTestEvent(TestEvent event) {
-//        LogManager.getLogger().info(event.getMsg());
-//    }
 }

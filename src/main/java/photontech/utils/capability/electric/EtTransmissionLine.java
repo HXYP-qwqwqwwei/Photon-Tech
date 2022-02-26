@@ -72,12 +72,20 @@ public class EtTransmissionLine implements IEtCapacitor {
     }
 
     @Override
-    public int getID() {
-        return id;
+    public boolean isNoRef() {
+        return refCnt == 0;
     }
 
     @Override
-    public void setID(int id) {
-        this.id = id;
+    public void addRef() {
+        this.refCnt += 1;
+    }
+
+    @Override
+    public void minusRef() {
+        if (this.refCnt == 0) {
+            throw new RuntimeException("Dereference a Not Referenced Object");
+        }
+        this.refCnt -= 1;
     }
 }

@@ -74,12 +74,17 @@ public class InfiniteCapacitor implements IMutableConductor {
     }
 
     @Override
-    public int getID() {
-        return 0;
+    public boolean isNoRef() {
+        return false;
     }
 
     @Override
-    public void setID(int id) {
+    public void addRef() {
+
+    }
+
+    @Override
+    public void minusRef() {
 
     }
 }
