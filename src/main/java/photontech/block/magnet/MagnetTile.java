@@ -22,16 +22,4 @@ public abstract class MagnetTile extends PtMachineTile {
         this.SPole = LazyOptional.of(() -> PtMagnet.create(IMagnet.MagneticPole.S, B0));
     }
 
-//
-//    @Nonnull
-//    @Override
-//    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-//        if (cap == PtCapabilities.MAGNET && side != null) {
-//            if (side.getAxis() == this.currentAxis) {
-//                return
-//            }
-//            return LazyOptional.empty();
-//        }
-//        return super.getCapability(cap, side);
-//    }
 }

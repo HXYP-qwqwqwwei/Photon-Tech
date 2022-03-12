@@ -1,9 +1,9 @@
 package photontech.block.electric.resistor;
 
 import net.minecraft.tileentity.TileEntityType;
-import photontech.block.electric.PtElectricMachineTile;
+import photontech.block.electric.EtMachineTile;
 
-public class PtResistorTile extends PtElectricMachineTile {
+public class PtResistorTile extends EtMachineTile {
     final double initResistance;
 
     public PtResistorTile(TileEntityType<?> tileEntityTypeIn, double resistance) {

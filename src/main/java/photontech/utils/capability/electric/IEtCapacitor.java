@@ -1,9 +1,72 @@
 package photontech.utils.capability.electric;
 
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.common.util.LazyOptional;
 import photontech.world_data.PtComplexCapabilityData;
 
 public interface IEtCapacitor extends PtComplexCapabilityData.ISaveLoadWithRefCnt {
     long INF = Long.MAX_VALUE;
+    LazyOptional<IEtCapacitor> PLACE_HOLDER = LazyOptional.of(() -> new IEtCapacitor() {
+        @Override
+        public double getU() {
+            return 0;
+        }
+
+        @Override
+        public double getC() {
+            return 0;
+        }
+
+        @Override
+        public void setC(double capacity) {
+
+        }
+
+        @Override
+        public double getR() {
+            return 0;
+        }
+
+        @Override
+        public void setR(double resistance) {
+
+        }
+
+        @Override
+        public double getQ() {
+            return 0;
+        }
+
+        @Override
+        public void setQ(double charge) {
+
+        }
+
+        @Override
+        public boolean isNoRef() {
+            return true;
+        }
+
+        @Override
+        public void addRef() {
+
+        }
+
+        @Override
+        public void minusRef() {
+
+        }
+
+        @Override
+        public void load(CompoundNBT nbt) {
+
+        }
+
+        @Override
+        public CompoundNBT save(CompoundNBT nbt) {
+            return null;
+        }
+    });
 
     double getU();
 
@@ -19,38 +82,45 @@ public interface IEtCapacitor extends PtComplexCapabilityData.ISaveLoadWithRefCn
 
     void setQ(double charge);
 
-    static double chargeExchange(IEtCapacitor cp1, IEtCapacitor cp2) {
-        return chargeExchange(cp1, cp2, -1);
+    static double chargeExchange(IEtCapacitor p, IEtCapacitor n, double dU_eq) {
+        if (p == n) {
+            return Double.POSITIVE_INFINITY;
+        }
+        final double C1 = p.getC();
+        final double C2 = n.getC();
+        final double Q1 = p.getQ();
+        final double Q2 = n.getQ();
+
+        double dQ0 = (Q1*C2 - Q2*C1 - dU_eq*C1*C2) / (C1 + C2);
+
+        p.setQ(Q1 - dQ0);
+        n.setQ(Q2 + dQ0);
+        return dQ0;
     }
 
-    static double quickExchange(IEtCapacitor cp1, IEtCapacitor cp2) {
-        return chargeExchange(cp1, cp2, 0.05);
+    static double chargeExchange(IEtCapacitor p, IEtCapacitor n, double dU_eq, double R) {
+        if (R == 0) {
+            return chargeExchange(p, n, dU_eq);
+        }
+        final double U1 = p.getU();
+        final double U2 = n.getU();
+        // 有效电势差U_valid
+        final double Uv = U1 - U2 - dU_eq;
+        if (p == n) {
+            return Uv / R * 0.05;
+        }
+        final double C1 = p.getC();
+        final double C2 = n.getC();
+        final double Q1 = p.getQ();
+        final double Q2 = n.getQ();
+
+        double dQ0 = (Q1*C2 - Q2*C1 - dU_eq*C1*C2) / (C1 + C2);
+        double dQdt = Uv / R * 0.05;
+        dQ0 = dQ0 > 0 ? Math.min(dQdt, dQ0) : Math.max(dQdt, dQ0);
+
+        p.setQ(Q1 - dQ0);
+        n.setQ(Q2 + dQ0);
+        return dQ0 * 20;
     }
 
-    static double chargeExchange(IEtCapacitor cp1, IEtCapacitor cp2, double R) {
-        if (cp1 == cp2) {
-            return 0.0;
-        }
-        final double U1 = cp1.getU();
-        final double U2 = cp2.getU();
-        if (U1 <= U2) {
-            return 0.0;
-        }
-        final double C1 = cp1.getC();
-        final double C2 = cp2.getC();
-        final double Q1 = cp1.getQ();
-        final double Q2 = cp2.getQ();
-        if (R < 0) {
-            R = (cp1.getR() + cp2.getR()) * 0.5;
-        }
-
-        double dQ0 = (Q2 * C1 - Q1 * C2) / (C1 + C2);
-        double dQ = (U2 - U1) / R * 0.05;
-        dQ = dQ == dQ ? dQ : Double.NEGATIVE_INFINITY;
-        // dQ0 <= dQ < 0
-        dQ = Math.max(dQ, dQ0);
-        cp1.setQ(Q1 + dQ);
-        cp2.setQ(Q2 - dQ);
-        return dQ;
-    }
 }

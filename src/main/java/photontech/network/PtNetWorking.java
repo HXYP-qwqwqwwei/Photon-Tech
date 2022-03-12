@@ -1,6 +1,6 @@
 package photontech.network;
 
-import photontech.utils.Utils;
+import photontech.PhotonTech;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -15,7 +15,7 @@ public class PtNetWorking {
 
     public static void registerMessage() {
         INSTANCE = NetworkRegistry.newSimpleChannel(
-                new ResourceLocation(Utils.MOD_ID, "photontech_networking"),
+                new ResourceLocation(PhotonTech.ID, "photontech_networking"),
                 () -> VERSION,
                 (version) -> version.equals(VERSION),
                 (version) -> version.equals(VERSION)

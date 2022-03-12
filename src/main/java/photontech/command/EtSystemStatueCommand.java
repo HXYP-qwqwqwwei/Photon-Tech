@@ -8,7 +8,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import photontech.utils.Utils;
+import photontech.PhotonTech;
 import photontech.world_data.EtTransmissionLineData;
 
 public class EtSystemStatueCommand implements Command<CommandSource> {
@@ -21,7 +21,7 @@ public class EtSystemStatueCommand implements Command<CommandSource> {
         EtTransmissionLineData data = EtTransmissionLineData.get(serverWorld);
         int size = data.getSize();
         context.getSource().sendSuccess(new TranslationTextComponent(
-                "cmd." + Utils.MOD_ID + ".etsys", size), false
+                "cmd." + PhotonTech.ID + ".etsys", size), false
         );
         return 0;
     }

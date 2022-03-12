@@ -16,7 +16,7 @@ import photontech.block.crucible.PtCrucibleBlock;
 import photontech.block.electric.IConductiveBlock;
 import photontech.init.PtCapabilities;
 import photontech.utils.block.PipeLikeBlock;
-import photontech.utils.helper.AxisHelper;
+import photontech.utils.helper_functions.AxisHelper;
 
 import javax.annotation.Nonnull;
 
@@ -52,12 +52,6 @@ public class PtElectrodeBlock extends PipeLikeBlock implements IConductiveBlock 
         );
     }
 
-//    @Override
-//    public boolean canConnectTo(IWorld world, BlockPos currentPos, Direction direction) {
-//        BlockState blockState = world.getBlockState(currentPos.relative(direction));
-//        return blockState.getBlock() instanceof IConductiveBlock;
-//    }
-
     @Override
     protected Direction[] getValidDirections() {
         return AxisHelper.XZ_DIRECTIONS;
@@ -71,11 +65,12 @@ public class PtElectrodeBlock extends PipeLikeBlock implements IConductiveBlock 
 
     @Nonnull
     @Override
-    public BlockState updateShape(BlockState p_196271_1_, Direction p_196271_2_, BlockState p_196271_3_, IWorld p_196271_4_, BlockPos p_196271_5_, BlockPos p_196271_6_) {
-        return this.canSurvive(p_196271_1_, p_196271_4_, p_196271_5_) ? super.updateShape(p_196271_1_, p_196271_2_, p_196271_3_, p_196271_4_, p_196271_5_, p_196271_6_) : Blocks.AIR.defaultBlockState();
+    public BlockState updateShape(@Nonnull BlockState currentBlockState, @Nonnull Direction updateSide, @Nonnull BlockState updateBlockState, @Nonnull IWorld level, @Nonnull BlockPos currentPos, @Nonnull BlockPos updatePos) {
+        return this.canSurvive(currentBlockState, level, currentPos) ? super.updateShape(currentBlockState, updateSide, updateBlockState, level, currentPos, updatePos) : Blocks.AIR.defaultBlockState();
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean canSurvive(@Nonnull BlockState blockState, IWorldReader world, BlockPos pos) {
         return world.getBlockState(pos.relative(Direction.DOWN)).getBlock() instanceof PtCrucibleBlock;
     }

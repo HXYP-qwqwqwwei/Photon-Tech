@@ -3,9 +3,7 @@ package photontech.init;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import photontech.utils.capability.electric.IEtCapacitor;
-import photontech.utils.capability.electric.IMutableConductor;
 import photontech.utils.capability.heat.IHeatReservoir;
-import photontech.utils.capability.kinetic.IMutableBody;
 import photontech.utils.capability.kinetic.IRotateBody;
 import photontech.utils.capability.magnet.IMagnet;
 

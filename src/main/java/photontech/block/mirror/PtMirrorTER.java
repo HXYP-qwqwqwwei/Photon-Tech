@@ -10,14 +10,11 @@ import net.minecraft.client.renderer.model.ModelManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.client.model.data.EmptyModelData;
 import photontech.utils.PtConstants;
-import photontech.utils.Utils;
-import photontech.utils.render.PtModelRenderer;
+import photontech.utils.client.render.PtModelRenderer;
 
 import static java.lang.Math.*;
 import static net.minecraft.state.properties.BlockStateProperties.*;

@@ -47,7 +47,7 @@ public abstract class AxisAlignedBlock extends Block {
 
     @Nonnull
     @Override
-    public VoxelShape getShape(BlockState blockState, IBlockReader reader, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         Direction.Axis axis = blockState.getValue(AXIS);
         return shapes[axis.ordinal()];
     }

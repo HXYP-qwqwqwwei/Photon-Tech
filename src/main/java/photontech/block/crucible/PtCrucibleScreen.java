@@ -2,23 +2,20 @@ package photontech.block.crucible;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.InputMappings;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.FluidStack;
-import org.apache.logging.log4j.LogManager;
-import photontech.utils.screen.IScreenFluidRenderer;
-import photontech.utils.screen.PtBaseScreen;
-import photontech.utils.Utils;
+import photontech.PhotonTech;
+import photontech.utils.client.screen.IScreenFluidRenderer;
+import photontech.utils.client.screen.PtBaseScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
 public class PtCrucibleScreen extends PtBaseScreen<PtCrucibleContainer> implements IScreenFluidRenderer {
 
-    private final ResourceLocation CRUCIBLE_CONTAINER = new ResourceLocation(Utils.MOD_ID, "textures/gui/crucible.png");
+    private final ResourceLocation CRUCIBLE_CONTAINER = new ResourceLocation(PhotonTech.ID, "textures/gui/crucible.png");
     // FluidTank绘制的起始坐标（左下角）
     private final int fluidTankBeginX = 60;
     private final int fluidTankBeginY = 101;
@@ -46,8 +43,8 @@ public class PtCrucibleScreen extends PtBaseScreen<PtCrucibleContainer> implemen
         // Temperature
         if (isMouseInArea(beginX + 10, beginY + 18, 6, 84, mouseX, mouseY)) {
             NonNullList<ITextComponent> temperatureInfo = NonNullList.create();
-            temperatureInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".current_temperature", String.format("%.2f", this.menu.getTemperature())));
-            temperatureInfo.add(new TranslationTextComponent("text." + Utils.MOD_ID + ".overload_temperature", String.format("%.2f", this.menu.getOverloadTemperature())));
+            temperatureInfo.add(new TranslationTextComponent("text." + PhotonTech.ID + ".current_temperature", String.format("%.2f", this.menu.getTemperature())));
+            temperatureInfo.add(new TranslationTextComponent("text." + PhotonTech.ID + ".overload_temperature", String.format("%.2f", this.menu.getOverloadTemperature())));
             renderComponentTooltip(matrixStack, temperatureInfo, mouseX, mouseY);
         }
 

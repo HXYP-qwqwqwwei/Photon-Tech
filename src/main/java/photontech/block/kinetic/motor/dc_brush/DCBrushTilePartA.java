@@ -1,18 +1,21 @@
 package photontech.block.kinetic.motor.dc_brush;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import photontech.block.kinetic.axle.AxleTile;
+import org.apache.logging.log4j.LogManager;
+import photontech.block.kinetic.axle.KtMachineTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.capability.electric.EtTransmissionLine;
 import photontech.utils.capability.electric.IEtCapacitor;
-import photontech.utils.capability.electric.IMutableConductor;
-import photontech.utils.helper.AxisHelper;
-import photontech.utils.helper.MutableDouble;
-import photontech.utils.tileentity.IChargeExchange;
+import photontech.utils.helper_functions.AxisHelper;
+import photontech.utils.helper_functions.MutableDouble;
+import photontech.utils.tileentity.IEtMachine;
+
+import static net.minecraft.util.Direction.Axis;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,16 +23,29 @@ import javax.annotation.Nullable;
 import static photontech.utils.PtConstants.BlockStateProperties.*;
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
-public class DCBrushTilePartA extends AxleTile implements IChargeExchange {
-    public MutableDouble I = new MutableDouble(0);
-    public Direction.Axis electricValidAxis;
+public class DCBrushTilePartA extends KtMachineTile implements IEtMachine {
+//    public static final Axis[] ELECTRIC_VALID_AXIS_LIST;
+//    public static final int AXIS_ROTATED_MASK = 1 << 2;
+    public static final String BRUSH_AXIS = "BrushAxis";
 
-    protected LazyOptional<IEtCapacitor> positive = LazyOptional.of(() -> EtTransmissionLine.create(10.0, 0.0));
-    protected LazyOptional<IEtCapacitor> negative = LazyOptional.of(() -> EtTransmissionLine.create(10.0, 0.0));
+//    static {
+//        ELECTRIC_VALID_AXIS_LIST = new Axis[8];
+//        ELECTRIC_VALID_AXIS_LIST[Axis.X.ordinal() | AXIS_ROTATED_MASK] = Axis.Y;
+//        ELECTRIC_VALID_AXIS_LIST[Axis.X.ordinal()] = Axis.Z;
+//        ELECTRIC_VALID_AXIS_LIST[Axis.Y.ordinal() | AXIS_ROTATED_MASK] = Axis.X;
+//        ELECTRIC_VALID_AXIS_LIST[Axis.Y.ordinal()] = Axis.Z;
+//        ELECTRIC_VALID_AXIS_LIST[Axis.Z.ordinal() | AXIS_ROTATED_MASK] = Axis.Y;
+//        ELECTRIC_VALID_AXIS_LIST[Axis.Z.ordinal()] = Axis.X;
+//    }
+
+    public MutableDouble I = new MutableDouble(0);
+    public MutableDouble U = new MutableDouble(0);
+    public Direction.Axis brushAxis = null;
+
     protected DCBrushTilePartB partB = null;
 
     public DCBrushTilePartA(long initInertia) {
-        super(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), initInertia);
+        super(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), initInertia, true);
     }
 
 
@@ -37,37 +53,32 @@ public class DCBrushTilePartA extends AxleTile implements IChargeExchange {
     public void tick() {
         super.tick();
         if (level != null && !level.isClientSide()) {
-            if (electricValidAxis == null) {
-                this.updateElectricValidAxis();
+            if (this.brushAxis == null) {
+                return;
             }
-            Direction pDirection = AxisHelper.getAxisPositiveDirection(this.electricValidAxis);
+
+            Direction pDirection = AxisHelper.getAxisPositiveDirection(this.brushAxis);
             Direction nDirection = pDirection.getOpposite();
-            positive.ifPresent(p -> this.chargeExchangeWithTile(p, level.getBlockEntity(this.worldPosition.relative(pDirection)), nDirection));
-            negative.ifPresent(n -> this.chargeExchangeWithTile(n, level.getBlockEntity(this.worldPosition.relative(nDirection)), pDirection));
+
+            TileEntity posTE = level.getBlockEntity(this.worldPosition.relative(pDirection));
+            TileEntity negTE = level.getBlockEntity(this.worldPosition.relative(nDirection));
+            if (posTE == null || negTE == null) return;
+            LazyOptional<IEtCapacitor> positive = posTE.getCapability(PtCapabilities.CONDUCTOR, nDirection);
+            LazyOptional<IEtCapacitor> negative = negTE.getCapability(PtCapabilities.CONDUCTOR, pDirection);
             if (this.partBExist()) {
-                positive.ifPresent(p -> {
-                    negative.ifPresent(n -> {
-                        double dU = p.getU() - n.getU();
-                        double B = partB.getB(this.electricValidAxis);
-                        double L = partB.getWireLength();
-                        double K = B * L;
-                        this.getMainBody().ifPresent(body -> {
-                            float omega = body.getOmega();
-                            double I = (dU - K * omega / 1024) / partB.getR();
-                            double F = I * K;
-                            float accelerate = (float) (F / body.getInertia());
-                            body.setOmega(omega + accelerate * 0.05F);
-                            this.I.value = I;
-                        });
-                        p.setQ(p.getQ() - this.I.value * 0.05);
-                        n.setQ(n.getQ() + this.I.value * 0.05);
-//                        double dq = IPtCapacitor.chargeExchange(p.get(), n.get(), partB.getR());
-//                        dq = dq == 0.0 ? -IPtCapacitor.chargeExchange(n.get(), p.get(), partB.getR()) : dq;
-//                        this.I.value = dq / 0.05;
+                positive.ifPresent(p -> negative.ifPresent(n -> {
+                    this.U.value = p.getU() - n.getU();
+                    this.getMainBody().ifPresent(body -> {
+                        float omega = body.getOmega();
+                        double K = this.partB.getK(this.brushAxis);
+                        double R = this.partB.getR();
+                        double dU_eq = omega * K * 0.1;
+                        this.I.value = IEtCapacitor.chargeExchange(p, n, dU_eq, R);
+                        double F = this.I.value * K;
+                        body.setOmega(body.getOmega() + (float) (F * 0.05) / body.getInertia());
                     });
-                });
+                }));
             }
-            else this.I.value = 0;
         }
     }
 
@@ -83,29 +94,49 @@ public class DCBrushTilePartA extends AxleTile implements IChargeExchange {
         return false;
     }
 
-    protected void updateElectricValidAxis() {
-        boolean axisRotated = this.getBlockState().getValue(AXIS_ROTATED);
-        switch (this.getAxis()) {
-            case X:
-                this.electricValidAxis = axisRotated ? Direction.Axis.Y : Direction.Axis.Z;
-                break;
-            case Z:
-                this.electricValidAxis = axisRotated ? Direction.Axis.Y : Direction.Axis.X;
-                break;
-            default:
-                this.electricValidAxis = axisRotated ? Direction.Axis.X : Direction.Axis.Z;
-        }
-    }
-
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == PtCapabilities.CONDUCTOR) {
-            this.updateElectricValidAxis();
-            if (side != null && side.getAxis() == this.electricValidAxis) {
-                return side == AxisHelper.getAxisPositiveDirection(this.electricValidAxis) ? this.positive.cast() : this.negative.cast();
+            if (side != null && side.getAxis() == this.brushAxis) {
+                return IEtCapacitor.PLACE_HOLDER.cast();
             }
+            return LazyOptional.empty();
         }
         return super.getCapability(cap, side);
+    }
+
+    @Nonnull
+    @Override
+    public CompoundNBT save(@Nonnull CompoundNBT nbt) {
+        super.save(nbt);
+        if (this.brushAxis != null) {
+            nbt.putString(BRUSH_AXIS, this.brushAxis.getName());
+        }
+        return nbt;
+    }
+
+    @Override
+    public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
+        super.load(state, nbt);
+        this.brushAxis = Axis.byName(nbt.getString(BRUSH_AXIS));
+    }
+
+    @Override
+    public double getU() {
+        return U.value;
+    }
+
+    @Override
+    public double getI() {
+        return I.value;
+    }
+
+    public void setBrushAxis(Axis brushAxis) {
+        this.brushAxis = brushAxis;
+    }
+
+    public Axis getBrushAxis() {
+        return brushAxis;
     }
 }

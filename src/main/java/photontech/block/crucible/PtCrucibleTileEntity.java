@@ -21,10 +21,10 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+import photontech.PhotonTech;
 import photontech.init.PtTileEntities;
-import photontech.utils.helper.CrucibleConnections;
+import photontech.utils.helper_functions.CrucibleConnections;
 import photontech.utils.PtConstants;
-import photontech.utils.Utils;
 import photontech.utils.capability.fluid.IMultiFluidTank;
 import photontech.utils.capability.fluid.PtMultiFluidTank;
 import photontech.utils.capability.heat.PtHeatCache;
@@ -189,7 +189,7 @@ public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTile
     @Nonnull
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent("gui." + Utils.MOD_ID + ".crucible");
+        return new TranslationTextComponent("gui." + PhotonTech.ID + ".crucible");
     }
 
     @Nullable

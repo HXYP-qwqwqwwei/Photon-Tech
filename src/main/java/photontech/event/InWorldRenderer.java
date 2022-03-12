@@ -17,7 +17,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import photontech.init.PtItems;
-import photontech.utils.render.PtRenderType;
+import photontech.utils.client.render.PtRenderType;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class InWorldRenderer {

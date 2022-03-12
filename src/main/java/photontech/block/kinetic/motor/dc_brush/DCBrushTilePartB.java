@@ -4,30 +4,27 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import org.apache.logging.log4j.LogManager;
-import photontech.block.kinetic.axle.AxleTile;
+import photontech.block.kinetic.axle.KtMachineTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.capability.magnet.IMagnet;
-import photontech.utils.helper.AxisHelper;
-import photontech.utils.helper.MutableInt;
-import photontech.utils.helper.MutableLong;
+import photontech.utils.helper_functions.AxisHelper;
+import photontech.utils.helper_functions.MutableInt;
 
-public class DCBrushTilePartB extends AxleTile {
+public class DCBrushTilePartB extends KtMachineTile {
     private final Vector3d[] Bm = new Vector3d[4];
     private final MutableInt BCount = new MutableInt(0);
-    private Vector3d Bsum = new Vector3d(0, 0, 0);
+    private Vector3d Bs = new Vector3d(0, 0, 0);
 
 
     public DCBrushTilePartB(long initInertia) {
-        super(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), initInertia);
+        super(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), initInertia, true);
         this.setColdDown(5);
     }
 
     @Override
     public void tick() {
+        super.tick();
         if (level != null && !level.isClientSide()) {
-            super.tick();
 
             if (inColdDown()) return;
             // 获取周围的磁场信息
@@ -39,9 +36,9 @@ public class DCBrushTilePartB extends AxleTile {
                     Bm[BCount.value++] = magnet.getB(fromPos, this.worldPosition);
                 });
             }
-            Bsum = new Vector3d(0, 0, 0);
+            Bs = new Vector3d(0, 0, 0);
             for (int i = 0; i < BCount.value; ++i) {
-                Bsum = Bsum.add(Bm[i]);
+                Bs = Bs.add(Bm[i]);
             }
             BCount.value = 0;
         }
@@ -53,10 +50,14 @@ public class DCBrushTilePartB extends AxleTile {
 
     public double getB(Direction.Axis axis) {
         switch (axis) {
-            case X: return Bsum.x;
-            case Y: return Bsum.y;
-            default: return Bsum.z;
+            case X: return Bs.x;
+            case Y: return Bs.y;
+            default: return Bs.z;
         }
+    }
+
+    public double getK(Direction.Axis axis) {
+        return this.getB(axis) * this.getWireLength();
     }
 
     public double getWireLength() {

@@ -13,7 +13,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -27,17 +26,12 @@ import javax.annotation.Nullable;
 
 public class PtWireBlock extends PipeLikeBlock {
 
-    public static final int BSIZE = 16;
-    public static final int BZERO = 0;
-    public static final int NSHAPES = 1 << 6;
+//    public final double resistivity;
+    public final double maxI;
 
-
-    public final double resistivity;
-    protected final VoxelShape[] shapes = new VoxelShape[NSHAPES];
-
-    public PtWireBlock(Thickness thickness, double resistivity) {
+    public PtWireBlock(Thickness thickness, double maxI) {
         super(thickness, Properties.of(Material.WOOL).noOcclusion().strength(3));
-        this.resistivity = resistivity >= 0 ? resistivity : 0;
+        this.maxI = maxI > 0 ? maxI : 0;
         this.registerDefaultState(
                 this.getStateDefinition().any()
                         .setValue(EAST, false)
@@ -66,12 +60,6 @@ public class PtWireBlock extends PipeLikeBlock {
         return Direction.values();
     }
 
-//    @Override
-//    public boolean canConnectTo(IWorld world, BlockPos pos, Direction direction) {
-//        BlockState blockState = world.getBlockState(pos.relative(direction));
-//        return blockState.getBlock() instanceof IConductiveBlock;
-//    }
-
     @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
@@ -80,14 +68,12 @@ public class PtWireBlock extends PipeLikeBlock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        double d = this.thickness.maxX - this.thickness.minX;
-        double S = d*d / 256;
-        double R = resistivity / S;
-        return new PtWireTile(1000.0, R);
+        return new PtWireTile(maxI, maxI);
     }
 
     @Nonnull
     @Override
+    @SuppressWarnings("deprecation")
     public ActionResultType use(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
             PtWireTile wire = (PtWireTile) worldIn.getBlockEntity(pos);
@@ -106,9 +92,7 @@ public class PtWireBlock extends PipeLikeBlock {
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == PtItems.WRENCH.get()) {
-                    wire.getCapability(PtCapabilities.CONDUCTOR).ifPresent(self -> {
-                        self.setQ(self.getQ() + 1);
-                    });
+                    wire.getCapability(PtCapabilities.CONDUCTOR).ifPresent(self -> self.setQ(self.getQ() + 1));
                     return ActionResultType.SUCCESS;
                 }
             }

@@ -10,10 +10,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
+import photontech.PhotonTech;
 import photontech.block.heater.PtBurningHeaterTile;
 import photontech.init.PtTileEntities;
-import photontech.utils.PtConstants;
-import photontech.utils.Utils;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
 import static photontech.utils.PtConstants.BlockStateProperties.*;
@@ -57,7 +56,7 @@ public class PtBurningItemHeaterTile extends PtBurningHeaterTile implements INam
     @Nonnull
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent("gui." + Utils.MOD_ID + ".burning_item_heater");
+        return new TranslationTextComponent("gui." + PhotonTech.ID + ".burning_item_heater");
     }
 
     @Nullable

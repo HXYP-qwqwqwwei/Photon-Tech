@@ -3,7 +3,7 @@ package photontech.block.crucible;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.util.Direction;
-import photontech.utils.helper.CrucibleConnections;
+import photontech.utils.helper_functions.CrucibleConnections;
 import photontech.utils.capability.fluid.PtMultiFluidTank;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;

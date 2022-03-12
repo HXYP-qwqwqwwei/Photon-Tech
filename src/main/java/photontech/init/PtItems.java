@@ -1,11 +1,8 @@
 package photontech.init;
 
+import photontech.PhotonTech;
 import photontech.group.PtItemGroups;
-import photontech.item.PtCatalyzedItem;
-import photontech.item.PtElectrodeItem;
-import photontech.item.PtNormalItem;
-import photontech.item.PtProtractorItem;
-import photontech.utils.Utils;
+import photontech.item.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -14,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 @SuppressWarnings("all")
 public class PtItems {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Utils.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PhotonTech.ID);
 
     // MATERIAL
     public static final RegistryObject<Item> SILICON_WAFER_BIG = ITEMS.register("silicon_wafer_small", PtNormalItem::new);
@@ -58,8 +55,8 @@ public class PtItems {
     public static final RegistryObject<Item> STEEL_BLOCK = ITEMS.register("steel_block", () -> new BlockItem(PtBlocks.STEEL_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> COAL_POWDER_BLOCK = ITEMS.register("coal_powder_block", () -> new BlockItem(PtBlocks.COAL_POWDER_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> PLATINUM_BLOCK = ITEMS.register("platinum_block", () -> new BlockItem(PtBlocks.PLATINUM_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
-    public static final RegistryObject<Item> SUN_GLASS = ITEMS.register("sun_glass", () -> new BlockItem(PtBlocks.SUN_GLASS.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
-    public static final RegistryObject<Item> SUN_GLASS_REVERSE = ITEMS.register("sun_glass_reverse", () -> new BlockItem(PtBlocks.SUN_GLASS_REVERSE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+//    public static final RegistryObject<Item> SUN_GLASS = ITEMS.register("sun_glass", () -> new BlockItem(PtBlocks.SUN_GLASS.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+//    public static final RegistryObject<Item> SUN_GLASS_REVERSE = ITEMS.register("sun_glass_reverse", () -> new BlockItem(PtBlocks.SUN_GLASS_REVERSE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
 
     // CRUCIBLE BLOCK ITEMS
@@ -88,10 +85,15 @@ public class PtItems {
     public static final RegistryObject<Item> SOLID_HEATER = ITEMS.register("burning_item_heater", () -> new BlockItem(PtBlocks.BURNING_ITEM_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> VISIBLE_LIGHT_HEATER = ITEMS.register("visible_light_heater", () -> new BlockItem(PtBlocks.VISIBLE_LIGHT_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
-    // AXLE BLOCK ITEMS
-    public static final RegistryObject<Item> AXLE = ITEMS.register("axle", () -> new BlockItem(PtBlocks.AXLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    // KINETIC BLOCK ITEMS
+    public static final RegistryObject<Item> IRON_AXLE = ITEMS.register("iron_axle", () -> new KtAxleBlockItem(PtBlocks.IRON_AXLE.get()));
+    public static final RegistryObject<Item> WOOD_AXLE = ITEMS.register("wood_axle", () -> new KtAxleBlockItem(PtBlocks.WOOD_AXLE.get()));
+
+    // BRUSH DC MOTOR
     public static final RegistryObject<Item> DC_BRUSH_MOTOR_A = ITEMS.register("dc_brush_motor_a", () -> new BlockItem(PtBlocks.BRUSH_DC_MOTOR_PART_A.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> DC_BRUSH_MOTOR_B = ITEMS.register("dc_brush_motor_b", () -> new BlockItem(PtBlocks.BRUSH_DC_MOTOR_PART_B.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> ELECTIRC_BRUSH = ITEMS.register("electric_brush", PtNormalItem::new);
+
 
     // ELECTRODE ITEMS
     public static final RegistryObject<Item> GRAPHITE_ELECTRODE_1X = ITEMS.register("graphite_electrode_1x", () -> new PtElectrodeItem(PtBlocks.GRAPHITE_ELECTRODE_1X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));

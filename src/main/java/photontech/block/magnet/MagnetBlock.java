@@ -7,7 +7,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 import photontech.block.AxisAlignedBlock;
-import photontech.utils.helper.AxisHelper;
+import photontech.utils.helper_functions.AxisHelper;
 
 import javax.annotation.Nullable;
 

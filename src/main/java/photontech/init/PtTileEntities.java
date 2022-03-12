@@ -1,8 +1,9 @@
 package photontech.init;
 
+import photontech.PhotonTech;
 import photontech.block.electric.infiniteBattery.PtInfiniteBatteryTile;
 import photontech.block.electric.wire.PtWireTile;
-import photontech.block.kinetic.axle.AxleTile;
+import photontech.block.kinetic.axle.KtMachineTile;
 import photontech.block.kinetic.gears.PtGearsTile;
 import photontech.block.heater.photon.PhotonHeaterTile;
 import photontech.block.heater.solid.PtBurningItemHeaterTile;
@@ -11,14 +12,14 @@ import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartA;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartB;
 import photontech.block.magnet.permanent.PermanentMagnetTile;
 import photontech.block.mirror.PtMirrorTile;
-import photontech.utils.Utils;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+@SuppressWarnings("all")
 public class PtTileEntities {
-    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Utils.MOD_ID);
+    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, PhotonTech.ID);
 
     public static final RegistryObject<TileEntityType<PtCrucibleTileEntity>> CRUCIBLE_TILEENTITY = TILE_ENTITIES.register("crucible_tileentity", () -> TileEntityType.Builder.of(
             () -> new PtCrucibleTileEntity(2000, 100),
@@ -43,9 +44,10 @@ public class PtTileEntities {
             PtBlocks.VISIBLE_LIGHT_HEATER.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<AxleTile>> AXLE_TILE = TILE_ENTITIES.register("axle_tileentity", () -> TileEntityType.Builder.of(
-            () -> new AxleTile(PtTileEntities.AXLE_TILE.get(), 100),
-            PtBlocks.AXLE.get()
+    public static final RegistryObject<TileEntityType<KtMachineTile>> AXLE_TILE = TILE_ENTITIES.register("axle_tileentity", () -> TileEntityType.Builder.of(
+            () -> new KtMachineTile(PtTileEntities.AXLE_TILE.get(), 100),
+            PtBlocks.IRON_AXLE.get(),
+            PtBlocks.WOOD_AXLE.get()
     ).build(null));
 
     public static final RegistryObject<TileEntityType<PtGearsTile>> GEARS_TILEENTITY = TILE_ENTITIES.register("gears_tileentity", () -> TileEntityType.Builder.of(

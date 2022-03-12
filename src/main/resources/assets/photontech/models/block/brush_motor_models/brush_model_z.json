@@ -1,0 +1,33 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "photontech:block/graphite_block",
+		"particle": "photontech:block/graphite_block"
+	},
+	"elements": [
+		{
+			"from": [7, 7, 0],
+			"to": [9, 9, 4],
+			"faces": {
+				"north": {"uv": [1, 6, 5, 10], "texture": "#0"},
+				"east": {"uv": [4, 6, 12, 10], "texture": "#0"},
+				"south": {"uv": [1, 6, 5, 10], "texture": "#0"},
+				"west": {"uv": [4, 6, 12, 10], "texture": "#0"},
+				"up": {"uv": [4, 6, 12, 10], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [4, 6, 12, 10], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, 7, 12],
+			"to": [9, 9, 16],
+			"faces": {
+				"north": {"uv": [1, 6, 5, 10], "texture": "#0"},
+				"east": {"uv": [4, 6, 12, 10], "texture": "#0"},
+				"south": {"uv": [1, 6, 5, 10], "texture": "#0"},
+				"west": {"uv": [4, 6, 12, 10], "texture": "#0"},
+				"up": {"uv": [4, 6, 12, 10], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [4, 6, 12, 10], "rotation": 90, "texture": "#0"}
+			}
+		}
+	]
+}

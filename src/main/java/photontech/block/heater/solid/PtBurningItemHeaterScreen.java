@@ -7,14 +7,14 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import photontech.utils.Utils;
-import photontech.utils.screen.PtBaseScreen;
+import photontech.PhotonTech;
+import photontech.utils.client.screen.PtBaseScreen;
 
 import javax.annotation.Nonnull;
 
 public class PtBurningItemHeaterScreen extends PtBaseScreen<PtBurningItemHeaterContainer> {
 
-    private final ResourceLocation BURNING_ITEM_HEATER_GUI_TEXTURE = new ResourceLocation(Utils.MOD_ID, "textures/gui/heater.png");
+    private final ResourceLocation BURNING_ITEM_HEATER_GUI_TEXTURE = new ResourceLocation(PhotonTech.ID, "textures/gui/heater.png");
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {

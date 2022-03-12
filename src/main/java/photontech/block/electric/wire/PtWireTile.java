@@ -7,19 +7,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import org.apache.logging.log4j.LogManager;
-import photontech.block.electric.PtElectricMachineTile;
+import photontech.block.electric.EtMachineTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.capability.electric.EtTransmissionLine;
-import photontech.utils.capability.electric.IEtCapacitor;
 import photontech.world_data.EtTransmissionLineData;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
-public class PtWireTile extends PtElectricMachineTile {
+public class PtWireTile extends EtMachineTile {
     public static final String ID = "Id";
     protected int id = -1;
     public final double capacity;
@@ -74,20 +71,14 @@ public class PtWireTile extends PtElectricMachineTile {
     @Override
     public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         super.save(nbt);
-//        nbt.put("ConductorData", this.conductor.save(new CompoundNBT()));
         nbt.putInt(ID, this.id);
         return nbt;
     }
 
     @Override
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
-//        this.conductor.load(nbt.getCompound("ConductorData"));
         this.id = nbt.getInt(ID);
         super.load(state, nbt);
-    }
-
-    public Direction[] getValidDirections() {
-        return Arrays.stream(Direction.values()).filter(direction -> this.getBlockState().getValue(SixWayBlock.PROPERTY_BY_DIRECTION.get(direction))).toArray(Direction[]::new);
     }
 
     @Override

@@ -21,9 +21,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.capabilities.Capability;
-import org.apache.logging.log4j.LogManager;
-import photontech.init.PtCapabilities;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -112,7 +111,7 @@ public abstract class PipeLikeBlock extends SixWayBlock {
 
     @Nonnull
     @Override
-    public VoxelShape getShape(@Nonnull BlockState blockState, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
+    public VoxelShape getShape(@Nonnull BlockState blockState, @Nonnull IBlockReader blockReader, @Nonnull BlockPos pos, @Nonnull ISelectionContext selectionContext) {
         return this.shapes[this.getAABBIndex(blockState)];
     }
 
@@ -130,23 +129,20 @@ public abstract class PipeLikeBlock extends SixWayBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(@Nonnull BlockItemUseContext context) {
-        IWorld world = context.getLevel();
+        IWorld level = context.getLevel();
         BlockPos currentPos = context.getClickedPos();
         BlockState state = this.defaultBlockState();
         for (Direction direction : this.getValidDirections()) {
-            state = state.setValue(PROPERTY_BY_DIRECTION.get(direction), canConnectTo(world, currentPos, direction));
+            state = state.setValue(PROPERTY_BY_DIRECTION.get(direction), canConnectTo(level, currentPos, direction));
         }
         return state;
     }
 
     @Nonnull
     @Override
-    public BlockState updateShape(BlockState p_196271_1_, Direction p_196271_2_, BlockState p_196271_3_, IWorld world, BlockPos currentPos, BlockPos p_196271_6_) {
-        BlockState state = this.defaultBlockState();
-        for (Direction direction : this.getValidDirections()) {
-            state = state.setValue(PROPERTY_BY_DIRECTION.get(direction), canConnectTo(world, currentPos, direction));
-        }
-        return state;
+    @SuppressWarnings("deprecation")
+    public BlockState updateShape(@Nonnull BlockState currentBlockState, @Nonnull Direction updateSide, @Nonnull BlockState updateBlockState, @Nonnull IWorld level, @Nonnull BlockPos currentPos, @Nonnull BlockPos updatePos) {
+        return currentBlockState.setValue(PROPERTY_BY_DIRECTION.get(updateSide), canConnectTo(level, currentPos, updateSide));
     }
 
 

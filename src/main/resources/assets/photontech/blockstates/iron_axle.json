@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "photontech:block/axle/iron_axle_model",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "photontech:block/axle/iron_axle_model"
+    },
+    "axis=z": {
+      "model": "photontech:block/axle/iron_axle_model",
+      "x": 90,
+      "y": 180
+    }
+  }
+}

@@ -1,12 +1,12 @@
 package photontech;
 
-import photontech.init.*;
-import photontech.utils.Utils;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import photontech.init.*;
 
-@Mod(Utils.MOD_ID)
+@Mod(PhotonTech.ID)
 public class PhotonTech {
+    public static final String ID = "photontech";
 
     public PhotonTech() {
         PtItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
