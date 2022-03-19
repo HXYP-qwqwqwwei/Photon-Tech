@@ -73,14 +73,35 @@
 
 #### 			产能机器:
 
+##### 	基础产能：
+
+###### 		光能：
+
 - [x] ​	block.photontech.mirror 反射镜
 
+  ###### 电能：
+
+- [ ] 原电池
+
+  ###### 动能：
+
+- [ ] 热机
+
 ####    	    功能机器:
+
+##### 	基础功能：
 
 - [x] ​	block.photontech.burning_item_heater 固体燃料加热器
 - [x] ​	block.photontech.visible_light_heater 可见光加热器
 - [x] ​	block.photontech.graphite_crucible 石墨坩埚
 - [x] ​	block.photontech.quartz_crucible 石英坩埚
+- [ ] 鄂式粉碎机
+- [ ] 球磨机
+- [ ] 破碎机
+- [ ] 车床
+- [ ] 气泵
+- [ ] 液泵
+- [ ] 高炉
 
 ####      	  其他机器:
 
