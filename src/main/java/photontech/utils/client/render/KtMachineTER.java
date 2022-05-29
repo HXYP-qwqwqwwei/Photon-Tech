@@ -2,66 +2,73 @@ package photontech.utils.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import photontech.block.kinetic.axle.KtMachineTile;
-import photontech.event.ClientEventHandler;
+import photontech.block.kinetic.KtMachineTile;
+import photontech.utils.helper_functions.AxisHelper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import static photontech.utils.client.render.Compartment.KINETIC_TILE;
-import static photontech.utils.client.render.Compartment.GENERIC_MODEL;
+public class KtMachineTER<T extends KtMachineTile> extends MachineTileRenderer<T> {
+    public static final float PI = (float) Math.PI;
+    public static final float HALF_PI = (float) Math.PI / 2;
 
-public class KtMachineTER<T extends KtMachineTile> extends TileEntityRenderer<T> {
-    public KtMachineTER(TileEntityRendererDispatcher p_i226006_1_) {
-        super(p_i226006_1_);
+    public KtMachineTER(TileEntityRendererDispatcher rendererDispatcher) {
+        super(rendererDispatcher);
     }
 
     @Override
     public void render(@Nonnull T axle, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         for (RenderType type : RenderType.chunkBufferLayers()) {
             if (RenderTypeLookup.canRenderInLayer(axle.getBlockState(), type)){
-                renderRotatingBuffer(axle, getRotatedModel(axle), matrixStack, bufferIn.getBuffer(type), combinedLightIn);
+                renderRotatingBuffer(axle, getBlockModel(axle), matrixStack, bufferIn.getBuffer(type), combinedLightIn);
                 if (axle.getAxleBlockState() != null) {
-                    renderRotatingBuffer(axle, getRotatedModel(axle.getAxleBlockState()), matrixStack, bufferIn.getBuffer(type), combinedLightIn);
+                    renderRotatingBuffer(axle, getBlockModel(axle.getAxleBlockState()), matrixStack, bufferIn.getBuffer(type), combinedLightIn);
                 }
             }
         }
     }
 
-    protected SuperByteBuffer getRotatedModel(T te) {
-        return ClientEventHandler.BUFFER_CACHE.renderBlockIn(KINETIC_TILE, te.getBlockState());
-    }
 
-    protected SuperByteBuffer getRotatedModel(BlockState blockState) {
-        return ClientEventHandler.BUFFER_CACHE.renderBlockIn(KINETIC_TILE, blockState);
-    }
-
-    protected SuperByteBuffer createBufferFromModel(BlockState blockState, ResourceLocation id) {
-        return ClientEventHandler.BUFFER_CACHE.renderModelIn(GENERIC_MODEL, id, blockState);
-    }
-
-    public static void renderStaticBuffer(SuperByteBuffer superByteBuffer, MatrixStack ms, IVertexBuilder buffer, int light) {
-        superByteBuffer.light(light).renderInto(ms, buffer);
-    }
-
+    /**
+     * 渲染旋转后的模型
+     * @param te 当前te状态
+     * @param superBuffer 模型原始buffer
+     */
     public static void renderRotatingBuffer(KtMachineTile te, SuperByteBuffer superBuffer, MatrixStack ms, IVertexBuilder buffer, int light) {
         standardKineticRotationTransform(superBuffer, te, light).renderInto(ms, buffer);
     }
 
+    /**
+     * 标准动力学旋转变换
+     * @param buffer 模型buffer
+     * @param te 当前TE状态，包含角度、转轴等信息
+     * @param light 当前光照信息
+     * @return 变换后的buffer
+     */
     public static SuperByteBuffer standardKineticRotationTransform(SuperByteBuffer buffer, KtMachineTile te, int light) {
         return kineticRotationTransform(buffer, te.getAxis(), te.getAngle(), light);
     }
 
-    public static SuperByteBuffer kineticRotationTransform(SuperByteBuffer buffer, Direction.Axis axis, float angle, int light) {
+    /**
+     * 根据转轴进行旋转和光照变换
+     * @param buffer 模型buffer
+     * @param axis 旋转轴，如果为null则不旋转
+     * @param angle 按axis为转轴旋转的角度
+     * @param light 当前光照
+     * @return 变换后的buffer
+     */
+    public static SuperByteBuffer kineticRotationTransform(SuperByteBuffer buffer, @Nullable Direction.Axis axis, float angle, int light) {
         buffer.light(light);
-        buffer.rotateCentered(Direction.get(Direction.AxisDirection.POSITIVE, axis), angle);
+        if (axis != null) {
+            buffer.rotateCentered(AxisHelper.getAxisPositiveDirection(axis), angle);
+        }
         return buffer;
     }
+
+
 }

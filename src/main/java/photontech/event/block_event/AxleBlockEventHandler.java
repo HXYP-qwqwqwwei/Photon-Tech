@@ -8,9 +8,8 @@ import net.minecraft.world.IWorld;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import photontech.block.kinetic.axle.AxleBlock;
-import photontech.block.kinetic.axle.KtMachineTile;
-import photontech.block.kinetic.axle.KtRotatingBlock;
+import photontech.block.kinetic.KtMachineTile;
+import photontech.block.kinetic.axle.FullAxleBlock;
 import photontech.event.pt_events.AxleInsertEvent;
 import photontech.init.PtCapabilities;
 import photontech.utils.helper_functions.AxisHelper;
@@ -36,9 +35,10 @@ public class AxleBlockEventHandler {
         TileEntity self = level.getBlockEntity(selfPos);
         if (self instanceof KtMachineTile) {
             KtMachineTile selfKt = (KtMachineTile) self;
-            AxleBlock.AxleMaterial selfMaterial = selfKt.getAxleMaterial();
+            selfKt.setMainBodyPosition(selfPos);
+            FullAxleBlock.AxleMaterial selfMaterial = selfKt.getAxleMaterial();
             // 自身无效，则返回
-            if (selfMaterial == AxleBlock.AxleMaterial.INVALID) {
+            if (selfMaterial == FullAxleBlock.AxleMaterial.INVALID) {
                 return;
             }
 
@@ -47,7 +47,7 @@ public class AxleBlockEventHandler {
             Direction positiveSide = AxisHelper.getAxisPositiveDirection(axis);
             // 寻找正方向轴的起点，否则以自身位置为起点
             TileEntity tile = level.getBlockEntity(selfPos.relative(positiveSide));
-            if (testAxisAndAxleMaterial(tile, axis, selfMaterial)) {
+            if (testAxisAndAxleMaterial(selfKt, tile, positiveSide, selfMaterial)) {
                 beginPos = ((KtMachineTile) tile).getMainBodyPosition();
             }
             else beginPos = selfPos;
@@ -59,10 +59,12 @@ public class AxleBlockEventHandler {
         }
     }
 
-    private static boolean testAxisAndAxleMaterial(TileEntity tile, Direction.Axis axis, AxleBlock.AxleMaterial material) {
+    private static boolean testAxisAndAxleMaterial(KtMachineTile kt, TileEntity tile, Direction direction, FullAxleBlock.AxleMaterial material) {
         if (tile instanceof KtMachineTile) {
             KtMachineTile tileKt = (KtMachineTile) tile;
-            return tileKt.getAxis() == axis && tileKt.getAxleMaterial() == material;
+            return kt.getCapability(PtCapabilities.RIGID_BODY, direction).isPresent()
+                    && tileKt.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite()).isPresent()
+                    && tileKt.getAxleMaterial() == material;
         }
         return false;
     }
@@ -75,9 +77,9 @@ public class AxleBlockEventHandler {
         TileEntity self = level.getBlockEntity(selfPos);
         if (self instanceof KtMachineTile) {
             KtMachineTile selfKt = (KtMachineTile) self;
-            AxleBlock.AxleMaterial selfMaterial = selfKt.getAxleMaterial();
+            FullAxleBlock.AxleMaterial selfMaterial = selfKt.getAxleMaterial();
             // 自身无效，则返回
-            if (selfMaterial == AxleBlock.AxleMaterial.INVALID) {
+            if (selfMaterial == FullAxleBlock.AxleMaterial.INVALID) {
                 return;
             }
 
@@ -87,7 +89,7 @@ public class AxleBlockEventHandler {
             Direction negativeSide = positiveSide.getOpposite();
             // 正方向进行重新合并
             TileEntity tile = level.getBlockEntity(selfPos.relative(positiveSide));
-            if (testAxisAndAxleMaterial(tile, axis, selfMaterial)) {
+            if (testAxisAndAxleMaterial(selfKt, tile, positiveSide, selfMaterial)) {
                 beginPos = ((KtMachineTile)tile).getMainBodyPosition();
                 if (searchAndCombineAxles(level, beginPos, selfPos, axis) < 0) {
                     event.setCanceled(true);
@@ -97,9 +99,12 @@ public class AxleBlockEventHandler {
             // 负方向进行重新合并
             beginPos = selfPos.relative(negativeSide);
             tile = level.getBlockEntity(beginPos);
-            if (testAxisAndAxleMaterial(tile, axis, selfMaterial)) {
+            if (testAxisAndAxleMaterial(selfKt, tile, negativeSide, selfMaterial)) {
+                BlockPos mainBP = selfKt.getMainBodyPosition();
+                selfKt.setMainBodyPosition(BlockPos.ZERO);
                 if (searchAndCombineAxles(level, beginPos, axis) < 0) {
                     event.setCanceled(true);
+                    selfKt.setMainBodyPosition(mainBP);
                 }
             }
         }
@@ -116,6 +121,7 @@ public class AxleBlockEventHandler {
             final BlockPos beginPos;
             Direction.Axis axis = blockState.getValue(AXIS);
             Direction positiveSide = AxisHelper.getAxisPositiveDirection(axis);
+            ((KtMachineTile) self).setMainBodyPosition(selfPos);
             // 寻找正方向轴的起点，否则以自身位置为起点
             TileEntity tile = level.getBlockEntity(selfPos.relative(positiveSide));
             if (tile instanceof KtMachineTile && ((KtMachineTile) tile).getAxis() == axis) {
@@ -131,7 +137,7 @@ public class AxleBlockEventHandler {
     }
 
     private static int searchAndCombineAxles(IWorld level, final BlockPos beginPos, Direction.Axis axis) {
-        return searchAndCombineAxles(level, beginPos, null, axis);
+        return searchAndCombineAxles(level, beginPos, BlockPos.ZERO, axis);
     }
 
     private static int searchAndCombineAxles(IWorld level, final BlockPos beginPos, @Nullable final BlockPos endPos, Direction.Axis axis) {
@@ -141,18 +147,21 @@ public class AxleBlockEventHandler {
         TileEntity tile = level.getBlockEntity(pos);
         if (tile instanceof KtMachineTile) {
             KtMachineTile beginKtTile = (KtMachineTile) tile;
-            AxleBlock.AxleMaterial beginMaterial = beginKtTile.getAxleMaterial();
-            if (beginMaterial == AxleBlock.AxleMaterial.INVALID) {
+            FullAxleBlock.AxleMaterial beginMaterial = beginKtTile.getAxleMaterial();
+            if (beginMaterial == FullAxleBlock.AxleMaterial.INVALID) {
                 return 1;
             }
             // 从起点向负方向搜索
             int count = 0;
-            while (testAxisAndAxleMaterial(tile, axis, beginMaterial) && !pos.equals(endPos)) {
+            axles[count++] = beginKtTile;
+            KtMachineTile currentKt = beginKtTile;
+            TileEntity nextTile = level.getBlockEntity(pos.move(negativeSide));
+            while (testAxisAndAxleMaterial(currentKt, nextTile, negativeSide, beginMaterial) && !pos.equals(endPos)) {
                 if (count >= beginMaterial.maxConnect) {
                     return -1;
                 }
-                axles[count++] = (KtMachineTile) tile;
-                tile = level.getBlockEntity(pos.move(negativeSide));
+                currentKt = axles[count++] = (KtMachineTile) nextTile;
+                nextTile = level.getBlockEntity(pos.move(negativeSide));
             }
 
             // 开始进行组合
@@ -163,7 +172,7 @@ public class AxleBlockEventHandler {
                 inertia += axles[i].selfInertia;
             }
             long sumInertia = inertia;
-            axles[0].getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(axis)).ifPresent(body -> {
+            axles[0].getMainBody().ifPresent(body -> {
                 body.setInertia(sumInertia);
                 body.setOmega(0);
                 body.setAngle(0);

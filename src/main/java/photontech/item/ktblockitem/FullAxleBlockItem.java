@@ -1,7 +1,8 @@
-package photontech.item;
+package photontech.item.ktblockitem;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.tileentity.TileEntity;
@@ -9,17 +10,17 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import photontech.block.kinetic.axle.KtMachineTile;
-import photontech.block.kinetic.axle.KtRotatingBlock;
+import photontech.block.kinetic.KtMachineTile;
+import photontech.block.kinetic.KtRotatingBlock;
 import photontech.event.pt_events.AxleInsertEvent;
 import photontech.group.PtItemGroups;
 
 import javax.annotation.Nonnull;
 
-public class KtAxleBlockItem extends BlockItem {
+public class FullAxleBlockItem extends BlockItem {
 
-    public KtAxleBlockItem(KtRotatingBlock block) {
-        super(block, new Properties().tab(PtItemGroups.NORMAL_ITEM_GROUP));
+    public FullAxleBlockItem(KtRotatingBlock block) {
+        super(block, new Item.Properties().tab(PtItemGroups.BLOCK_GROUP));
     }
 
     @Nonnull
@@ -37,7 +38,7 @@ public class KtAxleBlockItem extends BlockItem {
 
         PlayerEntity player = context.getPlayer();
         if (player != null && !player.isShiftKeyDown()) {
-            if (itemInHand.getItem() instanceof KtAxleBlockItem) {
+            if (itemInHand.getItem() instanceof FullAxleBlockItem) {
 
                 TileEntity tile = level.getBlockEntity(pos);
                 if (tile instanceof KtMachineTile) {
@@ -45,7 +46,7 @@ public class KtAxleBlockItem extends BlockItem {
                     KtMachineTile ktMachineTile = (KtMachineTile) tile;
                     if (ktMachineTile.canAddAxle()) {
 
-                        ktMachineTile.insertAxle((KtAxleBlockItem) itemInHand.getItem());
+                        ktMachineTile.insertAxle((FullAxleBlockItem) itemInHand.getItem());
                         AxleInsertEvent event = new AxleInsertEvent(level, pos, level.getBlockState(pos));
                         MinecraftForge.EVENT_BUS.post(event);
                         if (event.isCanceled()) {

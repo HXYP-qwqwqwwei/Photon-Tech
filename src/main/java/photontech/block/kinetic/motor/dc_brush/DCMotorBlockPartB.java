@@ -3,7 +3,7 @@ package photontech.block.kinetic.motor.dc_brush;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
-import photontech.block.kinetic.axle.KtRotatingBlock;
+import photontech.block.kinetic.KtRotatingBlock;
 
 import javax.annotation.Nullable;
 

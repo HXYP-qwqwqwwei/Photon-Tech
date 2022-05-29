@@ -6,8 +6,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import org.apache.logging.log4j.LogManager;
-import photontech.block.kinetic.axle.KtMachineTile;
+import photontech.block.kinetic.FullAxleTile;
+import photontech.block.kinetic.KtMachineTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
 import photontech.utils.capability.electric.IEtCapacitor;
@@ -20,23 +20,10 @@ import static net.minecraft.util.Direction.Axis;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static photontech.utils.PtConstants.BlockStateProperties.*;
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
-public class DCBrushTilePartA extends KtMachineTile implements IEtMachine {
-//    public static final Axis[] ELECTRIC_VALID_AXIS_LIST;
-//    public static final int AXIS_ROTATED_MASK = 1 << 2;
+public class DCBrushTilePartA extends FullAxleTile implements IEtMachine {
     public static final String BRUSH_AXIS = "BrushAxis";
-
-//    static {
-//        ELECTRIC_VALID_AXIS_LIST = new Axis[8];
-//        ELECTRIC_VALID_AXIS_LIST[Axis.X.ordinal() | AXIS_ROTATED_MASK] = Axis.Y;
-//        ELECTRIC_VALID_AXIS_LIST[Axis.X.ordinal()] = Axis.Z;
-//        ELECTRIC_VALID_AXIS_LIST[Axis.Y.ordinal() | AXIS_ROTATED_MASK] = Axis.X;
-//        ELECTRIC_VALID_AXIS_LIST[Axis.Y.ordinal()] = Axis.Z;
-//        ELECTRIC_VALID_AXIS_LIST[Axis.Z.ordinal() | AXIS_ROTATED_MASK] = Axis.Y;
-//        ELECTRIC_VALID_AXIS_LIST[Axis.Z.ordinal()] = Axis.X;
-//    }
 
     public MutableDouble I = new MutableDouble(0);
     public MutableDouble U = new MutableDouble(0);

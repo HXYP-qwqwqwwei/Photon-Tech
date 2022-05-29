@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"parent": "block/block",
 	"textures": {
 		"0": "photontech:block/graphite_block",
 		"particle": "photontech:block/graphite_block"

@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import photontech.item.ktblockitem.FullAxleBlockItem;
 
 @SuppressWarnings("all")
 public class PtItems {
@@ -86,8 +87,10 @@ public class PtItems {
     public static final RegistryObject<Item> VISIBLE_LIGHT_HEATER = ITEMS.register("visible_light_heater", () -> new BlockItem(PtBlocks.VISIBLE_LIGHT_HEATER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
     // KINETIC BLOCK ITEMS
-    public static final RegistryObject<Item> IRON_AXLE = ITEMS.register("iron_axle", () -> new KtAxleBlockItem(PtBlocks.IRON_AXLE.get()));
-    public static final RegistryObject<Item> WOOD_AXLE = ITEMS.register("wood_axle", () -> new KtAxleBlockItem(PtBlocks.WOOD_AXLE.get()));
+    public static final RegistryObject<Item> IRON_AXLE = ITEMS.register("iron_axle", () -> new FullAxleBlockItem(PtBlocks.IRON_AXLE.get()));
+    public static final RegistryObject<Item> WOOD_AXLE = ITEMS.register("wood_axle", () -> new FullAxleBlockItem(PtBlocks.WOOD_AXLE.get()));
+    public static final RegistryObject<Item> HALF_IRON_AXLE = ITEMS.register("half_iron_axle", () -> new BlockItem(PtBlocks.HALF_IRON_AXLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> HALF_WOOD_AXLE = ITEMS.register("half_wood_axle", () -> new BlockItem(PtBlocks.HALF_WOOD_AXLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
     // BRUSH DC MOTOR
     public static final RegistryObject<Item> DC_BRUSH_MOTOR_A = ITEMS.register("dc_brush_motor_a", () -> new BlockItem(PtBlocks.BRUSH_DC_MOTOR_PART_A.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));

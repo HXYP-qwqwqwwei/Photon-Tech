@@ -4,8 +4,6 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class PtRotateBody implements IRotateBody {
 
-    public static final int MAX_LENGTH = 32;
-
     protected long inertia;
     protected float omega = 0F;
     protected float angle = 0;
@@ -28,9 +26,6 @@ public class PtRotateBody implements IRotateBody {
             inertia = INFINITY;
         }
         this.inertia = inertia;
-//        else {
-//            this.inertia = inertia;
-//        }
     }
 
 

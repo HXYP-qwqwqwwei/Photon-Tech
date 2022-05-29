@@ -4,13 +4,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import photontech.block.kinetic.axle.KtMachineTile;
+import photontech.block.kinetic.FullAxleTile;
+import photontech.block.kinetic.KtMachineTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
 import photontech.utils.helper_functions.AxisHelper;
 import photontech.utils.helper_functions.MutableInt;
 
-public class DCBrushTilePartB extends KtMachineTile {
+public class DCBrushTilePartB extends FullAxleTile {
     private final Vector3d[] Bm = new Vector3d[4];
     private final MutableInt BCount = new MutableInt(0);
     private Vector3d Bs = new Vector3d(0, 0, 0);

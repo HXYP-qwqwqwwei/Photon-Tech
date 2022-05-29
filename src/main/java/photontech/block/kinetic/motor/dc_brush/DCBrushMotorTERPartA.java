@@ -5,10 +5,10 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import photontech.utils.PtConstants;
 import photontech.utils.client.render.KtMachineTER;
 import photontech.utils.client.render.SuperByteBuffer;
+import photontech.utils.helper_functions.AxisHelper;
 
 import javax.annotation.Nonnull;
 
@@ -23,16 +23,13 @@ public class DCBrushMotorTERPartA extends KtMachineTER<DCBrushTilePartA> {
         super.render(partA, partialTicks, matrixStack, bufferIn, combinedLightIn, combinedOverlayIn);
         Direction.Axis brushAxis = partA.getBrushAxis();
         if (brushAxis != null) {
-            SuperByteBuffer superByteBuffer = this.createBufferFromModel(partA.getBlockState(), this.getBrushModelId(brushAxis));
+            SuperByteBuffer superByteBuffer = this.getModel(partA.getBlockState(), PtConstants.MODELS.DC_BRUSH_MODEL);
             for (RenderType type : RenderType.chunkBufferLayers()) {
-                renderStaticBuffer(superByteBuffer, matrixStack, bufferIn.getBuffer(type), combinedLightIn);
+                kineticRotationTransform(superByteBuffer, AxisHelper.getVerticalAxis(brushAxis, Direction.Axis.Y), HALF_PI, combinedLightIn).renderInto(matrixStack, bufferIn.getBuffer(type));
             }
-
         }
 
     }
 
-    protected ResourceLocation getBrushModelId(Direction.Axis axis) {
-        return PtConstants.MODELS.DC_BRUSH_MODELS[axis.ordinal()];
-    }
+
 }

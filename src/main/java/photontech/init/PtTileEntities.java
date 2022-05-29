@@ -3,7 +3,8 @@ package photontech.init;
 import photontech.PhotonTech;
 import photontech.block.electric.infiniteBattery.PtInfiniteBatteryTile;
 import photontech.block.electric.wire.PtWireTile;
-import photontech.block.kinetic.axle.KtMachineTile;
+import photontech.block.kinetic.FullAxleTile;
+import photontech.block.kinetic.HalfAxleTile;
 import photontech.block.kinetic.gears.PtGearsTile;
 import photontech.block.heater.photon.PhotonHeaterTile;
 import photontech.block.heater.solid.PtBurningItemHeaterTile;
@@ -44,11 +45,18 @@ public class PtTileEntities {
             PtBlocks.VISIBLE_LIGHT_HEATER.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<KtMachineTile>> AXLE_TILE = TILE_ENTITIES.register("axle_tileentity", () -> TileEntityType.Builder.of(
-            () -> new KtMachineTile(PtTileEntities.AXLE_TILE.get(), 100),
+    public static final RegistryObject<TileEntityType<FullAxleTile>> AXLE_TILE = TILE_ENTITIES.register("axle_tileentity", () -> TileEntityType.Builder.of(
+            () -> new FullAxleTile(PtTileEntities.AXLE_TILE.get(), 1),
             PtBlocks.IRON_AXLE.get(),
             PtBlocks.WOOD_AXLE.get()
     ).build(null));
+
+    public static final RegistryObject<TileEntityType<HalfAxleTile>> HALF_AXLE_TILE = TILE_ENTITIES.register("half_axle_tileentity", () -> TileEntityType.Builder.of(
+            () -> new HalfAxleTile(PtTileEntities.HALF_AXLE_TILE.get(), 1),
+            PtBlocks.HALF_IRON_AXLE.get(),
+            PtBlocks.HALF_WOOD_AXLE.get()
+    ).build(null));
+
 
     public static final RegistryObject<TileEntityType<PtGearsTile>> GEARS_TILEENTITY = TILE_ENTITIES.register("gears_tileentity", () -> TileEntityType.Builder.of(
             PtGearsTile::new,

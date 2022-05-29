@@ -8,9 +8,11 @@ import photontech.PhotonTech;
 import photontech.block.electric.electrode.PtElectrodeBlock;
 import photontech.block.electric.infiniteBattery.PtInfiniteBatteryBlock;
 import photontech.block.electric.wire.PtWireBlock;
-import photontech.block.kinetic.axle.AxleBlock;
+import photontech.block.kinetic.HalfAxle.HalfAxleBlock;
+import photontech.block.kinetic.IAxleBlockMaterial;
+import photontech.block.kinetic.axle.FullAxleBlock;
 import photontech.block.kinetic.gears.PtGearsBlock;
-import photontech.block.kinetic.axle.KtRotatingBlock;
+import photontech.block.kinetic.KtRotatingBlock;
 import photontech.block.heater.photon.PhotonHeaterBlock;
 import photontech.block.heater.solid.PtBurningItemHeaterBlock;
 import photontech.block.PtPowderBlock;
@@ -47,8 +49,12 @@ public class PtBlocks {
     public static final RegistryObject<Block> MIRROR = BLOCKS.register("mirror", PtMirrorBlock::new);
 
     // KINETIC BLOCKS
-    public static final RegistryObject<AxleBlock> IRON_AXLE = BLOCKS.register("iron_axle", () -> new AxleBlock(AxleBlock.AxleMaterial.IRON));
-    public static final RegistryObject<AxleBlock> WOOD_AXLE = BLOCKS.register("wood_axle", () -> new AxleBlock(AxleBlock.AxleMaterial.WOOD));
+    public static final RegistryObject<FullAxleBlock> IRON_AXLE = BLOCKS.register("iron_axle", () -> new FullAxleBlock(IAxleBlockMaterial.AxleMaterial.IRON));
+    public static final RegistryObject<FullAxleBlock> WOOD_AXLE = BLOCKS.register("wood_axle", () -> new FullAxleBlock(IAxleBlockMaterial.AxleMaterial.WOOD));
+
+    public static final RegistryObject<HalfAxleBlock> HALF_IRON_AXLE = BLOCKS.register("half_iron_axle", () -> new HalfAxleBlock(IAxleBlockMaterial.AxleMaterial.IRON));
+    public static final RegistryObject<HalfAxleBlock> HALF_WOOD_AXLE = BLOCKS.register("half_wood_axle", () -> new HalfAxleBlock(IAxleBlockMaterial.AxleMaterial.WOOD));
+
     public static final RegistryObject<Block> GEARS_BLOCK = BLOCKS.register("gears_block", PtGearsBlock::new);
     public static final RegistryObject<KtRotatingBlock> BRUSH_DC_MOTOR_PART_A = BLOCKS.register("brush_dc_motor_part_a", DCMotorBlockPartA::new);
     public static final RegistryObject<KtRotatingBlock> BRUSH_DC_MOTOR_PART_B = BLOCKS.register("brush_dc_motor_part_b", DCMotorBlockPartB::new);

@@ -1,5 +1,6 @@
 package photontech.utils.client.render;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -13,6 +14,8 @@ public class Compartment<T> {
     public static final Compartment<BlockState> GENERIC_TILE = new Compartment<>();
     public static final Compartment<PartialModel> PARTIAL = new Compartment<>();
     public static final Compartment<Pair<Direction, PartialModel>> DIRECTIONAL_PARTIAL = new Compartment<>();
-    public static final Compartment<BlockState> KINETIC_TILE = new Compartment<>();
+
+    public static final Compartment<BlockState> BLOCK_MODEL = new Compartment<>();
+    public static final Compartment<ItemStack> ITEM_MODEL = new Compartment<>();
     public static final Compartment<ResourceLocation> GENERIC_MODEL = new Compartment<>();
 }

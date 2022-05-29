@@ -1,4 +1,4 @@
-package photontech.block.kinetic.axle;
+package photontech.block.kinetic;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -9,12 +9,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import photontech.block.kinetic.axle.FullAxleBlock;
 import photontech.init.PtCapabilities;
-import photontech.item.KtAxleBlockItem;
+import photontech.item.ktblockitem.FullAxleBlockItem;
 import photontech.utils.capability.kinetic.IRotateBody;
 import photontech.utils.capability.kinetic.PtRotateBody;
 import photontech.utils.helper_functions.AxisHelper;
@@ -24,25 +23,26 @@ import photontech.utils.tileentity.PtMachineTile;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class KtMachineTile extends PtMachineTile {
+public abstract class KtMachineTile extends PtMachineTile {
 
     public static final String SELF_INERTIA = "SelfInertia";
     public static final String ANGLE = "Angle";
     public static final String MAIN_BODY_POSITION = "MainBodyPosition";
     public static final String MAIN_BODY = "MainBody";
-    public static final String NEED_AXLE = "need_axle";
+    public static final String NEED_AXLE = "NeedAxle";
     public static final String AXLE_BLOCK_STATE = "AxleBlockState";
 
     public long selfInertia;
-    protected BlockPos mainBodyPosition = this.worldPosition;
+    protected BlockPos mainBodyPosition = BlockPos.ZERO;
     protected final MutableFloat angle = new MutableFloat(0);
-    private final LazyOptional<IRotateBody> mainBody;
+    protected final LazyOptional<IRotateBody> mainBody;
     protected BlockState axleBlockState = Blocks.AIR.defaultBlockState();
     protected boolean needAxle;
 
     public KtMachineTile(TileEntityType<?> tileEntityTypeIn, long initInertia) {
         this(tileEntityTypeIn, initInertia, false);
     }
+
     public KtMachineTile(TileEntityType<?> tileEntityTypeIn, long initInertia, boolean needAxle) {
         super(tileEntityTypeIn);
         this.selfInertia = initInertia;
@@ -105,7 +105,7 @@ public class KtMachineTile extends PtMachineTile {
         return ((KtMachineTile) tile).angle.value;
     }
 
-    protected LazyOptional<IRotateBody> getMainBody() {
+    public LazyOptional<IRotateBody> getMainBody() {
         return this.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(this.getAxis()));
     }
 
@@ -114,18 +114,19 @@ public class KtMachineTile extends PtMachineTile {
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         assert level != null;
         if (cap == PtCapabilities.RIGID_BODY && this.isKtValid()) {
-            if (side != null && side.getAxis() == this.getBlockState().getValue(BlockStateProperties.AXIS)) {
+            if (this.isKtValidSide(side)) {
                 if (this.mainBodyPosition.equals(this.worldPosition)) return this.mainBody.cast();
                 TileEntity tile = level.getBlockEntity(this.mainBodyPosition);
-                if (!(tile instanceof KtMachineTile)) {
-                    return LazyOptional.empty();
+                if (tile instanceof KtMachineTile) {
+                    return ((KtMachineTile)tile).getMainBody().cast();
                 }
-                return tile.getCapability(cap, side);
             }
-            else return LazyOptional.empty();
+            return LazyOptional.empty();
         }
         return super.getCapability(cap, side);
     }
+
+    protected abstract boolean isKtValidSide(Direction side);
 
     public BlockPos getMainBodyPosition() {
         return mainBodyPosition;
@@ -135,7 +136,7 @@ public class KtMachineTile extends PtMachineTile {
         this.mainBodyPosition = mainBodyPosition;
     }
 
-    public void insertAxle(KtAxleBlockItem item) {
+    public void insertAxle(FullAxleBlockItem item) {
         this.axleBlockState = item.getBlock().defaultBlockState().setValue(BlockStateProperties.AXIS, this.getAxis());
         this.mainBodyPosition = this.worldPosition;
         this.setDirty(true);
@@ -150,11 +151,11 @@ public class KtMachineTile extends PtMachineTile {
         return needAxle && axleBlockState.is(Blocks.AIR);
     }
 
-    public AxleBlock.AxleMaterial getAxleMaterial() {
+    public IAxleBlockMaterial.AxleMaterial getAxleMaterial() {
         if (this.needAxle) {
-            return AxleBlock.getMaterial(this.axleBlockState.getBlock());
+            return IAxleBlockMaterial.getMaterial(this.axleBlockState.getBlock());
         }
-        return AxleBlock.getMaterial(this.getBlockState().getBlock());
+        return IAxleBlockMaterial.getMaterial(this.getBlockState().getBlock());
     }
 
     public boolean isKtValid() {
@@ -162,6 +163,6 @@ public class KtMachineTile extends PtMachineTile {
     }
 
     public BlockState getAxleBlockState() {
-        return this.axleBlockState.getBlock() instanceof AxleBlock ? this.axleBlockState.setValue(BlockStateProperties.AXIS, this.getAxis()) : this.axleBlockState;
+        return this.axleBlockState.getBlock() instanceof FullAxleBlock ? this.axleBlockState.setValue(BlockStateProperties.AXIS, this.getAxis()) : this.axleBlockState;
     }
 }

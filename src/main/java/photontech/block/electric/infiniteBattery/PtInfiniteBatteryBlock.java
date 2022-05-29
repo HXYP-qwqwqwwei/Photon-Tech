@@ -8,16 +8,17 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.world.IBlockReader;
+import photontech.block.AxisAlignedBlock;
 import photontech.block.electric.IConductiveBlock;
 
 import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
-public class PtInfiniteBatteryBlock extends Block implements IConductiveBlock {
+public class PtInfiniteBatteryBlock extends AxisAlignedBlock implements IConductiveBlock {
 
     public PtInfiniteBatteryBlock() {
-        super(Properties.of(Material.STONE).noOcclusion().lightLevel(state -> 7));
+        super(16, 8, 0, Properties.of(Material.STONE).noOcclusion().lightLevel(state -> 7));
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.EAST));
     }
 
