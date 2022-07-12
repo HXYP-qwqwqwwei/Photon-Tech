@@ -4,7 +4,7 @@ package photontech.utils;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.util.ResourceLocation;
 import photontech.PhotonTech;
-import photontech.utils.recipe.PtConditionalRecipe;
+import photontech.utils.recipe.ConditionalRecipe;
 import photontech.utils.recipe.RecipeCondition;
 
 import java.util.Comparator;
@@ -62,8 +62,13 @@ public class PtConstants {
         public static final ResourceLocation WOODEN_GEAR_MODEL = new ResourceLocation(PhotonTech.ID, "special/wooden_gear_model");
     }
 
+    public static final class FALGS {
+        public static final int BLOCK_UPDATE = 1 << 31;
+        public static final int Kt_UPDATE = 1 << 31;
+    }
 
-    public static final Comparator<PtConditionalRecipe> NATURAL_HEAT_RECIPE_COMPARATOR = (r1, r2) -> {
+
+    public static final Comparator<ConditionalRecipe> NATURAL_HEAT_RECIPE_COMPARATOR = (r1, r2) -> {
         RecipeCondition c1 = r1.getCondition();
         RecipeCondition c2 = r2.getCondition();
         if (c1.heat <= 0 && c2.heat <= 0) {

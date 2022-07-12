@@ -28,9 +28,9 @@ import photontech.utils.PtConstants;
 import photontech.utils.capability.fluid.IMultiFluidTank;
 import photontech.utils.capability.fluid.PtMultiFluidTank;
 import photontech.utils.capability.heat.PtHeatCache;
-import photontech.utils.recipe.PtConditionalRecipe;
+import photontech.utils.recipe.ConditionalRecipe;
 import photontech.utils.tileentity.IHeatReservoirTile;
-import photontech.utils.tileentity.PtMachineTile;
+import photontech.utils.tileentity.MachineTile;
 import net.minecraft.tileentity.ITickableTileEntity;
 
 import javax.annotation.Nonnull;
@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTileEntity, INamedContainerProvider, IHeatReservoirTile {
+public class PtCrucibleTileEntity extends MachineTile implements ITickableTileEntity, INamedContainerProvider, IHeatReservoirTile {
 
     private enum RecipeMode {
         MELTING(0), COOLING(1), OTHER(2);
@@ -173,9 +173,9 @@ public class PtCrucibleTileEntity extends PtMachineTile implements ITickableTile
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.load(state, nbt);
         // CACHES
-        this.cachedRecipes.set(RecipeMode.MELTING.getIndex(), PtConditionalRecipe.loadFromNBT(nbt.getCompound("CachedMeltingRecipe")));
-        this.cachedRecipes.set(RecipeMode.COOLING.getIndex(), PtConditionalRecipe.loadFromNBT(nbt.getCompound("CachedCoolingRecipe")));
-        this.cachedRecipes.set(RecipeMode.OTHER.getIndex(), PtConditionalRecipe.loadFromNBT(nbt.getCompound("CachedOtherRecipe")));
+        this.cachedRecipes.set(RecipeMode.MELTING.getIndex(), ConditionalRecipe.loadFromNBT(nbt.getCompound("CachedMeltingRecipe")));
+        this.cachedRecipes.set(RecipeMode.COOLING.getIndex(), ConditionalRecipe.loadFromNBT(nbt.getCompound("CachedCoolingRecipe")));
+        this.cachedRecipes.set(RecipeMode.OTHER.getIndex(), ConditionalRecipe.loadFromNBT(nbt.getCompound("CachedOtherRecipe")));
         this.heatCaches.get(RecipeMode.MELTING.getIndex()).load(nbt.getCompound("HeatCacheForMelting"));
         this.heatCaches.get(RecipeMode.COOLING.getIndex()).load(nbt.getCompound("HeatCacheForCooling"));
         this.heatCaches.get(RecipeMode.OTHER.getIndex()).load(nbt.getCompound("HeatCacheForOther"));

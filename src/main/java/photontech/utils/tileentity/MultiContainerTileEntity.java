@@ -18,14 +18,14 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class PtMultiContainerTileEntity extends TileEntity implements IMultiTankTile, IItemHandlerTile {
+public abstract class MultiContainerTileEntity extends TileEntity implements IMultiTankTile, IItemHandlerTile {
 
     protected LazyOptional<PtItemStackHandler> mainItemHandler = LazyOptional.empty();
     protected LazyOptional<PtMultiFluidTank> fluidTanks = LazyOptional.empty();
     protected boolean isDirty = false;
 
 
-    public PtMultiContainerTileEntity(TileEntityType<?> tileEntityTypeIn) {
+    public MultiContainerTileEntity(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
     }
 

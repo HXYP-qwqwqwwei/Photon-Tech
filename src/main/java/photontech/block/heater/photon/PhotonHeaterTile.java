@@ -1,17 +1,15 @@
 package photontech.block.heater.photon;
 
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.util.LazyOptional;
-import org.apache.logging.log4j.LogManager;
 import photontech.init.PtTileEntities;
 import photontech.utils.tileentity.IPhotonInstrument;
-import photontech.utils.tileentity.PtMachineTile;
+import photontech.utils.tileentity.MachineTile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PhotonHeaterTile extends PtMachineTile implements IPhotonInstrument {
+public class PhotonHeaterTile extends MachineTile implements IPhotonInstrument {
 
     public PhotonHeaterTile() {
         super(PtTileEntities.PHOTON_HEATER_TILEENTITY.get());

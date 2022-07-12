@@ -1,0 +1,5 @@
+{
+  "loader": "forge:obj",
+  "model": "photontech:models/block/gear/big_gear.obj",
+  "flip-v": true
+}

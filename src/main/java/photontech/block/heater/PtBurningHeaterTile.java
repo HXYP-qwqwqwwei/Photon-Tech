@@ -8,7 +8,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.utils.capability.heat.PtBurningHeatCache;
 import photontech.utils.capability.heat.PtHeatCache;
-import photontech.utils.recipe.PtConditionalRecipe;
+import photontech.utils.recipe.ConditionalRecipe;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,7 +36,7 @@ public abstract class PtBurningHeaterTile extends PtHeaterTile {
     }
 
 
-    protected void startBurningRecipe(int inputSlotBegin, int inputSlotEnd, int slotCatalyst, int inputTankBegin, int inputTankEnd, @Nullable Comparator<PtConditionalRecipe> comparator) {
+    protected void startBurningRecipe(int inputSlotBegin, int inputSlotEnd, int slotCatalyst, int inputTankBegin, int inputTankEnd, @Nullable Comparator<ConditionalRecipe> comparator) {
         if (!this.isIgnited) {
             this.heatCaches.get(0).init(1, 0);
             this.cachedRecipes.set(0, null);
@@ -53,7 +53,7 @@ public abstract class PtBurningHeaterTile extends PtHeaterTile {
     @Override
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.load(state, nbt);
-        this.cachedRecipes.set(0, PtConditionalRecipe.loadFromNBT(nbt.getCompound("CachedBurningRecipe")));
+        this.cachedRecipes.set(0, ConditionalRecipe.loadFromNBT(nbt.getCompound("CachedBurningRecipe")));
         this.heatCaches.get(0).load(nbt.getCompound("HeatCacheForBurning"));
         this.isIgnited = nbt.getBoolean("IsIgnited");
     }

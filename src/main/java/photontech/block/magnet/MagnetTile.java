@@ -1,18 +1,12 @@
 package photontech.block.magnet;
 
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import photontech.init.PtCapabilities;
 import photontech.utils.capability.magnet.IMagnet;
 import photontech.utils.capability.magnet.PtMagnet;
-import photontech.utils.tileentity.PtMachineTile;
+import photontech.utils.tileentity.MachineTile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-public abstract class MagnetTile extends PtMachineTile {
+public abstract class MagnetTile extends MachineTile {
     protected LazyOptional<IMagnet> NPole;
     protected LazyOptional<IMagnet> SPole;
 

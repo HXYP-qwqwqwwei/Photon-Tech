@@ -17,12 +17,13 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import photontech.init.PtCapabilities;
 import photontech.init.PtRecipes;
+import photontech.utils.PtConstants;
 import photontech.utils.capability.ISaveLoad;
 import photontech.utils.capability.heat.IHeatReservoir;
 import photontech.utils.capability.heat.PtHeatCache;
 import photontech.utils.capability.heat.PtHeatReservoir;
 import photontech.utils.capability.item.PtIOLimitedItemHandler;
-import photontech.utils.recipe.PtConditionalRecipe;
+import photontech.utils.recipe.ConditionalRecipe;
 import photontech.utils.recipe.RecipeCondition;
 
 import javax.annotation.Nonnull;
@@ -33,25 +34,27 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class PtMachineTile extends PtMultiContainerTileEntity implements ITickableTileEntity, IHeatReservoirTile {
+public abstract class MachineTile extends MultiContainerTileEntity implements ITickableTileEntity, IHeatReservoirTile {
+
 
     protected LazyOptional<PtIOLimitedItemHandler> itemIOHandler = LazyOptional.empty();
     protected LazyOptional<PtIOLimitedItemHandler> recipeIOHandler = LazyOptional.empty();
     protected LazyOptional<PtHeatReservoir> heatReservoir = LazyOptional.empty();
-    protected List<PtConditionalRecipe> cachedRecipes;
+    protected List<ConditionalRecipe> cachedRecipes;
     protected List<PtHeatCache> heatCaches;
 
     private int coldDown = 1;
     private int timer = 0;
+    public int flags = 0;
 
-    public PtMachineTile(TileEntityType<?> tileEntityTypeIn) {
+    public MachineTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
     }
 
     // RECIPE
-    protected PtConditionalRecipe getConditionalRecipe(String group, Predicate<PtConditionalRecipe> recipeFilter, @Nullable Comparator<PtConditionalRecipe> comparator) {
+    protected ConditionalRecipe getConditionalRecipe(String group, Predicate<ConditionalRecipe> recipeFilter, @Nullable Comparator<ConditionalRecipe> comparator) {
         assert level != null;
-        Stream<PtConditionalRecipe> stream = level.getRecipeManager()
+        Stream<ConditionalRecipe> stream = level.getRecipeManager()
                 .getAllRecipesFor(PtRecipes.Types.CONDITIONAL_TYPE)
                 .stream()
                 .filter(recipe -> recipe.getGroup().equals(group))
@@ -59,21 +62,21 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
         if (comparator != null) {
             stream = stream.sorted(comparator);
         }
-        List<PtConditionalRecipe> recipes = stream.limit(1).collect(Collectors.toList());
+        List<ConditionalRecipe> recipes = stream.limit(1).collect(Collectors.toList());
         if (!recipes.isEmpty()) {
             return recipes.get(0);
         }
         return null;
     }
 
-    protected boolean handleRecipeInput(PtConditionalRecipe recipe, int inputSlotBegin, int inputSlotEnd, int slotCatalyst, int inputTankBegin, int inputTankEnd) {
+    protected boolean handleRecipeInput(ConditionalRecipe recipe, int inputSlotBegin, int inputSlotEnd, int slotCatalyst, int inputTankBegin, int inputTankEnd) {
         if (recipe == null) {
             return false;
         }
         return recipe.extractAllInput(this.getRecipeIOHandler(), inputSlotBegin, inputSlotEnd, slotCatalyst, this.getFluidTanks(), inputTankBegin, inputTankEnd);
     }
 
-    protected void handleRecipeResult(PtConditionalRecipe recipe) {
+    protected void handleRecipeResult(ConditionalRecipe recipe) {
 
         if (recipe == null) {
             return;
@@ -101,7 +104,7 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
      * @param heatCache 目标配方所使用的缓存容器
      * @return whether this recipe is still in process
      */
-    protected boolean startHeatRecipeProcess(PtConditionalRecipe recipe, PtHeatCache heatCache) {
+    protected boolean startHeatRecipeProcess(ConditionalRecipe recipe, PtHeatCache heatCache) {
         if (recipe == null) {
             return false;
         }
@@ -117,8 +120,8 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
         return true;
     }
 
-    protected void updateCachedRecipe(String group, int cacheIndex, int inputSlotBegin, int inputSlotEnd, int slotCatalyst, int inputTankBegin, int inputTankEnd, @Nullable Comparator<PtConditionalRecipe> comparator) {
-        PtConditionalRecipe newRecipe = this.getConditionalRecipe(
+    protected void updateCachedRecipe(String group, int cacheIndex, int inputSlotBegin, int inputSlotEnd, int slotCatalyst, int inputTankBegin, int inputTankEnd, @Nullable Comparator<ConditionalRecipe> comparator) {
+        ConditionalRecipe newRecipe = this.getConditionalRecipe(
                 group,
                 recipe -> recipe.testInput(this.getItemIOHandler(), inputSlotBegin, inputSlotEnd, slotCatalyst, this.getFluidTanks(), inputTankBegin, inputTankEnd),
                 comparator
@@ -141,7 +144,7 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
     }
 
 
-    protected void saveCachedRecipe(CompoundNBT nbt, PtConditionalRecipe recipe, String key) {
+    protected void saveCachedRecipe(CompoundNBT nbt, ConditionalRecipe recipe, String key) {
         if (recipe != null) {
             nbt.put(key, recipe.saveToNBT(new CompoundNBT()));
         }
@@ -240,5 +243,17 @@ public abstract class PtMachineTile extends PtMultiContainerTileEntity implement
         this.setChanged();
         return true;
     }
+
+//    public boolean hasFlag(int flag) {
+//        return (this.flags & flag) != 0;
+//    }
+//
+//    public void setFlag(int flag) {
+//        this.flags |= flag;
+//    }
+//
+//    public void removeFlag(int flag) {
+//        this.flags &= ~flag;
+//    }
 
 }

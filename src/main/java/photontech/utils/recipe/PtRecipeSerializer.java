@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import static photontech.utils.PtConstants.*;
 
-public abstract class PtRecipeSerializer<T extends PtConditionalRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
+public abstract class PtRecipeSerializer<T extends ConditionalRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
 
 
     public void addIngredients(@Nonnull List<Ingredient> list, @Nonnull JsonElement jsonElement) {

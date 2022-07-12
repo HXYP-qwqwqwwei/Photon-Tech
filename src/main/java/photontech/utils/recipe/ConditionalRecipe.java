@@ -23,13 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PtConditionalRecipe implements IRecipe<IInventory>, IPtSerializableRecipe {
+public class ConditionalRecipe implements IRecipe<IInventory>, IPtSerializableRecipe {
 
     public static interface CatalyzeHandler {
         ItemStack usedCatalyze(ItemStack cat);
     }
 
-    public static final PtConditionalRecipe EMPTY = new PtConditionalRecipe(
+    public static final ConditionalRecipe EMPTY = new ConditionalRecipe(
             new ResourceLocation("empty"),
             "empty",
             RecipeCondition.IMPOSSIBLE,
@@ -61,15 +61,15 @@ public class PtConditionalRecipe implements IRecipe<IInventory>, IPtSerializable
     // 配方所在组
     protected final String group;
 
-    protected PtConditionalRecipe(ResourceLocation recipeId, String group,
-                                  RecipeCondition condition,
-                                  float rate,
-                                  @Nullable List<Ingredient> inputItems,
-                                  @Nullable List<FluidStack> inputFluids,
-                                  @Nullable List<ItemStack> outputItems,
-                                  @Nullable List<FluidStack> outputFluids,
-                                  @Nonnull Ingredient itemCatalyst,
-                                  @Nonnull FluidStack fluidCatalyst) {
+    protected ConditionalRecipe(ResourceLocation recipeId, String group,
+                                RecipeCondition condition,
+                                float rate,
+                                @Nullable List<Ingredient> inputItems,
+                                @Nullable List<FluidStack> inputFluids,
+                                @Nullable List<ItemStack> outputItems,
+                                @Nullable List<FluidStack> outputFluids,
+                                @Nonnull Ingredient itemCatalyst,
+                                @Nonnull FluidStack fluidCatalyst) {
 
         this.recipeId = recipeId;
         this.group = group;
@@ -262,7 +262,7 @@ public class PtConditionalRecipe implements IRecipe<IInventory>, IPtSerializable
         return nbt;
     }
 
-    public static PtConditionalRecipe loadFromNBT(CompoundNBT nbt) {
+    public static ConditionalRecipe loadFromNBT(CompoundNBT nbt) {
         if (nbt.isEmpty()) {
             return null;
         }
@@ -282,7 +282,7 @@ public class PtConditionalRecipe implements IRecipe<IInventory>, IPtSerializable
         // 催化剂
         Ingredient itemCatalyst = PtNBTUtils.readIngredientFromNBT(nbt.getCompound("ItemCatalyst"));
         FluidStack fluidCatalyst = FluidStack.loadFluidStackFromNBT(nbt.getCompound("FluidCatalyst"));
-        return new PtConditionalRecipe(recipeId, group, condition, rate, inputItems, inputFluids, outputItems, outputFluids, itemCatalyst, fluidCatalyst);
+        return new ConditionalRecipe(recipeId, group, condition, rate, inputItems, inputFluids, outputItems, outputFluids, itemCatalyst, fluidCatalyst);
     }
 
 
@@ -336,7 +336,7 @@ public class PtConditionalRecipe implements IRecipe<IInventory>, IPtSerializable
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PtConditionalRecipe recipe = (PtConditionalRecipe) o;
+        ConditionalRecipe recipe = (ConditionalRecipe) o;
         return recipeId.equals(recipe.recipeId);
     }
 

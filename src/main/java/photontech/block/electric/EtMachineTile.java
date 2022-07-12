@@ -2,9 +2,9 @@ package photontech.block.electric;
 
 import net.minecraft.tileentity.TileEntityType;
 import photontech.utils.helper_functions.MutableDouble;
-import photontech.utils.tileentity.PtMachineTile;
+import photontech.utils.tileentity.MachineTile;
 
-public abstract class EtMachineTile extends PtMachineTile {
+public abstract class EtMachineTile extends MachineTile {
 
     public EtMachineTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);

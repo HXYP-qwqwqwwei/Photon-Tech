@@ -13,7 +13,7 @@ import photontech.block.crucible.PtCrucibleTER;
 import photontech.block.heater.solid.PtBurningItemHeaterTER;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.HalfAxleTile;
-import photontech.block.kinetic.gears.PtGearsTER;
+import photontech.block.kinetic.gears.KtGearTile;
 import photontech.block.kinetic.motor.dc_brush.DCBrushMotorTERPartA;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartB;
 import photontech.block.mirror.PtMirrorTER;
@@ -35,8 +35,7 @@ public class ClientEventHandler {
             RenderTypeLookup.setRenderLayer(PtBlocks.QUARTZ_CRUCIBLE.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(PtBlocks.MIRROR.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.IRON_AXLE.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(PtBlocks.GEARS_BLOCK.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(PtBlocks.GEARS_BLOCK.get(), RenderType.cutout());
+//            RenderTypeLookup.setRenderLayer(PtBlocks.GEARS_BLOCK.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.BRUSH_DC_MOTOR_PART_B.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.BRUSH_DC_MOTOR_PART_A.get(), RenderType.cutout());
 
@@ -54,7 +53,7 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.MIRROR_TILEENTITY.get(), PtMirrorTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.AXLE_TILE.get(), KtMachineTER<FullAxleTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.HALF_AXLE_TILE.get(), KtMachineTER<HalfAxleTile>::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.GEARS_TILEENTITY.get(), PtGearsTER::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.GEARS_TILEENTITY.get(), KtMachineTER<KtGearTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), DCBrushMotorTERPartA::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), KtMachineTER<DCBrushTilePartB>::new);
         });

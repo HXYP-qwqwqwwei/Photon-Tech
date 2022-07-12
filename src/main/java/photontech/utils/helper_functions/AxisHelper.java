@@ -9,9 +9,9 @@ public class AxisHelper {
     public static final Direction[] X_DIRECTIONS = { Direction.EAST, Direction.WEST };
     public static final Direction[] Y_DIRECTIONS = { Direction.UP, Direction.DOWN };
     public static final Direction[] Z_DIRECTIONS = { Direction.SOUTH, Direction.NORTH };
-    public static final Direction[] XZ_DIRECTIONS = { Direction.EAST, Direction.WEST, Direction.SOUTH, Direction.NORTH };
-    public static final Direction[] XY_DIRECTIONS = { Direction.EAST, Direction.WEST, Direction.UP, Direction.DOWN };
-    public static final Direction[] YZ_DIRECTIONS = { Direction.UP, Direction.DOWN, Direction.SOUTH, Direction.NORTH };
+    public static final Direction[] XZ_DIRECTIONS = { Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.NORTH };
+    public static final Direction[] XY_DIRECTIONS = { Direction.EAST, Direction.UP, Direction.WEST, Direction.DOWN };
+    public static final Direction[] YZ_DIRECTIONS = { Direction.UP, Direction.SOUTH, Direction.DOWN, Direction.NORTH };
 
 
     private AxisHelper() { }

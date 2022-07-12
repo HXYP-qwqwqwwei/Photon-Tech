@@ -9,13 +9,13 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import photontech.event.ClientEventHandler;
-import photontech.utils.tileentity.PtMachineTile;
+import photontech.utils.tileentity.MachineTile;
 
 import javax.annotation.Nonnull;
 
 import static photontech.utils.client.render.Compartment.*;
 
-public abstract class MachineTileRenderer<T extends PtMachineTile> extends TileEntityRenderer<T> {
+public abstract class MachineTileRenderer<T extends MachineTile> extends TileEntityRenderer<T> {
     public MachineTileRenderer(TileEntityRendererDispatcher rendererDispatcher) {
         super(rendererDispatcher);
     }

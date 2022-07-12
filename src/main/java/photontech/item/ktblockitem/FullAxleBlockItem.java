@@ -10,9 +10,10 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BlockEvent;
 import photontech.block.kinetic.KtMachineTile;
 import photontech.block.kinetic.KtRotatingBlock;
-import photontech.event.pt_events.AxleInsertEvent;
+import photontech.event.pt_events.KtEvent;
 import photontech.group.PtItemGroups;
 
 import javax.annotation.Nonnull;
@@ -43,15 +44,10 @@ public class FullAxleBlockItem extends BlockItem {
                 TileEntity tile = level.getBlockEntity(pos);
                 if (tile instanceof KtMachineTile) {
 
-                    KtMachineTile ktMachineTile = (KtMachineTile) tile;
-                    if (ktMachineTile.canAddAxle()) {
-
-                        ktMachineTile.insertAxle((FullAxleBlockItem) itemInHand.getItem());
-                        AxleInsertEvent event = new AxleInsertEvent(level, pos, level.getBlockState(pos));
-                        MinecraftForge.EVENT_BUS.post(event);
-                        if (event.isCanceled()) {
-                            ktMachineTile.removeAxle();
-                        }
+                    KtMachineTile kt = (KtMachineTile) tile;
+                    if (kt.canAddAxle()) {
+                        kt.insertAxle((FullAxleBlockItem) itemInHand.getItem());
+                        MinecraftForge.EVENT_BUS.post(kt.createKtCreateEvent());
                         return ActionResultType.SUCCESS;
                     }
                 }

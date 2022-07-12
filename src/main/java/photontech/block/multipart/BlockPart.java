@@ -6,5 +6,4 @@ import photontech.block.IPartalBlock;
 public class BlockPart<T extends IPartalBlock> {
 
 
-
 }

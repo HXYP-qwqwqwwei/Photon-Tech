@@ -5,12 +5,12 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.init.PtCapabilities;
-import photontech.utils.tileentity.PtMachineTile;
+import photontech.utils.tileentity.MachineTile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class PtHeaterTile extends PtMachineTile {
+public abstract class PtHeaterTile extends MachineTile {
 
     private Direction heatOutputSide;
 

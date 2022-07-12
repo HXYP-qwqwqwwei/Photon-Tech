@@ -1,6 +1,6 @@
 package photontech.utils.capability.kinetic;
 
-public class PtWorkingBody extends PtRotateBody {
+public class KtWorkingBody extends KtRotateBody {
     public enum WorkingMode {
         RESISTANT,
         KINETIC_OUTPUT,
@@ -10,7 +10,7 @@ public class PtWorkingBody extends PtRotateBody {
     private int convertedKineticEnergy = 0;
     private final WorkingMode mode;
     
-    protected PtWorkingBody(long inertia, WorkingMode mode) {
+    protected KtWorkingBody(long inertia, WorkingMode mode) {
         super(inertia);
         this.mode = mode;
     }

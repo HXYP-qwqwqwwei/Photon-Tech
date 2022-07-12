@@ -16,11 +16,11 @@ import java.util.List;
 
 import static photontech.utils.PtConstants.*;
 
-public class PtConditionalRecipeSerializer extends PtRecipeSerializer<PtConditionalRecipe> {
+public class PtConditionalRecipeSerializer extends PtRecipeSerializer<ConditionalRecipe> {
 
     @Nonnull
     @Override
-    public PtConditionalRecipe fromJson(@Nonnull ResourceLocation location, @Nonnull JsonObject jsonObject) {
+    public ConditionalRecipe fromJson(@Nonnull ResourceLocation location, @Nonnull JsonObject jsonObject) {
 
         // CONDITION
         RecipeCondition condition = RecipeCondition.parse(JSONUtils.getAsJsonObject(jsonObject, CONDITION));
@@ -87,12 +87,12 @@ public class PtConditionalRecipeSerializer extends PtRecipeSerializer<PtConditio
             catalyzeFluid = parseFluidJSON((JsonObject) catalyzeFluidObj);
         }
 
-        return new PtConditionalRecipe(location, group, condition, rate, inputItems, inputFluids, outputItems, outputFluids, catalyzeItem, catalyzeFluid);
+        return new ConditionalRecipe(location, group, condition, rate, inputItems, inputFluids, outputItems, outputFluids, catalyzeItem, catalyzeFluid);
     }
 
     @Nullable
     @Override
-    public PtConditionalRecipe fromNetwork(@Nonnull ResourceLocation location, @Nonnull PacketBuffer packetBuffer) {
+    public ConditionalRecipe fromNetwork(@Nonnull ResourceLocation location, @Nonnull PacketBuffer packetBuffer) {
 
         // 反应条件
         RecipeCondition condition = RecipeCondition.fromNetwork(packetBuffer);
@@ -112,12 +112,12 @@ public class PtConditionalRecipeSerializer extends PtRecipeSerializer<PtConditio
         // 组
         String group = packetBuffer.readUtf();
 
-        return new PtConditionalRecipe(location, group, condition, 0, inputItems, inputFluids, outputItems, outputFluids, catalyzeItem, catalyzeFluid);
+        return new ConditionalRecipe(location, group, condition, 0, inputItems, inputFluids, outputItems, outputFluids, catalyzeItem, catalyzeFluid);
     }
 
 
     @Override
-    public void toNetwork(@Nonnull PacketBuffer packetBuffer, PtConditionalRecipe recipe) {
+    public void toNetwork(@Nonnull PacketBuffer packetBuffer, ConditionalRecipe recipe) {
 
         // 反应条件
         recipe.getCondition().toNetwork(packetBuffer);

@@ -11,13 +11,13 @@ import photontech.block.electric.wire.PtWireBlock;
 import photontech.block.kinetic.HalfAxle.HalfAxleBlock;
 import photontech.block.kinetic.IAxleBlockMaterial;
 import photontech.block.kinetic.axle.FullAxleBlock;
-import photontech.block.kinetic.gears.PtGearsBlock;
 import photontech.block.kinetic.KtRotatingBlock;
 import photontech.block.heater.photon.PhotonHeaterBlock;
 import photontech.block.heater.solid.PtBurningItemHeaterBlock;
 import photontech.block.PtPowderBlock;
 import photontech.block.crucible.PtCrucibleBlock;
 import photontech.block.PtNormalBlock;
+import photontech.block.kinetic.gears.KtGearBlock;
 import photontech.block.kinetic.motor.dc_brush.DCMotorBlockPartA;
 import photontech.block.magnet.permanent.PermanentMagnetBlock;
 import photontech.block.mirror.PtMirrorBlock;
@@ -55,7 +55,8 @@ public class PtBlocks {
     public static final RegistryObject<HalfAxleBlock> HALF_IRON_AXLE = BLOCKS.register("half_iron_axle", () -> new HalfAxleBlock(IAxleBlockMaterial.AxleMaterial.IRON));
     public static final RegistryObject<HalfAxleBlock> HALF_WOOD_AXLE = BLOCKS.register("half_wood_axle", () -> new HalfAxleBlock(IAxleBlockMaterial.AxleMaterial.WOOD));
 
-    public static final RegistryObject<Block> GEARS_BLOCK = BLOCKS.register("gears_block", PtGearsBlock::new);
+    public static final RegistryObject<Block> SMALL_GEAR_BLOCK = BLOCKS.register("small_gear_block", () -> new KtGearBlock(8));
+    public static final RegistryObject<Block> BIG_GEAR_BLOCK = BLOCKS.register("big_gear_block", () -> new KtGearBlock(8));
     public static final RegistryObject<KtRotatingBlock> BRUSH_DC_MOTOR_PART_A = BLOCKS.register("brush_dc_motor_part_a", DCMotorBlockPartA::new);
     public static final RegistryObject<KtRotatingBlock> BRUSH_DC_MOTOR_PART_B = BLOCKS.register("brush_dc_motor_part_b", DCMotorBlockPartB::new);
 

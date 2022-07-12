@@ -62,7 +62,7 @@ public class DCBrushTilePartA extends FullAxleTile implements IEtMachine {
                         double dU_eq = omega * K * 0.1;
                         this.I.value = IEtCapacitor.chargeExchange(p, n, dU_eq, R);
                         double F = this.I.value * K;
-                        body.setOmega(body.getOmega() + (float) (F * 0.05) / body.getInertia());
+                        body.setOmega(body.getOmega() + (float) (F * 0.05) / this.ktStatue.sumInertia);
                     });
                 }));
             }

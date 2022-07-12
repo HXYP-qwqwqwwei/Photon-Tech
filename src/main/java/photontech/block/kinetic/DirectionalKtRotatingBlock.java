@@ -2,12 +2,15 @@ package photontech.block.kinetic;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nonnull;
@@ -18,10 +21,10 @@ import static net.minecraft.state.properties.BlockStateProperties.FACING;
 
 public abstract class DirectionalKtRotatingBlock extends KtRotatingBlock {
 
+
     public DirectionalKtRotatingBlock(double length, double width, double offset, long initInertia) {
         super(length, width, offset, initInertia);
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.EAST));
-
     }
 
     @Override
@@ -56,8 +59,28 @@ public abstract class DirectionalKtRotatingBlock extends KtRotatingBlock {
     @Nonnull
     @Override
     public VoxelShape getShape(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
+        return getShapeWithAxle(blockState, reader, pos, context);
+    }
+
+    @Nonnull
+    public VoxelShape getShapeWithAxle(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         Direction facing = blockState.getValue(FACING);
+        TileEntity te = reader.getBlockEntity(pos);
+        if (te instanceof KtMachineTile) {
+            if (!((KtMachineTile) te).getAxleBlockState().is(Blocks.AIR)) {
+                return VoxelShapes.or(shapes[facing.ordinal()], this.getAxleShape(blockState));
+            }
+        }
         return shapes[facing.ordinal()];
+    }
+
+    public VoxelShape getAxleShape(BlockState blockState) {
+        Direction facing = blockState.getValue(FACING);
+        return axleShapes[facing.ordinal()];
+    }
+
+    public VoxelShape[] initAxleShapes() {
+        return this.initShapes(16, 4, 0);
     }
 
 }

@@ -1,0 +1,6 @@
+# Made in Blockbench 4.2.5
+newmtl m_0
+map_Kd photontech:block/gear/stripped_jungle_log
+newmtl m_1
+map_Kd photontech:block/gear/stripped_jungle_log_top
+newmtl none

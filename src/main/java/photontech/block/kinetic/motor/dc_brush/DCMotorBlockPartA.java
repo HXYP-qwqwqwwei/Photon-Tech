@@ -32,11 +32,8 @@ import static net.minecraft.state.properties.BlockStateProperties.FACING;
 
 public class DCMotorBlockPartA extends DirectionalKtRotatingBlock {
 
-    protected final VoxelShape[] axleShapes;
-
     public DCMotorBlockPartA() {
         super(10, 10, 0, 10);
-        this.axleShapes = this.initShapes(16, 4, 0);
     }
 
 
@@ -72,7 +69,7 @@ public class DCMotorBlockPartA extends DirectionalKtRotatingBlock {
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == Items.IRON_INGOT) {
-                    partA.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> LogManager.getLogger().info(iRigidBody.getInertia()));
+//                    partA.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> LogManager.getLogger().info(iRigidBody.getInertia()));
                     LogManager.getLogger().info("I=" + partA.I.value);
                     return ActionResultType.SUCCESS;
                 }
@@ -96,20 +93,20 @@ public class DCMotorBlockPartA extends DirectionalKtRotatingBlock {
         }
     }
 
-    @Nonnull
-    @Override
-    public VoxelShape getShape(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
-        TileEntity te = reader.getBlockEntity(pos);
-        if (te instanceof KtMachineTile) {
-            if (!((KtMachineTile) te).getAxleBlockState().is(Blocks.AIR)) {
-                return VoxelShapes.or(super.getShape(blockState, reader, pos, context), this.getAxleShape(blockState));
-            }
-        }
-        return super.getShape(blockState, reader, pos, context);
-    }
-
-    public VoxelShape getAxleShape(BlockState blockState) {
-        Direction facing = blockState.getValue(FACING);
-        return axleShapes[facing.ordinal()];
-    }
+//    @Nonnull
+//    @Override
+//    public VoxelShape getShape(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
+//        TileEntity te = reader.getBlockEntity(pos);
+//        if (te instanceof KtMachineTile) {
+//            if (!((KtMachineTile) te).getAxleBlockState().is(Blocks.AIR)) {
+//                return VoxelShapes.or(super.getShape(blockState, reader, pos, context), this.getAxleShape(blockState));
+//            }
+//        }
+//        return super.getShape(blockState, reader, pos, context);
+//    }
+//
+//    public VoxelShape getAxleShape(BlockState blockState) {
+//        Direction facing = blockState.getValue(FACING);
+//        return axleShapes[facing.ordinal()];
+//    }
 }
