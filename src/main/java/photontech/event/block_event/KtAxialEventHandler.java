@@ -27,7 +27,7 @@ public class KtAxialEventHandler {
 
         // 初始化
         KtMachineTile selfKt = event.getSelfKt();
-        selfKt.initKtStatue();
+        selfKt.initAll();
 
         Direction positiveSide = AxisHelper.getAxisPositiveDirection(selfKt.getAxis());
         KtMachineTile neighbor = getNeighborKt(selfKt, positiveSide);
@@ -45,34 +45,36 @@ public class KtAxialEventHandler {
         FullAxleBlock.AxleMaterial selfMaterial = selfKt.getAxleMaterial();
 
         // 为self初始化
-        selfKt.initKtStatue();
+        selfKt.initAll();
 
         // 检查该方向邻居
         KtMachineTile neighbor = getNeighborKt(selfKt, side);
         // 若该方向有邻居
         if (neighbor != null) {
-            IRotateBody body = neighbor.getCapability(PtCapabilities.RIGID_BODY, side.getOpposite()).orElse(IRotateBody.INVALID);
+            KtMachineTile.KtRotatingState rotState = neighbor.getRotatingState();
 
             // 若邻居的连接数未达上限，则将自己与其合并，合并后总连接数+1，否则跳过此步
-            if (body.getLength() < selfMaterial.maxConnect) {
-//                body.setInertia(body.getInertia() + selfKt.initInertia);
-                neighbor.addInertia(selfKt.ktStatue.getSelfInertia());
-                body.setLength(body.getLength() + 1);
+            if (rotState.axialLength < selfMaterial.maxConnect) {
+                neighbor.addInertia(selfKt.ktReferenceState.getSelfInertia());
+                rotState.axialLength += 1;
                 selfKt.setMainBodyPosition(neighbor.getMainBodyPosition());
             }
             else { //邻居的连接数已到达上限，则破坏自身
-                onKtInvalidate(new KtEvent.KtInvalidateEvent(selfKt));
+                MinecraftForge.EVENT_BUS.post(new KtEvent.KtInvalidateEvent(selfKt));
                 level.destroyBlock(selfPos, true);
                 return;
             }
         }
 
-        // 检查负方向邻居
+        // 检查反方向邻居
         KtMachineTile negativeNeighbor = getNeighborKt(selfKt, side.getOpposite());
-        // 若负方向有邻居，则在邻居处触发active事件
+        // 若反方向有邻居，则在邻居处触发active事件，然后返回
         if (negativeNeighbor != null) {
             MinecraftForge.EVENT_BUS.post(new KtEvent.KtActiveEvent(negativeNeighbor, side));
+            return;
         }
+        // 否则表明轴向合并已完成，向总线报告一个完成事件
+        MinecraftForge.EVENT_BUS.post(new KtEvent.KtAxialCombinedEvent(selfKt));
     }
 
     @SubscribeEvent
@@ -87,10 +89,10 @@ public class KtAxialEventHandler {
         selfKt.setMainBodyPosition(BlockPos.ZERO);
 
         if (positiveNeighbor != null) {
-            onKtActive(new KtEvent.KtActiveEvent(positiveNeighbor, negativeSide));
+            MinecraftForge.EVENT_BUS.post(new KtEvent.KtActiveEvent(positiveNeighbor, negativeSide));
         }
         if (negativeNeighbor != null) {
-            onKtActive(new KtEvent.KtActiveEvent(negativeNeighbor, positiveSide));
+            MinecraftForge.EVENT_BUS.post(new KtEvent.KtActiveEvent(negativeNeighbor, positiveSide));
         }
     }
 
@@ -103,8 +105,8 @@ public class KtAxialEventHandler {
         TileEntity neighbor = level.getBlockEntity(kt.getBlockPos().relative(direction));
         if (neighbor instanceof KtMachineTile) {
             KtMachineTile neighborKt = (KtMachineTile) neighbor;
-            return kt.getCapability(PtCapabilities.RIGID_BODY, direction).isPresent()
-                    && neighborKt.getCapability(PtCapabilities.RIGID_BODY, direction.getOpposite()).isPresent()
+            return kt.getCapability(PtCapabilities.ROTATING_STATE, direction).isPresent()
+                    && neighborKt.getCapability(PtCapabilities.ROTATING_STATE, direction.getOpposite()).isPresent()
                     && neighborKt.getAxleMaterial() == material ? neighborKt : null;
         }
         return null;

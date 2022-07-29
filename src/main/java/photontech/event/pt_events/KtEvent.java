@@ -50,25 +50,39 @@ public class KtEvent extends BlockEvent {
 
     }
 
-    public static class KtGearCreateEvent extends KtCreateEvent {
-
-        public KtGearCreateEvent(KtGearTile gearsKt) {
-            super(gearsKt);
-        }
-
-        public KtGearTile getGearsKt() {
-            return (KtGearTile) selfKt;
+    public static class KtAxialCombinedEvent extends KtEvent {
+        public KtAxialCombinedEvent(KtMachineTile selfKt) {
+            super(selfKt.getMainKtTile());
         }
     }
 
+//    public static class KtGearCreateEvent extends KtCreateEvent {
+//
+//        public KtGearCreateEvent(KtGearTile gearsKt) {
+//            super(gearsKt);
+//        }
+//
+//        public KtGearTile getGearKt() {
+//            return (KtGearTile) selfKt;
+//        }
+//    }
+
     public static class KtGearSynchronizeEvent extends KtEvent {
 
-        public KtGearSynchronizeEvent(KtMachineTile selfKt) {
+        public KtGearSynchronizeEvent(KtGearTile selfKt) {
             super(selfKt);
         }
 
-        public KtGearTile getGearsKt() {
+        public KtGearTile getGearKt() {
             return (KtGearTile) selfKt;
+        }
+
+    }
+
+    public static class KtGearSynchronizeNotifyEvent extends KtEvent {
+
+        public KtGearSynchronizeNotifyEvent(KtMachineTile selfKt) {
+            super(selfKt.getMainKtTile());
         }
 
     }

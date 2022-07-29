@@ -59,23 +59,17 @@ public abstract class KtRotatingBlock extends AxisAlignedBlock {
             if (axle != null && !player.isShiftKeyDown()) {
                 ItemStack itemStack = player.getItemInHand(handIn);
                 if (itemStack.getItem() == PtItems.WRENCH.get()) {
-                    axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() + 1F));
+                    axle.getCapability(PtCapabilities.ROTATING_STATE, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(rotatingState -> rotatingState.angularVelocity += 1F);
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == PtItems.PROTRACTOR.get()) {
-                    axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() - 1F));
+                    axle.getCapability(PtCapabilities.ROTATING_STATE, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(rotatingState -> rotatingState.angularVelocity -= 1F);
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == Items.IRON_INGOT) {
-                    axle.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> {
-                        LogManager.getLogger().info("Position: " + pos);
-                        LogManager.getLogger().info("MainBodyPosition: " + axle.getMainBodyPosition());
-                        LogManager.getLogger().info("Inertia: " + axle.ktStatue.sumInertia);
-                        LogManager.getLogger().info("Length: " + iRigidBody.getLength());
-                        LogManager.getLogger().info("Speed: " + iRigidBody.getOmega());
-                        LogManager.getLogger().info("Angle: " + iRigidBody.getAngle());
-                        LogManager.getLogger().info(axle.ktStatue.toString());
-                    });
+                    LogManager.getLogger().info(axle.getMainKtTile().ktReferenceState.toString());
+                    LogManager.getLogger().info(axle.getMainBodyPosition().toString());
+                    LogManager.getLogger().info(axle.getAngle());
                     return ActionResultType.SUCCESS;
                 }
             }

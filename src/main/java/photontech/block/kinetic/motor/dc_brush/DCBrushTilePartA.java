@@ -7,7 +7,6 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.block.kinetic.FullAxleTile;
-import photontech.block.kinetic.KtMachineTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
 import photontech.utils.capability.electric.IEtCapacitor;
@@ -55,15 +54,16 @@ public class DCBrushTilePartA extends FullAxleTile implements IEtMachine {
             if (this.partBExist()) {
                 positive.ifPresent(p -> negative.ifPresent(n -> {
                     this.U.value = p.getU() - n.getU();
-                    this.getMainBody().ifPresent(body -> {
-                        float omega = body.getOmega();
-                        double K = this.partB.getK(this.brushAxis);
-                        double R = this.partB.getR();
-                        double dU_eq = omega * K * 0.1;
-                        this.I.value = IEtCapacitor.chargeExchange(p, n, dU_eq, R);
-                        double F = this.I.value * K;
-                        body.setOmega(body.getOmega() + (float) (F * 0.05) / this.ktStatue.sumInertia);
-                    });
+                    // TODO 重写这部分的实现
+//                    this.getMainBody().ifPresent(body -> {
+//                        float omega = body.getOmega();
+//                        double K = this.partB.getK(this.brushAxis);
+//                        double R = this.partB.getR();
+//                        double dU_eq = omega * K * 0.1;
+//                        this.I.value = IEtCapacitor.chargeExchange(p, n, dU_eq, R);
+//                        double F = this.I.value * K;
+//                        body.setOmega(body.getOmega() + (float) (F * 0.05) / this.ktReferenceStatue.sumInertia);
+//                    });
                 }));
             }
         }

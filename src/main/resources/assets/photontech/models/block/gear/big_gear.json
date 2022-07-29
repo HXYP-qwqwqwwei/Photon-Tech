@@ -1,5 +1,7 @@
 {
   "loader": "forge:obj",
+  "parent": "block/block",
   "model": "photontech:models/block/gear/big_gear.obj",
+  "particle": "photontech:block/gear/stripped_jungle_log",
   "flip-v": true
 }

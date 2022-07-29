@@ -8,7 +8,6 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import photontech.block.kinetic.KtMachineTile;
-import photontech.block.kinetic.gears.KtGearTile;
 import photontech.event.pt_events.KtEvent;
 
 import javax.annotation.Nonnull;
@@ -22,8 +21,8 @@ public class BlockEventPublisher {
         if (!level.isClientSide()) {
             BlockPos selfPos = placeEvent.getPos();
             TileEntity self = level.getBlockEntity(selfPos);
-            if (self instanceof KtMachineTile) {
-                MinecraftForge.EVENT_BUS.post(new KtEvent.KtCreateEvent((KtMachineTile) self));
+            if (self instanceof KtMachineTile && ((KtMachineTile) self).isKtValid()) {
+                MinecraftForge.EVENT_BUS.post(new KtEvent.KtCreateEvent(((KtMachineTile) self).getMainKtTile()));
             }
         }
     }
@@ -35,11 +34,15 @@ public class BlockEventPublisher {
         if (!level.isClientSide()) {
             BlockPos selfPos = event.getPos();
             TileEntity self = level.getBlockEntity(selfPos);
-            if (self instanceof KtMachineTile) {
+            if (self instanceof KtMachineTile && ((KtMachineTile) self).isKtValid()) {
                 MinecraftForge.EVENT_BUS.post(new KtEvent.KtInvalidateEvent((KtMachineTile) self));
             }
         }
     }
 
+    @SubscribeEvent
+    public static void onKtKtActiveEvent(KtEvent.KtAxialCombinedEvent event) {
+        MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeNotifyEvent(event.getSelfKt()));
+    }
 
 }

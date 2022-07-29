@@ -62,11 +62,6 @@ public class PtConstants {
         public static final ResourceLocation WOODEN_GEAR_MODEL = new ResourceLocation(PhotonTech.ID, "special/wooden_gear_model");
     }
 
-    public static final class FALGS {
-        public static final int BLOCK_UPDATE = 1 << 31;
-        public static final int Kt_UPDATE = 1 << 31;
-    }
-
 
     public static final Comparator<ConditionalRecipe> NATURAL_HEAT_RECIPE_COMPARATOR = (r1, r2) -> {
         RecipeCondition c1 = r1.getCondition();

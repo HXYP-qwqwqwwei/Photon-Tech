@@ -17,7 +17,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import photontech.init.PtCapabilities;
 import photontech.init.PtRecipes;
-import photontech.utils.PtConstants;
 import photontech.utils.capability.ISaveLoad;
 import photontech.utils.capability.heat.IHeatReservoir;
 import photontech.utils.capability.heat.PtHeatCache;
@@ -43,9 +42,9 @@ public abstract class MachineTile extends MultiContainerTileEntity implements IT
     protected List<ConditionalRecipe> cachedRecipes;
     protected List<PtHeatCache> heatCaches;
 
+    public long flags = 0;
     private int coldDown = 1;
     private int timer = 0;
-    public int flags = 0;
 
     public MachineTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
@@ -244,16 +243,5 @@ public abstract class MachineTile extends MultiContainerTileEntity implements IT
         return true;
     }
 
-//    public boolean hasFlag(int flag) {
-//        return (this.flags & flag) != 0;
-//    }
-//
-//    public void setFlag(int flag) {
-//        this.flags |= flag;
-//    }
-//
-//    public void removeFlag(int flag) {
-//        this.flags &= ~flag;
-//    }
 
 }

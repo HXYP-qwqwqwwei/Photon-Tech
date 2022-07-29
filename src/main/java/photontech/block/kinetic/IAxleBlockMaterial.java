@@ -7,9 +7,9 @@ public interface IAxleBlockMaterial {
 
     enum AxleMaterial {
         INVALID(0, 0),
-        WOOD(1, 4),
-        IRON(8, 8),
-        STEEL(8, 16);
+        WOOD(2, 4),
+        IRON(16, 8),
+        STEEL(16, 16);
 
         public final long initInertia;
         public final int maxConnect;

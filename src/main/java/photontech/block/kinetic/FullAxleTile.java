@@ -13,7 +13,8 @@ public class FullAxleTile extends KtMachineTile {
         super(tileEntityTypeIn, initInertia, needAxle);
     }
 
-    protected boolean isKtValidSide(Direction side) {
+    @Override
+    public boolean isKtValidSide(Direction side) {
         return side != null && side.getAxis() == this.getBlockState().getValue(BlockStateProperties.AXIS);
     }
 

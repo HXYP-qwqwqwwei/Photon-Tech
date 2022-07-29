@@ -6,13 +6,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import photontech.block.kinetic.HalfAxleTile;
@@ -22,12 +19,10 @@ import photontech.block.kinetic.KtMachineTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtItems;
 import photontech.init.PtTileEntities;
-import photontech.utils.helper_functions.AxisHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static net.minecraft.state.properties.BlockStateProperties.AXIS;
 import static net.minecraft.state.properties.BlockStateProperties.FACING;
 
 public class HalfAxleBlock extends DirectionalKtRotatingBlock implements IAxleBlockMaterial {
@@ -63,19 +58,17 @@ public class HalfAxleBlock extends DirectionalKtRotatingBlock implements IAxleBl
             if (axle != null && !player.isShiftKeyDown()) {
                 ItemStack itemStack = player.getItemInHand(handIn);
                 if (itemStack.getItem() == PtItems.WRENCH.get()) {
-                    axle.getCapability(PtCapabilities.RIGID_BODY, state.getValue(FACING)).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() + 1F));
+                    axle.getCapability(PtCapabilities.ROTATING_STATE, state.getValue(FACING)).ifPresent(rotatingState -> rotatingState.angularVelocity += 1F);
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == PtItems.PROTRACTOR.get()) {
-                    axle.getCapability(PtCapabilities.RIGID_BODY, state.getValue(FACING)).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() - 1F));
+                    axle.getCapability(PtCapabilities.ROTATING_STATE, state.getValue(FACING)).ifPresent(rotatingState -> rotatingState.angularVelocity += 1F);
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == Items.IRON_INGOT) {
-//                    axle.getCapability(PtCapabilities.RIGID_BODY, state.getValue(FACING)).ifPresent(iRigidBody -> LogManager.getLogger().info(iRigidBody.getInertia()));
-                    return ActionResultType.SUCCESS;
-                }
-                if (itemStack.getItem() == Items.GOLD_INGOT) {
-                    axle.getCapability(PtCapabilities.RIGID_BODY, state.getValue(FACING)).ifPresent(iRigidBody -> LogManager.getLogger().info(iRigidBody.getOmega()));
+                    LogManager.getLogger().info(axle.getMainKtTile().ktReferenceState.toString());
+                    LogManager.getLogger().info(axle.getMainBodyPosition().toString());
+                    LogManager.getLogger().info(axle.getAngle());
                     return ActionResultType.SUCCESS;
                 }
             }
