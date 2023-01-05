@@ -35,11 +35,12 @@ public abstract class KtMachineTile extends MachineTile {
 
     protected BlockPos mainBodyPosition = BlockPos.ZERO;
     protected BlockState axleBlockState = Blocks.AIR.defaultBlockState();
+    protected boolean needAxle;
 
     public final KtRotatingState rotatingState;
     public final KtReferenceState ktReferenceState;
 
-    protected boolean needAxle;
+    public transient boolean expired = false;
 
     public KtMachineTile(TileEntityType<?> tileEntityTypeIn, long initInertia) {
         this(tileEntityTypeIn, initInertia, false);
@@ -52,9 +53,18 @@ public abstract class KtMachineTile extends MachineTile {
         this.needAxle = needAxle;
     }
 
-    public Direction.Axis getAxis() {
-        return this.getBlockState().getValue(BlockStateProperties.AXIS);
+    public void initAll() {
+        this.departFromMainAxle();
+        this.rotatingState.init();
+        this.initRefState();
+        this.setDirty(true);
     }
+
+    public void initRefState() {
+        this.ktReferenceState.init(this.worldPosition);
+        this.setDirty(true);
+    }
+
 
     @Override
     public void tick() {
@@ -62,7 +72,11 @@ public abstract class KtMachineTile extends MachineTile {
 
             if (this.worldPosition.equals(mainBodyPosition)) {
                 if (this.ktReferenceState.refKtPos == this.worldPosition.asLong()) {
+                    // 结算角度
                     this.rotatingState.updateAngle();
+                    // TODO 结算合力（摩擦阻力和动力）
+
+                    // TODO 结算自然损耗（例如空气阻力）
                     this.setDirty(true);
                 }
             }
@@ -71,30 +85,8 @@ public abstract class KtMachineTile extends MachineTile {
         }
     }
 
-    @Nonnull
-    @Override
-    public CompoundNBT save(@Nonnull CompoundNBT nbt) {
-        super.save(nbt);
-        nbt.putLong(MAIN_BODY_POSITION, this.mainBodyPosition.asLong());
-        nbt.putInt(AXLE_BLOCK_STATE, Block.getId(this.axleBlockState));
-        nbt.putBoolean(NEED_AXLE, this.needAxle);
-        if (this.mainBodyPosition.equals(this.worldPosition)) {
-            nbt.put(MAIN_ROTATING_STATE, this.rotatingState.save(new CompoundNBT()));
-            nbt.put(KT_STATE, this.ktReferenceState.save(new CompoundNBT()));
-        }
-        return nbt;
-    }
-
-    @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
-        super.load(state, nbt);
-        this.mainBodyPosition = BlockPos.of(nbt.getLong(MAIN_BODY_POSITION));
-        this.needAxle = nbt.getBoolean(NEED_AXLE);
-        this.axleBlockState = Block.stateById(nbt.getInt(AXLE_BLOCK_STATE));
-        if (this.mainBodyPosition.equals(this.worldPosition)) {
-            this.rotatingState.load(nbt.getCompound(MAIN_ROTATING_STATE));
-            this.ktReferenceState.load(nbt.getCompound(KT_STATE));
-        }
+    public Direction.Axis getAxis() {
+        return this.getBlockState().getValue(BlockStateProperties.AXIS);
     }
 
     public float getAngle() {
@@ -141,6 +133,16 @@ public abstract class KtMachineTile extends MachineTile {
         return this.getMainKtTile().rotatingState;
     }
 
+    public BlockPos getMainBodyPosition() {
+        return mainBodyPosition;
+    }
+
+    public IAxleBlockMaterial.AxleMaterial getAxleMaterial() {
+        if (this.needAxle) {
+            return IAxleBlockMaterial.getMaterial(this.axleBlockState.getBlock());
+        }
+        return IAxleBlockMaterial.getMaterial(this.getBlockState().getBlock());
+    }
 
     @Nonnull
     @Override
@@ -159,10 +161,15 @@ public abstract class KtMachineTile extends MachineTile {
         return super.getCapability(cap, side);
     }
 
+
     public abstract boolean isKtValidSide(Direction side);
 
-    public BlockPos getMainBodyPosition() {
-        return mainBodyPosition;
+    public boolean isKtValid() {
+        return !canAddAxle();
+    }
+
+    public boolean canAddAxle() {
+        return needAxle && axleBlockState.is(Blocks.AIR);
     }
 
     public void setMainBodyPosition(BlockPos mainBodyPosition) {
@@ -182,37 +189,9 @@ public abstract class KtMachineTile extends MachineTile {
         this.setDirty(true);
     }
 
-    public boolean canAddAxle() {
-        return needAxle && axleBlockState.is(Blocks.AIR);
-    }
-
-    public IAxleBlockMaterial.AxleMaterial getAxleMaterial() {
-        if (this.needAxle) {
-            return IAxleBlockMaterial.getMaterial(this.axleBlockState.getBlock());
-        }
-        return IAxleBlockMaterial.getMaterial(this.getBlockState().getBlock());
-    }
-
-    public boolean isKtValid() {
-        return !canAddAxle();
-    }
-
     public void departFromMainAxle() {
         this.setMainBodyPosition(this.worldPosition);
     }
-
-    public void initAll() {
-        this.departFromMainAxle();
-        this.rotatingState.init();
-        this.initRefState();
-        this.setDirty(true);
-    }
-
-    public void initRefState() {
-        this.ktReferenceState.init(this.worldPosition);
-        this.setDirty(true);
-    }
-
 
     public void fixRotatingState(KtReferenceState refState, KtRotatingState refRot) {
         if (this.ktReferenceState == refState) return;
@@ -229,6 +208,33 @@ public abstract class KtMachineTile extends MachineTile {
     public KtEvent.KtCreateEvent createKtCreateEvent() {
         return new KtEvent.KtCreateEvent(this);
     }
+
+    @Nonnull
+    @Override
+    public CompoundNBT save(@Nonnull CompoundNBT nbt) {
+        super.save(nbt);
+        nbt.putLong(MAIN_BODY_POSITION, this.mainBodyPosition.asLong());
+        nbt.putInt(AXLE_BLOCK_STATE, Block.getId(this.axleBlockState));
+        nbt.putBoolean(NEED_AXLE, this.needAxle);
+        if (this.mainBodyPosition.equals(this.worldPosition)) {
+            nbt.put(MAIN_ROTATING_STATE, this.rotatingState.save(new CompoundNBT()));
+            nbt.put(KT_STATE, this.ktReferenceState.save(new CompoundNBT()));
+        }
+        return nbt;
+    }
+
+    @Override
+    public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
+        super.load(state, nbt);
+        this.mainBodyPosition = BlockPos.of(nbt.getLong(MAIN_BODY_POSITION));
+        this.needAxle = nbt.getBoolean(NEED_AXLE);
+        this.axleBlockState = Block.stateById(nbt.getInt(AXLE_BLOCK_STATE));
+        if (this.mainBodyPosition.equals(this.worldPosition)) {
+            this.rotatingState.load(nbt.getCompound(MAIN_ROTATING_STATE));
+            this.ktReferenceState.load(nbt.getCompound(KT_STATE));
+        }
+    }
+
 
     @OnlyIn(Dist.CLIENT)
     public BlockState getAxleBlockState() {
@@ -249,9 +255,14 @@ public abstract class KtMachineTile extends MachineTile {
         public int axialLength = 1;
 
         public void init() {
+            this.reset();
+            this.axialLength = 1;
+        }
+
+        public void reset() {
             this.rotatingAngle = 0;
             this.angularVelocity = 0;
-            this.axialLength = 1;
+            this.rounds = 0;
         }
 
         public void updateAngle() {
@@ -300,20 +311,29 @@ public abstract class KtMachineTile extends MachineTile {
         public static final String FREQUENCY = "Frequency";
         public static final String PHASE = "Phase";
         public static final String REVERSED = "Reversed";
+        public static final String FRICTION_RES = "InitFrictionResistance";
+        public static final String INIT_FRICTION_RES = "InitFrictionResistance";
 
         public long initInertia;
         public long extraInertia = 0;
         public long sumInertia;
         public long equivalentInertia;
         public long refKtPos = 0;
-        public int frequency = 0;
         public double phase = 0F;
+        public int frequency = 0;
+        public float initFrictionResistance = 0;
+        public float frictionResistance = 0;
         public boolean reversed = false;
 
         public KtReferenceState(long initInertia) {
             this.initInertia = initInertia;
             this.sumInertia = getSelfInertia();
             this.equivalentInertia = this.sumInertia;
+        }
+
+        public KtReferenceState(long initInertia, float initFrictionRes) {
+            this(initInertia);
+            this.initFrictionResistance = Math.max(0F, initFrictionRes);
         }
 
         public void init(BlockPos selfPosition) {
@@ -336,8 +356,9 @@ public abstract class KtMachineTile extends MachineTile {
             nbt.putLong(SUM_INERTIA, this.sumInertia);
             nbt.putLong(EQUIVALENT_INERTIA, this.equivalentInertia);
             nbt.putLong(REF_KT_POS, this.refKtPos);
-            nbt.putInt(FREQUENCY, this.frequency);
             nbt.putDouble(PHASE, this.phase);
+            nbt.putInt(FREQUENCY, this.frequency);
+//            nbt.putFloat();
             nbt.putBoolean(REVERSED, this.reversed);
             return nbt;
         }
@@ -349,8 +370,8 @@ public abstract class KtMachineTile extends MachineTile {
             this.sumInertia = nbt.getLong(SUM_INERTIA);
             this.equivalentInertia = nbt.getLong(EQUIVALENT_INERTIA);
             this.refKtPos = nbt.getLong(REF_KT_POS);
-            this.frequency = nbt.getInt(FREQUENCY);
             this.phase = nbt.getDouble(PHASE);
+            this.frequency = nbt.getInt(FREQUENCY);
             this.reversed = nbt.getBoolean(REVERSED);
         }
 

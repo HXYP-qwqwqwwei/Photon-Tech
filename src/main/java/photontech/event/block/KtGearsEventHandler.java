@@ -23,17 +23,25 @@ public class KtGearsEventHandler {
         if (level instanceof ServerWorld) {
             KtMachineTile selfKt = event.getSelfKt();
             selfKt.flags = ((ServerWorld) level).getGameTime();
+            selfKt.getMainKtTile().expired = false;
         }
     }
 
-    // TODO 等效惯量的设定
+    // TODO 等效惯量
     @SubscribeEvent
     public static void onGearSynchronize(KtEvent.KtGearSynchronizeEvent event) {
         IWorld level = event.getWorld();
         BlockPos selfPos = event.getPos();
         KtGearTile selfGear = event.getGearKt();
+        KtMachineTile selfMainKt = selfGear.getMainKtTile();
+        // 过期的事件
+        if (selfMainKt.expired) {
+            return;
+        }
         Direction.Axis axis = selfGear.getAxis();
         BlockPos[] searchPoses = selfGear.getSearchPositions();
+
+        // 从自身开始，递归地向邻居传递，邻居均以自身为参考
         for (BlockPos searchPos : searchPoses) {
             TileEntity te = level.getBlockEntity(searchPos);
             if (te instanceof KtGearTile) {
@@ -42,10 +50,16 @@ public class KtGearsEventHandler {
                 if (!neighborGear.isKtValid() || neighborGear.getAxis() != axis) continue;
                 if (!canConnect(selfGear, neighborGear, distSqr)) continue;
 
-                KtMachineTile selfMainKt = selfGear.getMainKtTile();
                 KtMachineTile neighborMainKt = neighborGear.getMainKtTile();
+                // 以自身为参考，计算邻居频率
                 int fixedFrequency = selfMainKt.ktReferenceState.frequency + log2Int(1.0 * selfGear.getRadius() / neighborGear.getRadius());
-
+                if (fixedFrequency < 0) {   // 频率小于0的情况，重新以邻居为参考开始同步
+                    selfMainKt.expired = true;  // 用于通知即将发布的事件
+                    neighborMainKt.initRefState();
+                    neighborMainKt.rotatingState.reset();
+                    MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeNotifyEvent(neighborGear));
+                    break;
+                }
                 double fixedPhase = -selfMainKt.getAngle() * (1.0 * selfGear.getRadius() / neighborGear.getRadius());
                 fixedPhase += getNeighborPhase(selfGear, neighborGear);
 
