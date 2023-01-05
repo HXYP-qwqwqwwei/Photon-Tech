@@ -21,7 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import photontech.block.AxisAlignedBlock;
 import photontech.init.PtCapabilities;
 import photontech.init.PtItems;
-import photontech.utils.helper_functions.AxisHelper;
+import photontech.utils.helperfunctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

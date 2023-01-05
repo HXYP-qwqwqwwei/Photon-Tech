@@ -10,8 +10,8 @@ import photontech.block.kinetic.FullAxleTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
 import photontech.utils.capability.electric.IEtCapacitor;
-import photontech.utils.helper_functions.AxisHelper;
-import photontech.utils.helper_functions.MutableDouble;
+import photontech.utils.helperfunctions.AxisHelper;
+import photontech.utils.helperfunctions.MutableDouble;
 import photontech.utils.tileentity.IEtMachine;
 
 import static net.minecraft.util.Direction.Axis;

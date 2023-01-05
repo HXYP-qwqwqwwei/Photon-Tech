@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
 import photontech.block.kinetic.KtMachineTile;
-import photontech.utils.helper_functions.AxisHelper;
+import photontech.utils.helperfunctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

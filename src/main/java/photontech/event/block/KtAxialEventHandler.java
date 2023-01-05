@@ -1,4 +1,4 @@
-package photontech.event.block_event;
+package photontech.event.block;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -10,10 +10,9 @@ import net.minecraftforge.fml.common.Mod;
 import photontech.block.kinetic.IAxleBlockMaterial;
 import photontech.block.kinetic.KtMachineTile;
 import photontech.block.kinetic.axle.FullAxleBlock;
-import photontech.event.pt_events.KtEvent;
+import photontech.event.pt.KtEvent;
 import photontech.init.PtCapabilities;
-import photontech.utils.capability.kinetic.IRotateBody;
-import photontech.utils.helper_functions.AxisHelper;
+import photontech.utils.helperfunctions.AxisHelper;
 
 import javax.annotation.Nullable;
 

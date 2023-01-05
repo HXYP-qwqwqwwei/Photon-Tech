@@ -7,7 +7,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import photontech.block.magnet.MagnetTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.helper_functions.AxisHelper;
+import photontech.utils.helperfunctions.AxisHelper;
 
 import static photontech.utils.PtConstants.BlockStateProperties.*;
 import static net.minecraft.state.properties.BlockStateProperties.*;

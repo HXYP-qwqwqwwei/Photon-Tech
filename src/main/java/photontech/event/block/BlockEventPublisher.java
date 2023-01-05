@@ -1,4 +1,4 @@
-package photontech.event.block_event;
+package photontech.event.block;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -8,7 +8,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import photontech.block.kinetic.KtMachineTile;
-import photontech.event.pt_events.KtEvent;
+import photontech.event.pt.KtEvent;
 
 import javax.annotation.Nonnull;
 

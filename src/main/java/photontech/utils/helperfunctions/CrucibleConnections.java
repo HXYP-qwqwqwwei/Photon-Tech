@@ -1,4 +1,4 @@
-package photontech.utils.helper_functions;
+package photontech.utils.helperfunctions;
 
 import photontech.block.crucible.PtCrucibleBlock;
 import net.minecraft.block.BlockState;

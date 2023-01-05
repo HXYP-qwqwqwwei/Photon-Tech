@@ -1,0 +1,6 @@
+# Made in Blockbench 4.2.5
+newmtl m_0
+map_Kd block/stripped_jungle_log.png
+newmtl m_1
+map_Kd block/stripped_jungle_log_top.png
+newmtl none

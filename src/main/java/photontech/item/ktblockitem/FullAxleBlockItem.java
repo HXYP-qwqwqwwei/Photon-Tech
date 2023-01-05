@@ -10,10 +10,8 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BlockEvent;
 import photontech.block.kinetic.KtMachineTile;
 import photontech.block.kinetic.KtRotatingBlock;
-import photontech.event.pt_events.KtEvent;
 import photontech.group.PtItemGroups;
 
 import javax.annotation.Nonnull;

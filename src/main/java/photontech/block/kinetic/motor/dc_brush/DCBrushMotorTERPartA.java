@@ -8,7 +8,7 @@ import net.minecraft.util.Direction;
 import photontech.utils.PtConstants;
 import photontech.utils.client.render.KtMachineTER;
 import photontech.utils.client.render.SuperByteBuffer;
-import photontech.utils.helper_functions.AxisHelper;
+import photontech.utils.helperfunctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 

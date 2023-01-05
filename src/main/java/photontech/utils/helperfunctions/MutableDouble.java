@@ -1,4 +1,4 @@
-package photontech.utils.helper_functions;
+package photontech.utils.helperfunctions;
 
 public class MutableDouble {
     public double value;

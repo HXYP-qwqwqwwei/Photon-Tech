@@ -1,22 +1,20 @@
 package photontech.block.kinetic.gears;
 
-import net.minecraft.util.Direction;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
-import org.apache.logging.log4j.LogManager;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.KtMachineTile;
-import photontech.event.pt_events.KtEvent;
-import photontech.init.PtTileEntities;
-import photontech.utils.PtConstants;
+import photontech.event.pt.KtEvent;
 
-public class KtGearTile extends FullAxleTile {
+public abstract class KtGearTile extends FullAxleTile {
 
-    protected int circumferenceLevel;
+    protected int radius;
 
-    public KtGearTile(long initInertia, int circumferenceLevel) {
-        super(PtTileEntities.GEARS_TILEENTITY.get(), initInertia, true);
-        this.circumferenceLevel = Math.max(circumferenceLevel, 1);
+    public KtGearTile(TileEntityType<?> tileEntityTypeIn, long initInertia, int radius) {
+        super(tileEntityTypeIn, initInertia, true);
+        this.radius = Math.max(radius, 1);
     }
 
     @Override
@@ -32,13 +30,14 @@ public class KtGearTile extends FullAxleTile {
         super.tick();
     }
 
-//    @Override
-//    public KtEvent.KtCreateEvent createKtCreateEvent() {
-//        return new KtEvent.KtGearCreateEvent(this);
-//    }
+    public abstract BlockPos[] getSearchPositions();
 
-    public int getCircumferenceLevel() {
-        return circumferenceLevel;
+    public int getRadius() {
+        return radius;
+    }
+
+    public int getTeethNumber() {
+        return this.radius << 4; // radius * 16
     }
 
     @Override

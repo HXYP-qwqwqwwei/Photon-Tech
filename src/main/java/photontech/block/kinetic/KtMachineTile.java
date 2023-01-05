@@ -15,7 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.block.kinetic.axle.FullAxleBlock;
-import photontech.event.pt_events.KtEvent;
+import photontech.event.pt.KtEvent;
 import photontech.init.PtCapabilities;
 import photontech.item.ktblockitem.FullAxleBlockItem;
 import photontech.utils.capability.ISaveLoad;
@@ -31,8 +31,7 @@ public abstract class KtMachineTile extends MachineTile {
     public static final String NEED_AXLE = "NeedAxle";
     public static final String AXLE_BLOCK_STATE = "AxleBlockState";
     public static final String KT_STATE = "KtState";
-
-    public static final double PHASE_UNIT = Math.PI / 16;
+    public static final double DOUBLE_PI = Math.PI * 2;
 
     protected BlockPos mainBodyPosition = BlockPos.ZERO;
     protected BlockState axleBlockState = Blocks.AIR.defaultBlockState();
@@ -217,8 +216,10 @@ public abstract class KtMachineTile extends MachineTile {
 
     public void fixRotatingState(KtReferenceState refState, KtRotatingState refRot) {
         if (this.ktReferenceState == refState) return;
-        float fixedAngle = (float) (refRot.rotatingAngle * Math.pow(2, this.ktReferenceState.frequency) + this.ktReferenceState.phase * PHASE_UNIT);
-        this.rotatingState.rotatingAngle = (this.ktReferenceState.reversed ^ refState.reversed) ? -fixedAngle : fixedAngle;
+        double fixedAngle = (refRot.rotatingAngle + DOUBLE_PI*refRot.rounds) * Math.pow(2, this.ktReferenceState.frequency);
+        fixedAngle = (this.ktReferenceState.reversed ^ refState.reversed) ? -fixedAngle : fixedAngle;
+        this.rotatingState.rotatingAngle = (float) (fixedAngle + this.ktReferenceState.phase);
+        this.rotatingState.formatAngle();
     }
 
     public void addInertia(long i) {
@@ -238,12 +239,13 @@ public abstract class KtMachineTile extends MachineTile {
 
         public static final String ROTATING_ANGLE = "RotatingAngle";
         public static final String ANGULAR_VELOCITY = "AngularVelocity";
+        public static final String ROUNDS = "Rounds";
         public static final String AXIAL_LENGTH = "AxialLength";
 
-        public static final double DOUBLE_PI = Math.PI * 2;
 
         public float rotatingAngle = 0;
         public float angularVelocity = 0;
+        public int rounds = 0;
         public int axialLength = 1;
 
         public void init() {
@@ -259,9 +261,11 @@ public abstract class KtMachineTile extends MachineTile {
 
         private void formatAngle() {
             if (this.rotatingAngle > DOUBLE_PI) {
+                rounds += rotatingAngle / DOUBLE_PI;
                 this.rotatingAngle -= ((int) (rotatingAngle / DOUBLE_PI)) * DOUBLE_PI;
             }
             if (this.rotatingAngle < -DOUBLE_PI) {
+                rounds += rotatingAngle / DOUBLE_PI;
                 this.rotatingAngle = -this.rotatingAngle;
                 this.rotatingAngle -= ((int) (rotatingAngle / DOUBLE_PI)) *  DOUBLE_PI;
                 this.rotatingAngle = -this.rotatingAngle;
@@ -272,6 +276,7 @@ public abstract class KtMachineTile extends MachineTile {
         public void load(CompoundNBT nbt) {
             this.angularVelocity = nbt.getFloat(ANGULAR_VELOCITY);
             this.rotatingAngle = nbt.getFloat(ROTATING_ANGLE);
+            this.rounds = nbt.getInt(ROUNDS);
             this.axialLength = nbt.getInt(AXIAL_LENGTH);
         }
 
@@ -279,6 +284,7 @@ public abstract class KtMachineTile extends MachineTile {
         public CompoundNBT save(CompoundNBT nbt) {
             nbt.putFloat(ANGULAR_VELOCITY, this.angularVelocity);
             nbt.putFloat(ROTATING_ANGLE, this.rotatingAngle);
+            nbt.putInt(ROUNDS, this.rounds);
             nbt.putInt(AXIAL_LENGTH, this.axialLength);
             return nbt;
         }
@@ -301,7 +307,7 @@ public abstract class KtMachineTile extends MachineTile {
         public long equivalentInertia;
         public long refKtPos = 0;
         public int frequency = 0;
-        public int phase = 0;
+        public double phase = 0F;
         public boolean reversed = false;
 
         public KtReferenceState(long initInertia) {
@@ -313,7 +319,7 @@ public abstract class KtMachineTile extends MachineTile {
         public void init(BlockPos selfPosition) {
             this.sumInertia = getSelfInertia();
             this.frequency = 0;
-            this.phase = 0;
+            this.phase = 0F;
             this.reversed = false;
             this.equivalentInertia = this.sumInertia;
             this.refKtPos = selfPosition.asLong();
@@ -331,7 +337,7 @@ public abstract class KtMachineTile extends MachineTile {
             nbt.putLong(EQUIVALENT_INERTIA, this.equivalentInertia);
             nbt.putLong(REF_KT_POS, this.refKtPos);
             nbt.putInt(FREQUENCY, this.frequency);
-            nbt.putInt(PHASE, this.phase);
+            nbt.putDouble(PHASE, this.phase);
             nbt.putBoolean(REVERSED, this.reversed);
             return nbt;
         }
@@ -344,7 +350,7 @@ public abstract class KtMachineTile extends MachineTile {
             this.equivalentInertia = nbt.getLong(EQUIVALENT_INERTIA);
             this.refKtPos = nbt.getLong(REF_KT_POS);
             this.frequency = nbt.getInt(FREQUENCY);
-            this.phase = nbt.getInt(PHASE);
+            this.phase = nbt.getDouble(PHASE);
             this.reversed = nbt.getBoolean(REVERSED);
         }
 

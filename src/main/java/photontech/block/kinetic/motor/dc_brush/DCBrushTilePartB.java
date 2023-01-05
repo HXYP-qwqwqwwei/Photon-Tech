@@ -5,11 +5,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import photontech.block.kinetic.FullAxleTile;
-import photontech.block.kinetic.KtMachineTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.helper_functions.AxisHelper;
-import photontech.utils.helper_functions.MutableInt;
+import photontech.utils.helperfunctions.AxisHelper;
+import photontech.utils.helperfunctions.MutableInt;
 
 public class DCBrushTilePartB extends FullAxleTile {
     private final Vector3d[] Bm = new Vector3d[4];

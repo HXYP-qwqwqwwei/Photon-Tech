@@ -1,4 +1,4 @@
-package photontech.event.pt_events;
+package photontech.event.pt;
 
 import net.minecraft.util.Direction;
 import net.minecraftforge.event.world.BlockEvent;

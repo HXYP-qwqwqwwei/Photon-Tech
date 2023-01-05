@@ -53,7 +53,8 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.MIRROR_TILEENTITY.get(), PtMirrorTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.AXLE_TILE.get(), KtMachineTER<FullAxleTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.HALF_AXLE_TILE.get(), KtMachineTER<HalfAxleTile>::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.GEARS_TILEENTITY.get(), KtMachineTER<KtGearTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.SMALL_GEARS_TILEENTITY.get(), KtMachineTER<KtGearTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.LARGE_GEARS_TILEENTITY.get(), KtMachineTER<KtGearTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), DCBrushMotorTERPartA::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), KtMachineTER<DCBrushTilePartB>::new);
         });

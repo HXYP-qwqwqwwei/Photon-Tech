@@ -8,13 +8,33 @@ import photontech.block.kinetic.KtRotatingBlock;
 import javax.annotation.Nullable;
 
 public class KtGearBlock extends KtRotatingBlock {
-    public KtGearBlock(long initInertia) {
+    public enum GearType {
+        SMALL_GEAR,
+        LARGE_GEAR
+    }
+
+    public static final IGearSupplier[] GEAR_SUPPLIERS;
+
+    static {
+        GEAR_SUPPLIERS = new IGearSupplier[GearType.values().length];
+        GEAR_SUPPLIERS[GearType.SMALL_GEAR.ordinal()] = KtSmallGearTile::new;
+        GEAR_SUPPLIERS[GearType.LARGE_GEAR.ordinal()] = KtLargeGearTile::new;
+    }
+
+    private final GearType type;
+
+    public KtGearBlock(long initInertia, GearType type) {
         super(5, 16, 5.5, initInertia);
+        this.type = type;
     }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new KtGearTile(this.initInertia, 1);
+        return GEAR_SUPPLIERS[this.type.ordinal()].get(this.initInertia);
     }
+}
+
+interface IGearSupplier {
+    TileEntity get(long initInertia);
 }

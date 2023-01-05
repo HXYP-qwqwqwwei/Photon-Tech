@@ -55,8 +55,8 @@ public class PtBlocks {
     public static final RegistryObject<HalfAxleBlock> HALF_IRON_AXLE = BLOCKS.register("half_iron_axle", () -> new HalfAxleBlock(IAxleBlockMaterial.AxleMaterial.IRON));
     public static final RegistryObject<HalfAxleBlock> HALF_WOOD_AXLE = BLOCKS.register("half_wood_axle", () -> new HalfAxleBlock(IAxleBlockMaterial.AxleMaterial.WOOD));
 
-    public static final RegistryObject<Block> SMALL_GEAR_BLOCK = BLOCKS.register("small_gear_block", () -> new KtGearBlock(8));
-    public static final RegistryObject<Block> BIG_GEAR_BLOCK = BLOCKS.register("big_gear_block", () -> new KtGearBlock(8));
+    public static final RegistryObject<Block> SMALL_GEAR_BLOCK = BLOCKS.register("small_gear_block", () -> new KtGearBlock(8, KtGearBlock.GearType.SMALL_GEAR));
+    public static final RegistryObject<Block> LARGE_GEAR_BLOCK = BLOCKS.register("large_gear_block", () -> new KtGearBlock(8, KtGearBlock.GearType.LARGE_GEAR));
     public static final RegistryObject<KtRotatingBlock> BRUSH_DC_MOTOR_PART_A = BLOCKS.register("brush_dc_motor_part_a", DCMotorBlockPartA::new);
     public static final RegistryObject<KtRotatingBlock> BRUSH_DC_MOTOR_PART_B = BLOCKS.register("brush_dc_motor_part_b", DCMotorBlockPartB::new);
 

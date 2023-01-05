@@ -8,7 +8,8 @@ import photontech.block.kinetic.HalfAxleTile;
 import photontech.block.heater.photon.PhotonHeaterTile;
 import photontech.block.heater.solid.PtBurningItemHeaterTile;
 import photontech.block.crucible.PtCrucibleTileEntity;
-import photontech.block.kinetic.gears.KtGearTile;
+import photontech.block.kinetic.gears.KtLargeGearTile;
+import photontech.block.kinetic.gears.KtSmallGearTile;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartA;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartB;
 import photontech.block.magnet.permanent.PermanentMagnetTile;
@@ -58,10 +59,14 @@ public class PtTileEntities {
     ).build(null));
 
 
-    public static final RegistryObject<TileEntityType<KtGearTile>> GEARS_TILEENTITY = TILE_ENTITIES.register("gears_tileentity", () -> TileEntityType.Builder.of(
-            () -> new KtGearTile(1, 1),
-            PtBlocks.SMALL_GEAR_BLOCK.get(),
-            PtBlocks.BIG_GEAR_BLOCK.get()
+    public static final RegistryObject<TileEntityType<KtSmallGearTile>> SMALL_GEARS_TILEENTITY = TILE_ENTITIES.register("small_gears_tileentity", () -> TileEntityType.Builder.of(
+            () -> new KtSmallGearTile(1),
+            PtBlocks.SMALL_GEAR_BLOCK.get()
+    ).build(null));
+
+    public static final RegistryObject<TileEntityType<KtLargeGearTile>> LARGE_GEARS_TILEENTITY = TILE_ENTITIES.register("large_gears_tileentity", () -> TileEntityType.Builder.of(
+            () -> new KtLargeGearTile(1),
+            PtBlocks.LARGE_GEAR_BLOCK.get()
     ).build(null));
 
     public static final RegistryObject<TileEntityType<DCBrushTilePartA>> DC_BRUSH_TILE_PART_A = TILE_ENTITIES.register("dc_brush_tileentity_part_a", () -> TileEntityType.Builder.of(

@@ -92,7 +92,7 @@ public class PtItems {
     public static final RegistryObject<Item> HALF_IRON_AXLE = ITEMS.register("half_iron_axle", () -> new BlockItem(PtBlocks.HALF_IRON_AXLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> HALF_WOOD_AXLE = ITEMS.register("half_wood_axle", () -> new BlockItem(PtBlocks.HALF_WOOD_AXLE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> SMALL_GEAR = ITEMS.register("small_gear", () -> new BlockItem(PtBlocks.SMALL_GEAR_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
-    public static final RegistryObject<Item> BIG_GEAR = ITEMS.register("big_gear", () -> new BlockItem(PtBlocks.BIG_GEAR_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> LARGE_GEAR = ITEMS.register("large_gear", () -> new BlockItem(PtBlocks.LARGE_GEAR_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
     // BRUSH DC MOTOR
     public static final RegistryObject<Item> DC_BRUSH_MOTOR_A = ITEMS.register("dc_brush_motor_a", () -> new BlockItem(PtBlocks.BRUSH_DC_MOTOR_PART_A.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
