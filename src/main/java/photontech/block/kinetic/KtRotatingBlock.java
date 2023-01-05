@@ -67,7 +67,7 @@ public abstract class KtRotatingBlock extends AxisAlignedBlock {
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == Items.IRON_INGOT) {
-                    LogManager.getLogger().info(axle.getMainKtTile().ktReferenceState.toString());
+                    LogManager.getLogger().info(axle.getMainKtTile().referenceState.toString());
                     LogManager.getLogger().info(axle.getMainBodyPosition().toString());
                     LogManager.getLogger().info(axle.getAngle());
                     return ActionResultType.SUCCESS;

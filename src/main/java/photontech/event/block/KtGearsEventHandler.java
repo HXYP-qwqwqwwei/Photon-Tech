@@ -52,7 +52,7 @@ public class KtGearsEventHandler {
 
                 KtMachineTile neighborMainKt = neighborGear.getMainKtTile();
                 // 以自身为参考，计算邻居频率
-                int fixedFrequency = selfMainKt.ktReferenceState.frequency + log2Int(1.0 * selfGear.getRadius() / neighborGear.getRadius());
+                int fixedFrequency = selfMainKt.referenceState.frequency + log2Int(1.0 * selfGear.getRadius() / neighborGear.getRadius());
                 if (fixedFrequency < 0) {   // 频率小于0的情况，重新以邻居为参考开始同步
                     selfMainKt.expired = true;  // 用于通知即将发布的事件
                     neighborMainKt.initRefState();
@@ -63,23 +63,23 @@ public class KtGearsEventHandler {
                 double fixedPhase = -selfMainKt.getAngle() * (1.0 * selfGear.getRadius() / neighborGear.getRadius());
                 fixedPhase += getNeighborPhase(selfGear, neighborGear);
 
-                if (selfMainKt.ktReferenceState.refKtPos == neighborMainKt.ktReferenceState.refKtPos) {
-                    int currentFrequency = neighborMainKt.ktReferenceState.frequency;
+                if (selfMainKt.referenceState.refKtPos == neighborMainKt.referenceState.refKtPos) {
+                    int currentFrequency = neighborMainKt.referenceState.frequency;
                     if (currentFrequency != fixedFrequency) {
                         level.destroyBlock(selfPos, true);
                         MinecraftForge.EVENT_BUS.post(new KtEvent.KtInvalidateEvent(selfMainKt));
                         break;
                     }
-                    neighborMainKt.ktReferenceState.phase = fixedPhase;
+                    neighborMainKt.referenceState.phase = fixedPhase;
                     continue;
                 }
-                neighborMainKt.ktReferenceState.refKtPos = selfMainKt.ktReferenceState.refKtPos;
+                neighborMainKt.referenceState.refKtPos = selfMainKt.referenceState.refKtPos;
                 LogManager.getLogger().info(selfMainKt.getAngle());
-                neighborMainKt.ktReferenceState.phase = fixedPhase;
-                neighborMainKt.ktReferenceState.frequency = fixedFrequency;
-                neighborMainKt.ktReferenceState.reversed = !selfMainKt.ktReferenceState.reversed;
+                neighborMainKt.referenceState.phase = fixedPhase;
+                neighborMainKt.referenceState.frequency = fixedFrequency;
+                neighborMainKt.referenceState.reversed = !selfMainKt.referenceState.reversed;
                 neighborMainKt.setDirty(true);
-                selfMainKt.getRefKtTile().ktReferenceState.equivalentInertia += neighborMainKt.ktReferenceState.sumInertia;
+                selfMainKt.getRefKtTile().referenceState.equivalentInertia += neighborMainKt.referenceState.sumInertia;
                 // 同步完之后，向总线报告一个通知事件
                 MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeNotifyEvent(neighborGear));
             }

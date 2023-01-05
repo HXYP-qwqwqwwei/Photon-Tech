@@ -54,7 +54,7 @@ public class KtAxialEventHandler {
 
             // 若邻居的连接数未达上限，则将自己与其合并，合并后总连接数+1，否则跳过此步
             if (rotState.axialLength < selfMaterial.maxConnect) {
-                neighbor.addInertia(selfKt.ktReferenceState.getSelfInertia());
+                neighbor.addInertia(selfKt.referenceState.getSelfInertia());
                 rotState.axialLength += 1;
                 selfKt.setMainBodyPosition(neighbor.getMainBodyPosition());
             }
