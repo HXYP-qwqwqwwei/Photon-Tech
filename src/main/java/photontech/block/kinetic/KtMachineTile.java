@@ -60,8 +60,13 @@ public abstract class KtMachineTile extends MachineTile {
         this.setDirty(true);
     }
 
-    public void initRefState() {
+    protected void initRefState() {
         this.referenceState.init(this.worldPosition);
+        this.setDirty(true);
+    }
+
+    public void resetRefState() {
+        this.referenceState.reset(this.worldPosition);
         this.setDirty(true);
     }
 
@@ -90,13 +95,17 @@ public abstract class KtMachineTile extends MachineTile {
     }
 
     public float getAngle() {
-        if (!this.mainBodyPosition.equals(this.worldPosition)) {
-            KtMachineTile mainKt = this.getMainKtTile();
-            // 没有下面这句话客户端会爆栈，不知道为啥
-            mainKt.setMainBodyPosition(mainKt.worldPosition);
+        KtMachineTile mainKt = this.getMainKtTile();
+        if (mainKt != this) {
             return mainKt.getAngle();
         }
-        KtMachineTile refKt = this.getRefKtTile();
+//        if (!this.mainBodyPosition.equals(this.worldPosition)) {
+//            KtMachineTile mainKt = this.getMainKtTile();
+//            // 没有下面这句话客户端会爆栈，不知道为啥
+//            mainKt.setMainBodyPosition(mainKt.worldPosition);
+//            return mainKt.getAngle();
+//        }
+        KtMachineTile refKt = this.getMainKtTile().getRefKtTile();
         this.fixRotatingState(refKt.referenceState,refKt.rotatingState);
         return this.rotatingState.rotatingAngle;
     }
@@ -114,18 +123,19 @@ public abstract class KtMachineTile extends MachineTile {
         return this;
     }
 
+    /**
+     * ONLY FOR MAIN KtTile
+     * @return reference ktTile
+     */
     public KtMachineTile getRefKtTile() {
         assert this.level != null;
-        TileEntity te = this.level.getBlockEntity(this.mainBodyPosition);
-        if (!(te instanceof KtMachineTile)) return this;
-        KtMachineTile kt = (KtMachineTile) te;
-        if (kt.referenceState.refKtPos != this.worldPosition.asLong()) {
-            TileEntity refTE = level.getBlockEntity(BlockPos.of(kt.referenceState.refKtPos));
+        if (this.referenceState.refKtPos != this.worldPosition.asLong()) {
+            TileEntity refTE = level.getBlockEntity(BlockPos.of(this.referenceState.refKtPos));
             if (refTE instanceof KtMachineTile) {
                 return (KtMachineTile) refTE;
             }
+            else this.initRefState();
         }
-        this.initRefState();
         return this;
     }
 
@@ -201,8 +211,8 @@ public abstract class KtMachineTile extends MachineTile {
         this.rotatingState.formatAngle();
     }
 
-    public void addInertia(long i) {
-        this.getMainKtTile().referenceState.sumInertia += i;
+    public void addAxialInertia(long i) {
+        this.getMainKtTile().referenceState.axialSumInertia += i;
     }
 
     public KtEvent.KtCreateEvent createKtCreateEvent() {
@@ -314,9 +324,9 @@ public abstract class KtMachineTile extends MachineTile {
         public static final String FRICTION_RES = "InitFrictionResistance";
         public static final String INIT_FRICTION_RES = "InitFrictionResistance";
 
-        public long initInertia;
-        public long extraInertia = 0;
-        public long sumInertia;
+        protected long initInertia;
+        protected long extraInertia = 0;
+        protected long axialSumInertia;
         public long equivalentInertia;
         public long refKtPos = 0;
         public double phase = 0F;
@@ -327,8 +337,8 @@ public abstract class KtMachineTile extends MachineTile {
 
         public KtReferenceState(long initInertia) {
             this.initInertia = initInertia;
-            this.sumInertia = getSelfInertia();
-            this.equivalentInertia = this.sumInertia;
+            this.axialSumInertia = getSelfInertia();
+            this.equivalentInertia = this.axialSumInertia;
         }
 
         public KtReferenceState(long initInertia, float initFrictionRes) {
@@ -337,11 +347,15 @@ public abstract class KtMachineTile extends MachineTile {
         }
 
         public void init(BlockPos selfPosition) {
-            this.sumInertia = getSelfInertia();
+            this.reset(selfPosition);
+            this.axialSumInertia = getSelfInertia();
+        }
+
+        public void reset(BlockPos selfPosition) {
             this.frequency = 0;
             this.phase = 0F;
             this.reversed = false;
-            this.equivalentInertia = this.sumInertia;
+            this.equivalentInertia = 0;
             this.refKtPos = selfPosition.asLong();
         }
 
@@ -349,11 +363,19 @@ public abstract class KtMachineTile extends MachineTile {
             return extraInertia + initInertia;
         }
 
+        public long getAxialSumInertia() {
+            return axialSumInertia;
+        }
+
+        public long getFinalInertia() {
+            return this.axialSumInertia + this.equivalentInertia;
+        }
+
         @Override
         public CompoundNBT save(CompoundNBT nbt) {
             nbt.putLong(INIT_INERTIA, this.initInertia);
             nbt.putLong(EXTRA_INERTIA, this.extraInertia);
-            nbt.putLong(SUM_INERTIA, this.sumInertia);
+            nbt.putLong(SUM_INERTIA, this.axialSumInertia);
             nbt.putLong(EQUIVALENT_INERTIA, this.equivalentInertia);
             nbt.putLong(REF_KT_POS, this.refKtPos);
             nbt.putDouble(PHASE, this.phase);
@@ -367,7 +389,7 @@ public abstract class KtMachineTile extends MachineTile {
         public void load(CompoundNBT nbt) {
             this.initInertia = nbt.getLong(INIT_INERTIA);
             this.extraInertia = nbt.getLong(EXTRA_INERTIA);
-            this.sumInertia = nbt.getLong(SUM_INERTIA);
+            this.axialSumInertia = nbt.getLong(SUM_INERTIA);
             this.equivalentInertia = nbt.getLong(EQUIVALENT_INERTIA);
             this.refKtPos = nbt.getLong(REF_KT_POS);
             this.phase = nbt.getDouble(PHASE);
@@ -380,12 +402,13 @@ public abstract class KtMachineTile extends MachineTile {
             return "KtState{" +
                     "\n\tinitInertia=" + initInertia +
                     "\n\textraInertia=" + extraInertia +
-                    "\n\tsumInertia=" + sumInertia +
+                    "\n\tsumInertia=" + axialSumInertia +
                     "\n\tequivalentInertia=" + equivalentInertia +
+                    "\n\tfinalInertia=" + this.getFinalInertia() +
                     "\n\trefKtPos=" + BlockPos.of(refKtPos).toShortString() +
                     "\n\tfrequency=" + frequency +
-                    "\n\tphase=" + phase +
-                    "\n\treversed=" + reversed +
+//                    "\n\tphase=" + phase +
+//                    "\n\treversed=" + reversed +
                     "\n}";
         }
     }

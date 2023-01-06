@@ -66,7 +66,7 @@ public class HalfAxleBlock extends DirectionalKtRotatingBlock implements IAxleBl
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == Items.IRON_INGOT) {
-                    LogManager.getLogger().info(axle.getMainKtTile().referenceState.toString());
+                    LogManager.getLogger().info(axle.getMainKtTile().getRefKtTile().referenceState.toString());
                     LogManager.getLogger().info(axle.getMainBodyPosition().toString());
                     LogManager.getLogger().info(axle.getAngle());
                     return ActionResultType.SUCCESS;

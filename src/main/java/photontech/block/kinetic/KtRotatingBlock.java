@@ -59,15 +59,15 @@ public abstract class KtRotatingBlock extends AxisAlignedBlock {
             if (axle != null && !player.isShiftKeyDown()) {
                 ItemStack itemStack = player.getItemInHand(handIn);
                 if (itemStack.getItem() == PtItems.WRENCH.get()) {
-                    axle.getCapability(PtCapabilities.ROTATING_STATE, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(rotatingState -> rotatingState.angularVelocity += 1F);
+                    axle.getMainKtTile().getRefKtTile().rotatingState.angularVelocity += 1F;
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == PtItems.PROTRACTOR.get()) {
-                    axle.getCapability(PtCapabilities.ROTATING_STATE, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(rotatingState -> rotatingState.angularVelocity -= 1F);
+                    axle.getMainKtTile().getRefKtTile().rotatingState.angularVelocity -= 1F;
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == Items.IRON_INGOT) {
-                    LogManager.getLogger().info(axle.getMainKtTile().referenceState.toString());
+                    LogManager.getLogger().info(axle.getMainKtTile().getRefKtTile().referenceState.toString());
                     LogManager.getLogger().info(axle.getMainBodyPosition().toString());
                     LogManager.getLogger().info(axle.getAngle());
                     return ActionResultType.SUCCESS;
