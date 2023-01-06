@@ -12,10 +12,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
-import photontech.block.kinetic.HalfAxleTile;
-import photontech.block.kinetic.IAxleBlockMaterial;
-import photontech.block.kinetic.DirectionalKtRotatingBlock;
-import photontech.block.kinetic.KtMachineTile;
+import photontech.block.kinetic.*;
 import photontech.init.PtCapabilities;
 import photontech.init.PtItems;
 import photontech.init.PtTileEntities;
@@ -25,11 +22,11 @@ import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.FACING;
 
-public class HalfAxleBlock extends DirectionalKtRotatingBlock implements IAxleBlockMaterial {
+public class HalfAxleBlock extends DirectionalKtRotatingBlock implements IAxleBlock {
 
     protected final AxleMaterial material;
 
-    public HalfAxleBlock(IAxleBlockMaterial.AxleMaterial material) {
+    public HalfAxleBlock(AxleMaterial material) {
         super(8, 4, 0, material.initInertia >> 1);
         this.material = material;
     }

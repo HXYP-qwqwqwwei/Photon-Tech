@@ -7,9 +7,8 @@ import net.minecraft.world.IWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import photontech.block.kinetic.IAxleBlockMaterial;
+import photontech.block.kinetic.AxleMaterial;
 import photontech.block.kinetic.KtMachineTile;
-import photontech.block.kinetic.axle.FullAxleBlock;
 import photontech.event.pt.KtEvent;
 import photontech.init.PtCapabilities;
 import photontech.utils.helperfunctions.AxisHelper;
@@ -41,7 +40,7 @@ public class KtAxialEventHandler {
         KtMachineTile selfKt = event.getSelfKt();
         Direction side = event.getUpdateDirection();
 
-        FullAxleBlock.AxleMaterial selfMaterial = selfKt.getAxleMaterial();
+        AxleMaterial selfMaterial = selfKt.getAxleMaterial();
 
         // 为self初始化
         selfKt.initAll();
@@ -99,8 +98,8 @@ public class KtAxialEventHandler {
     @Nullable
     private static KtMachineTile getNeighborKt(KtMachineTile kt, Direction direction) {
         IWorld level = kt.getLevel();
-        IAxleBlockMaterial.AxleMaterial material = kt.getAxleMaterial();
-        if (level == null || material == IAxleBlockMaterial.AxleMaterial.INVALID) return null;
+        AxleMaterial material = kt.getAxleMaterial();
+        if (level == null || material == AxleMaterial.INVALID) return null;
         TileEntity neighbor = level.getBlockEntity(kt.getBlockPos().relative(direction));
         if (neighbor instanceof KtMachineTile) {
             KtMachineTile neighborKt = (KtMachineTile) neighbor;

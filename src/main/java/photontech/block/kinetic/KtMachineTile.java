@@ -147,11 +147,11 @@ public abstract class KtMachineTile extends MachineTile {
         return mainBodyPosition;
     }
 
-    public IAxleBlockMaterial.AxleMaterial getAxleMaterial() {
+    public AxleMaterial getAxleMaterial() {
         if (this.needAxle) {
-            return IAxleBlockMaterial.getMaterial(this.axleBlockState.getBlock());
+            return IAxleBlock.getMaterial(this.axleBlockState.getBlock());
         }
-        return IAxleBlockMaterial.getMaterial(this.getBlockState().getBlock());
+        return IAxleBlock.getMaterial(this.getBlockState().getBlock());
     }
 
     @Nonnull
@@ -189,6 +189,7 @@ public abstract class KtMachineTile extends MachineTile {
 
     public void insertAxle(FullAxleBlockItem item) {
         this.axleBlockState = item.getBlock().defaultBlockState().setValue(BlockStateProperties.AXIS, this.getAxis());
+        this.referenceState.extraInertia = IAxleBlock.getMaterial(item.getBlock()).initInertia;
         this.mainBodyPosition = this.worldPosition;
         this.setDirty(true);
     }
