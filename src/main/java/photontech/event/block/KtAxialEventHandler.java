@@ -49,11 +49,13 @@ public class KtAxialEventHandler {
         KtMachineTile neighbor = getNeighborKt(selfKt, side);
         // 若该方向有邻居
         if (neighbor != null) {
-            KtMachineTile.KtRotatingState rotState = neighbor.getRotatingState();
+            KtMachineTile.RotatingState rotState = neighbor.getRotatingState();
 
             // 若邻居的连接数未达上限，则将自己与其合并，合并后总连接数+1，否则跳过此步
             if (rotState.axialLength < selfMaterial.maxConnect) {
-                neighbor.addAxialInertia(selfKt.referenceState.getSelfInertia());
+                // 设置轴向惯量、静态阻力和阻力系数
+                neighbor.axialCombine(selfKt);
+
                 rotState.axialLength += 1;
                 selfKt.setMainBodyPosition(neighbor.getMainBodyPosition());
             }

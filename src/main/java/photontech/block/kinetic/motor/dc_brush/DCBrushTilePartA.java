@@ -7,6 +7,7 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.block.kinetic.FullAxleTile;
+import photontech.block.kinetic.ResistType;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
 import photontech.utils.capability.electric.IEtCapacitor;
@@ -31,7 +32,7 @@ public class DCBrushTilePartA extends FullAxleTile implements IEtMachine {
     protected DCBrushTilePartB partB = null;
 
     public DCBrushTilePartA(long initInertia) {
-        super(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), initInertia, true);
+        super(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), initInertia, true, ResistType.NORMAL_MACHINE);
     }
 
 

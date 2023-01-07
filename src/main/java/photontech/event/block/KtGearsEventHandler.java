@@ -52,7 +52,7 @@ public class KtGearsEventHandler {
                 int frequencyLevel = selfMainKt.referenceState.frequency + log2Int(1.0 * selfGear.getRadius() / neighborGear.getRadius());
                 if (frequencyLevel < 0) {   // 频率等级小于0的情况，重新以邻居为参考开始同步
                     selfMainKt.expired = true;  // 用于通知即将发布的事件
-                    neighborMainKt.resetRefState();
+                    neighborMainKt.resetAll();
                     neighborMainKt.rotatingState.reset();
                     MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeNotifyEvent(neighborGear));
                     break;
@@ -77,11 +77,12 @@ public class KtGearsEventHandler {
                 neighborMainKt.referenceState.reversed = !selfMainKt.referenceState.reversed;
                 neighborMainKt.setDirty(true);
 
-                //计算等效的转动惯量
+                //计算等效的转动惯量、摩擦阻力和阻力系数
+                int frequency = getFrequency(frequencyLevel);
                 KtMachineTile refKt = selfMainKt.getRefKtTile();
-                refKt.referenceState.equivalentInertia += neighborMainKt.referenceState.getAxialSumInertia() * getFrequency(frequencyLevel);
-                // TODO 计算等效的摩擦阻力
-
+                refKt.referenceState.equivalentInertia += neighborMainKt.referenceState.getAxialSumInertia() * frequency;
+                refKt.forceState.equivalentResist += neighborMainKt.forceState.getAxialSumResist() * frequency;
+                refKt.forceState.equivalentResConstant += neighborMainKt.forceState.getAxialSumResConstant() * squareInt(frequency);
 
                 // 同步完之后，向总线报告一个通知事件
                 MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeNotifyEvent(neighborGear));
@@ -102,7 +103,8 @@ public class KtGearsEventHandler {
                 if (te instanceof KtGearTile) {
                     KtGearTile neighborGear = (KtGearTile) te;
                     if (!neighborGear.isKtValid() || neighborGear.getAxis() != axis) continue;
-                    neighborGear.getMainKtTile().resetRefState();
+
+                    neighborGear.getMainKtTile().resetAll();
                     MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeNotifyEvent(neighborGear));
                 }
             }

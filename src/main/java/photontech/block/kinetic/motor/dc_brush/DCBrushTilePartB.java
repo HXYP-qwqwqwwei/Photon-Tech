@@ -5,6 +5,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import photontech.block.kinetic.FullAxleTile;
+import photontech.block.kinetic.ResistType;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
 import photontech.utils.helperfunctions.AxisHelper;
@@ -17,7 +18,7 @@ public class DCBrushTilePartB extends FullAxleTile {
 
 
     public DCBrushTilePartB(long initInertia) {
-        super(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), initInertia, true);
+        super(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), initInertia, true, ResistType.AXLE);
         this.setColdDown(5);
     }
 

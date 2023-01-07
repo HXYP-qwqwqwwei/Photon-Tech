@@ -6,6 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.KtMachineTile;
+import photontech.block.kinetic.ResistType;
 import photontech.event.pt.KtEvent;
 
 public abstract class KtGearTile extends FullAxleTile {
@@ -13,7 +14,7 @@ public abstract class KtGearTile extends FullAxleTile {
     protected int radius;
 
     public KtGearTile(TileEntityType<?> tileEntityTypeIn, long initInertia, int radius) {
-        super(tileEntityTypeIn, initInertia, true);
+        super(tileEntityTypeIn, initInertia, true, radius == 1 ? ResistType.SMALL_GEAR : ResistType.LARGE_GEAR);
         this.radius = Math.max(radius, 1);
     }
 

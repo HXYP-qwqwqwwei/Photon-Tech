@@ -6,11 +6,11 @@ import net.minecraft.util.Direction;
 
 public class FullAxleTile extends KtMachineTile {
     public FullAxleTile(TileEntityType<?> tileEntityTypeIn, long initInertia) {
-        super(tileEntityTypeIn, initInertia);
+        super(tileEntityTypeIn, initInertia, false, ResistType.AXLE);
     }
 
-    public FullAxleTile(TileEntityType<?> tileEntityTypeIn, long initInertia, boolean needAxle) {
-        super(tileEntityTypeIn, initInertia, needAxle);
+    public FullAxleTile(TileEntityType<?> tileEntityTypeIn, long initInertia, boolean needAxle, ResistType type) {
+        super(tileEntityTypeIn, initInertia, needAxle, type);
     }
 
     @Override
