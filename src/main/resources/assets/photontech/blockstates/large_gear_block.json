@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "photontech:block/gear/large_gear",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "photontech:block/gear/large_gear"
+    },
+    "axis=z": {
+      "model": "photontech:block/gear/large_gear",
+      "x": 90,
+      "y": 180
+    }
+  }
+}

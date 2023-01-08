@@ -17,25 +17,25 @@ import javax.annotation.Nullable;
 import static net.minecraft.state.properties.BlockStateProperties.AXIS;
 import static net.minecraft.util.Direction.Axis.*;
 
-public abstract class AxisAlignedBlock extends Block {
-    private final VoxelShape[] shapes;
+public abstract class AxisAlignedBlock extends Block implements IPartalBlock {
+    protected final VoxelShape[] shapes;
 
-    public AxisAlignedBlock(double length, double width, double offset) {
-        super(Properties.of(Material.STONE).strength(2).noOcclusion());
+    public AxisAlignedBlock(double length, double width, double offset, Properties properties) {
+        super(properties);
         this.shapes = this.initShapes(length, width, offset);
-        this.registerDefaultState(
-                this.getStateDefinition().any()
-                        .setValue(AXIS, X)
-        );
+        this.registerDefaultState(this.getStateDefinition().any().setValue(AXIS, X));
     }
 
+    public AxisAlignedBlock(double length, double width, double offset) {
+        this(length, width, offset, Properties.of(Material.STONE).strength(2).noOcclusion());
+    }
 
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder.add(AXIS));
     }
 
-    private VoxelShape[] initShapes(double length, double width, double offset) {
+    protected VoxelShape[] initShapes(double length, double width, double offset) {
         VoxelShape[] shapes = new VoxelShape[3];
         double maxX = 8 + 0.5*width;
         double minX = 8 - 0.5*width;
@@ -49,6 +49,12 @@ public abstract class AxisAlignedBlock extends Block {
     @Override
     public VoxelShape getShape(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         Direction.Axis axis = blockState.getValue(AXIS);
+        return shapes[axis.ordinal()];
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state) {
+        Direction.Axis axis = state.getValue(AXIS);
         return shapes[axis.ordinal()];
     }
 

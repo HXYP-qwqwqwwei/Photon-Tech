@@ -16,7 +16,7 @@ import photontech.block.crucible.PtCrucibleBlock;
 import photontech.block.electric.IConductiveBlock;
 import photontech.init.PtCapabilities;
 import photontech.utils.block.PipeLikeBlock;
-import photontech.utils.helper_functions.AxisHelper;
+import photontech.utils.helperfunctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 

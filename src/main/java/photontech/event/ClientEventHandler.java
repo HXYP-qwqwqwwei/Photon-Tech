@@ -11,15 +11,18 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import photontech.block.crucible.PtCrucibleTER;
 import photontech.block.heater.solid.PtBurningItemHeaterTER;
-import photontech.block.kinetic.axle.AxleTER;
-import photontech.block.kinetic.gears.PtGearsTER;
+import photontech.block.kinetic.FullAxleTile;
+import photontech.block.kinetic.HalfAxleTile;
+import photontech.block.kinetic.gears.KtGearTile;
 import photontech.block.kinetic.motor.dc_brush.DCBrushMotorTERPartA;
+import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartB;
 import photontech.block.mirror.PtMirrorTER;
 import photontech.init.PtBlocks;
 import photontech.init.PtFluids;
 import photontech.init.PtTileEntities;
 import photontech.utils.PtConstants;
 import photontech.utils.client.render.Compartment;
+import photontech.utils.client.render.KtMachineTER;
 import photontech.utils.client.render.SuperByteBufferCache;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -32,8 +35,7 @@ public class ClientEventHandler {
             RenderTypeLookup.setRenderLayer(PtBlocks.QUARTZ_CRUCIBLE.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(PtBlocks.MIRROR.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.IRON_AXLE.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(PtBlocks.GEARS_BLOCK.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(PtBlocks.GEARS_BLOCK.get(), RenderType.cutout());
+//            RenderTypeLookup.setRenderLayer(PtBlocks.GEARS_BLOCK.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.BRUSH_DC_MOTOR_PART_B.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.BRUSH_DC_MOTOR_PART_A.get(), RenderType.cutout());
 
@@ -49,21 +51,22 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.CRUCIBLE_TILEENTITY.get(), PtCrucibleTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.HEATER_TILEENTITY.get(), PtBurningItemHeaterTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.MIRROR_TILEENTITY.get(), PtMirrorTER::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.AXLE_TILE.get(), AxleTER::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.GEARS_TILEENTITY.get(), PtGearsTER::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.AXLE_TILE.get(), KtMachineTER<FullAxleTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.HALF_AXLE_TILE.get(), KtMachineTER<HalfAxleTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.SMALL_GEARS_TILEENTITY.get(), KtMachineTER<KtGearTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.LARGE_GEARS_TILEENTITY.get(), KtMachineTER<KtGearTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), DCBrushMotorTERPartA::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), AxleTER::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), KtMachineTER<DCBrushTilePartB>::new);
         });
 
-        BUFFER_CACHE.registerCompartment(Compartment.KINETIC_TILE);
+        BUFFER_CACHE.registerCompartment(Compartment.BLOCK_MODEL);
         BUFFER_CACHE.registerCompartment(Compartment.GENERIC_MODEL);
+        BUFFER_CACHE.registerCompartment(Compartment.ITEM_MODEL);
     }
 
     @SubscribeEvent
     public static void onModelRegistryEvent(ModelRegistryEvent event) {
-        ModelLoader.addSpecialModel(PtConstants.MODELS.DC_BRUSH_MODEL_X);
-        ModelLoader.addSpecialModel(PtConstants.MODELS.DC_BRUSH_MODEL_Y);
-        ModelLoader.addSpecialModel(PtConstants.MODELS.DC_BRUSH_MODEL_Z);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.DC_BRUSH_MODEL);
         ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_FRAME);
         ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_SUPPORT);
         ModelLoader.addSpecialModel(PtConstants.MODELS.SILVER_MIRROR);

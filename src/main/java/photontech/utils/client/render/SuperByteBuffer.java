@@ -79,6 +79,9 @@ public class SuperByteBuffer {
         return (v - sprite.getV0()) / f * 16.0F;
     }
 
+    /**
+     * 执行渲染
+     */
     public void renderInto(MatrixStack input, IVertexBuilder builder) {
         if (isEmpty())
             return;

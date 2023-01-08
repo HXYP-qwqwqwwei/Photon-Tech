@@ -3,19 +3,27 @@ package photontech.event;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.LogManager;
+import photontech.block.kinetic.KtMachineTile;
 import photontech.init.PtItems;
 import photontech.utils.client.render.PtRenderType;
 
@@ -48,6 +56,36 @@ public class InWorldRenderer {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onKtMainBody(RenderWorldLastEvent event) {
+        ClientPlayerEntity player = Minecraft.getInstance().player;
+        if (player == null || player.getMainHandItem().getItem() != Items.DEBUG_STICK) {
+            return;
+        }
+        IWorld level = player.level;
+        BlockPos.Mutable pos = new BlockPos(player.getPosition(0)).mutable();
+
+        final int range = 30;
+        final int x = pos.getX() - (range >> 1);
+        final int y = pos.getY() - (range >> 1);
+        final int z = pos.getZ() - (range >> 1);
+
+        for (int dx = 0; dx <= range; ++dx) {
+            for (int dy = 0; dy <= range; ++dy) {
+                for (int dz = 0; dz <= range; ++dz) {
+                    pos.set(x+dx, y+dy, z+dz);
+                    TileEntity te = level.getBlockEntity(pos);
+                    if (te instanceof KtMachineTile) {
+                        if (((KtMachineTile) te).getMainBodyPosition().equals(pos)) {
+                            renderBlockOutline(player, event.getMatrixStack(), pos, 0.5F, 0, 0.5F, .8F);
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     private static void addLine(IVertexBuilder builder, Matrix4f matrix, float x, float y, float z, float dx, float dy, float dz, float r, float g, float b, float a) {

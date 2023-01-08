@@ -26,7 +26,6 @@ import javax.annotation.Nullable;
 
 public class PtWireBlock extends PipeLikeBlock {
 
-//    public final double resistivity;
     public final double maxI;
 
     public PtWireBlock(Thickness thickness, double maxI) {

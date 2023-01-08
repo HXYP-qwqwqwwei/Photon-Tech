@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
@@ -29,7 +30,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class SuperByteBufferCache {
 
-    private Map<Compartment<?>, Cache<Object, SuperByteBuffer>> cache;
+    private final Map<Compartment<?>, Cache<Object, SuperByteBuffer>> cache;
 
     public SuperByteBufferCache() {
         cache = new HashMap<>();
@@ -70,6 +71,10 @@ public class SuperByteBufferCache {
 
     public SuperByteBuffer renderModelIn(Compartment<ResourceLocation> compartment, ResourceLocation id, BlockState refState) {
         return get(compartment, id, () -> standardModelRender(id, refState));
+    }
+
+    public SuperByteBuffer renderModelIn(Compartment<ItemStack> compartment, ItemStack itemStack, BlockState refState) {
+        return get(compartment, itemStack, () -> standardModelRender(itemStack, refState));
     }
 
     SuperByteBuffer getGeneric(BlockState key, Supplier<SuperByteBuffer> supplier) {
@@ -114,6 +119,11 @@ public class SuperByteBufferCache {
 
     private SuperByteBuffer standardModelRender(ResourceLocation id, BlockState referenceState) {
         IBakedModel model = Minecraft.getInstance().getModelManager().getModel(id);
+        return standardModelRender(model, referenceState, new MatrixStack());
+    }
+
+    private SuperByteBuffer standardModelRender(ItemStack itemStack, BlockState referenceState) {
+        IBakedModel model = Minecraft.getInstance().getItemRenderer().getModel(itemStack, null, null);
         return standardModelRender(model, referenceState, new MatrixStack());
     }
 

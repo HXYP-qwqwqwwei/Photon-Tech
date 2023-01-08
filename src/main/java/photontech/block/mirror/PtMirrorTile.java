@@ -7,14 +7,14 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import photontech.init.PtTileEntities;
 import photontech.utils.tileentity.IPhotonInstrument;
-import photontech.utils.tileentity.PtMachineTile;
+import photontech.utils.tileentity.MachineTile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class PtMirrorTile extends PtMachineTile implements IPhotonInstrument {
+public class PtMirrorTile extends MachineTile implements IPhotonInstrument {
 
     private static final float MAX_RANGE = 32F;
     private static final Vector3d DEFAULT_VECTOR = new Vector3d(0, 0, 1);

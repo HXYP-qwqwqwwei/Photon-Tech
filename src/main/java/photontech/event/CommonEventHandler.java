@@ -3,10 +3,8 @@ package photontech.event;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import photontech.network.PtNetWorking;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,7 +14,7 @@ import photontech.utils.capability.electric.IEtCapacitor;
 import photontech.utils.capability.heat.IHeatReservoir;
 import photontech.utils.capability.heat.PtHeatReservoir;
 import photontech.utils.capability.kinetic.IRotateBody;
-import photontech.utils.capability.kinetic.PtRotateBody;
+import photontech.utils.capability.kinetic.KtRotateBody;
 import photontech.utils.capability.magnet.IMagnet;
 import photontech.utils.capability.magnet.PtMagnet;
 
@@ -54,7 +52,7 @@ public class CommonEventHandler {
 
             @Override
             public void readNBT(Capability<IRotateBody> capability, IRotateBody instance, Direction side, INBT nbt) {}
-        }, () -> PtRotateBody.create(1000)));
+        }, () -> KtRotateBody.create(1000)));
 
         event.enqueueWork(() -> CapabilityManager.INSTANCE.register(IEtCapacitor.class, new Capability.IStorage<IEtCapacitor>() {
             @Nullable

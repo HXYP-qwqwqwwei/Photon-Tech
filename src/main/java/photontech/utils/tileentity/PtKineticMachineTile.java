@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class PtKineticMachineTile extends PtMachineTile{
+public abstract class PtKineticMachineTile extends MachineTile {
 
     protected List<LazyOptional<IRotateBody>> rigidBodies;
 
@@ -41,7 +41,7 @@ public abstract class PtKineticMachineTile extends PtMachineTile{
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == PtCapabilities.RIGID_BODY) {
+        if (cap == PtCapabilities.ROTATING_STATE) {
             return getRigid(side).cast();
         }
         return super.getCapability(cap, side);

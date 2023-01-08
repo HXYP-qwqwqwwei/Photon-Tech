@@ -4,7 +4,7 @@ package photontech.utils;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.util.ResourceLocation;
 import photontech.PhotonTech;
-import photontech.utils.recipe.PtConditionalRecipe;
+import photontech.utils.recipe.ConditionalRecipe;
 import photontech.utils.recipe.RecipeCondition;
 
 import java.util.Comparator;
@@ -57,16 +57,13 @@ public class PtConstants {
         public static final ResourceLocation SILVER_MIRROR = new ResourceLocation(PhotonTech.ID, "special/silver_mirror");
 
         // DC BRUSH MOTOR
-        public static final ResourceLocation DC_BRUSH_MODEL_X = new ResourceLocation(PhotonTech.ID, "block/brush_motor_models/brush_model_x");
-        public static final ResourceLocation DC_BRUSH_MODEL_Y = new ResourceLocation(PhotonTech.ID, "block/brush_motor_models/brush_model_y");
-        public static final ResourceLocation DC_BRUSH_MODEL_Z = new ResourceLocation(PhotonTech.ID, "block/brush_motor_models/brush_model_z");
-        public static final ResourceLocation[] DC_BRUSH_MODELS = { DC_BRUSH_MODEL_X, DC_BRUSH_MODEL_Y, DC_BRUSH_MODEL_Z };
+        public static final ResourceLocation DC_BRUSH_MODEL = new ResourceLocation(PhotonTech.ID, "block/brush_motor_models/brush_model");
 
         public static final ResourceLocation WOODEN_GEAR_MODEL = new ResourceLocation(PhotonTech.ID, "special/wooden_gear_model");
     }
 
 
-    public static final Comparator<PtConditionalRecipe> NATURAL_HEAT_RECIPE_COMPARATOR = (r1, r2) -> {
+    public static final Comparator<ConditionalRecipe> NATURAL_HEAT_RECIPE_COMPARATOR = (r1, r2) -> {
         RecipeCondition c1 = r1.getCondition();
         RecipeCondition c2 = r2.getCondition();
         if (c1.heat <= 0 && c2.heat <= 0) {
