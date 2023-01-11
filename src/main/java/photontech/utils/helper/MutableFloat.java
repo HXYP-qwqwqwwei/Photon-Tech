@@ -1,4 +1,4 @@
-package photontech.utils.helperfunctions;
+package photontech.utils.helper;
 
 public class MutableFloat {
     public float value;

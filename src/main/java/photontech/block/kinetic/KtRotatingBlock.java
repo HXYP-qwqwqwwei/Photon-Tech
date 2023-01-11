@@ -19,9 +19,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import photontech.block.AxisAlignedBlock;
-import photontech.init.PtCapabilities;
 import photontech.init.PtItems;
-import photontech.utils.helperfunctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -56,10 +54,13 @@ public abstract class KtRotatingBlock extends AxisAlignedBlock {
     public ActionResultType use(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
             KtMachineTile axle = (KtMachineTile) worldIn.getBlockEntity(pos);
-            if (axle != null && !player.isShiftKeyDown()) {
+            if (axle != null) {
                 ItemStack itemStack = player.getItemInHand(handIn);
                 if (itemStack.getItem() == PtItems.WRENCH.get()) {
-                    axle.getMainKtTile().getRefKtTile().rotatingState.angularVelocity += 1F;
+                    if (player.isShiftKeyDown()) {
+                        axle.removeAxle();
+                    }
+                    else axle.getMainKtTile().getRefKtTile().rotatingState.angularVelocity += 1F;
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == PtItems.PROTRACTOR.get()) {
@@ -67,8 +68,8 @@ public abstract class KtRotatingBlock extends AxisAlignedBlock {
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == Items.IRON_INGOT) {
-                    LogManager.getLogger().info(axle.getMainKtTile().getRefKtTile().referenceState.toString());
-                    LogManager.getLogger().info(axle.getMainKtTile().getRefKtTile().forceState.toString());
+                    LogManager.getLogger().info(axle.getMainKtTile().referenceState.toString());
+                    LogManager.getLogger().info(axle.getMainKtTile().forceState.toString());
                     LogManager.getLogger().info(axle.getMainBodyPosition().toString());
                     LogManager.getLogger().info(axle.getAngle());
                     return ActionResultType.SUCCESS;

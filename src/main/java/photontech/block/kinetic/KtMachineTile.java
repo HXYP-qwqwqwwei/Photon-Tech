@@ -3,6 +3,7 @@ package photontech.block.kinetic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -19,6 +20,7 @@ import photontech.event.pt.KtEvent;
 import photontech.init.PtCapabilities;
 import photontech.item.ktblockitem.FullAxleBlockItem;
 import photontech.utils.capability.ISaveLoad;
+import photontech.utils.helper.fuctions.MathFunctions;
 import photontech.utils.tileentity.MachineTile;
 
 import javax.annotation.Nonnull;
@@ -68,9 +70,8 @@ public abstract class KtMachineTile extends MachineTile {
         this.setDirty(true);
     }
 
-    public void resetAll() {
+    public void reset() {
         this.referenceState.reset(this.worldPosition);
-        this.forceState.reset();
         this.setDirty(true);
     }
 
@@ -80,47 +81,59 @@ public abstract class KtMachineTile extends MachineTile {
     }
 
 
-
     @Override
     public void tick() {
-        if (level != null && !level.isClientSide) {
-
-            if (this.worldPosition.equals(mainBodyPosition)) {
-                if (this.referenceState.refKtPos == this.worldPosition.asLong()) {
-                    // 结算角度
-                    this.rotatingState.updateAngle();
-
-                    // 结算合力（摩擦阻力和动力）
-                    long inertia = this.referenceState.getFinalInertia();
-                    float av = this.rotatingState.angularVelocity;
-                    ForceResult forceResult = this.forceState.getFinalForce(av);
-                    float acc = 0.05F * forceResult.force / inertia;
-                    if (forceResult.isResistant) {
-                        if (av <= 0) av = Math.min(0, av + acc);
-                        else av = Math.max(0, av - acc);
-                    } else av += acc;
-
-                    this.rotatingState.angularVelocity = av;
-
-                    this.setDirty(true);
-                }
-            }
+        if (isServerSide()) {
+            this.applyAllForce();
             this.updateIfDirty();
         }
+    }
+
+    @Override
+    public void run() {
+        if (isServerSide()) {
+            if (isPrimary()) {
+                // 更新角度
+                this.rotatingState.updateAngle();
+
+                // 结算合力（摩擦阻力和动力）
+                long inertia = this.referenceState.getFinalInertia();
+                float av = this.rotatingState.angularVelocity;
+                ForceResult forceResult = this.forceState.getFinalForce(av);
+                float acc = 0.05F * forceResult.force / inertia;
+                if (forceResult.isResistant) {
+                    if (av <= 0) av = Math.min(0, av + acc);
+                    else av = Math.max(0, av - acc);
+                } else av += acc;
+
+                this.rotatingState.angularVelocity = av;
+                this.clearAllForce();
+
+                this.setDirty(true);
+            }
+        }
+    }
+
+
+    @Override
+    public boolean isPrimary() {
+        return this.isTerminal() && this.referenceState.refKtPos == this.worldPosition.asLong();
+    }
+
+    public boolean isTerminal() {
+        return this.isKtValid() && this.worldPosition.equals(mainBodyPosition);
     }
 
     public Direction.Axis getAxis() {
         return this.getBlockState().getValue(BlockStateProperties.AXIS);
     }
 
+
     public float getAngle() {
         KtMachineTile mainKt = this.getMainKtTile();
-        if (mainKt != this) {
-            return mainKt.getAngle();
-        }
-        KtMachineTile refKt = this.getMainKtTile().getRefKtTile();
-        this.fixRotatingState(refKt.referenceState,refKt.rotatingState);
-        return this.rotatingState.rotatingAngle;
+        KtMachineTile refKt = mainKt.getRefKtTile();
+        mainKt.fixRotatingState(refKt.referenceState,refKt.rotatingState);
+        return mainKt.rotatingState.rotatingAngle;
     }
 
 
@@ -208,6 +221,7 @@ public abstract class KtMachineTile extends MachineTile {
     }
 
     public void removeAxle() {
+        this.popItems(new ItemStack(this.axleBlockState.getBlock().asItem()));
         this.axleBlockState = Blocks.AIR.defaultBlockState();
         MinecraftForge.EVENT_BUS.post(new KtEvent.KtInvalidateEvent(this));
         this.setDirty(true);
@@ -219,7 +233,7 @@ public abstract class KtMachineTile extends MachineTile {
 
     public void fixRotatingState(ReferenceState refState, RotatingState refRot) {
         if (this.referenceState == refState) return;
-        double fixedAngle = (refRot.rotatingAngle + DOUBLE_PI*refRot.rounds) * Math.pow(2, this.referenceState.frequency);
+        double fixedAngle = (refRot.rotatingAngle + DOUBLE_PI*refRot.rounds) * Math.pow(2, this.referenceState.frequencyLevel);
         fixedAngle = (this.referenceState.reversed ^ refState.reversed) ? -fixedAngle : fixedAngle;
         this.rotatingState.rotatingAngle = (float) (fixedAngle + this.referenceState.phase);
         this.rotatingState.formatAngle();
@@ -228,9 +242,31 @@ public abstract class KtMachineTile extends MachineTile {
     public void axialCombine(KtMachineTile machine) {
         KtMachineTile mainMachine = this.getMainKtTile();
         mainMachine.referenceState.axialSumInertia += machine.referenceState.getSelfInertia();
-        mainMachine.forceState.axialSumResConstant += machine.forceState.initResistConstant;
-        mainMachine.forceState.axialSumResist += machine.forceState.initResist;
+        mainMachine.forceState.axialSumResist += machine.forceState.getInitResist();
+        mainMachine.forceState.axialSumResConstant += machine.forceState.getInitResistConstant();
     }
+
+    protected void applyAllForce() {
+        KtMachineTile terminal = this.getMainKtTile();
+        KtMachineTile primary = terminal.getRefKtTile();
+        int frequency = MathFunctions.pow2Int(terminal.referenceState.frequencyLevel);
+        ForceState primaryState = primary.forceState;
+        ForceState state = this.forceState;
+
+        if (this.isTerminal()) {
+            primaryState.resist += state.axialSumResist * frequency;
+            primaryState.resConstant += state.axialSumResConstant * frequency * frequency;
+        }
+        primaryState.force += state.outputForce * frequency;
+    }
+
+    /**
+     * ONLY FOR PRIMARY MACHINE
+     */
+    protected void clearAllForce() {
+        this.forceState.reset();
+    }
+
 
     public KtEvent.KtCreateEvent createKtCreateEvent() {
         return new KtEvent.KtCreateEvent(this);
@@ -348,7 +384,7 @@ public abstract class KtMachineTile extends MachineTile {
 
         public long refKtPos = 0;
         public double phase = 0F;
-        public int frequency = 0;
+        public int frequencyLevel = 0;
         public boolean reversed = false;
 
         public ReferenceState(long initInertia) {
@@ -363,7 +399,7 @@ public abstract class KtMachineTile extends MachineTile {
         }
 
         public void reset(BlockPos selfPosition) {
-            this.frequency = 0;
+            this.frequencyLevel = 0;
             this.phase = 0F;
             this.reversed = false;
             this.equivalentInertia = 0;
@@ -390,7 +426,7 @@ public abstract class KtMachineTile extends MachineTile {
             nbt.putLong(EQUIVALENT_INERTIA, this.equivalentInertia);
             nbt.putLong(REF_KT_POS, this.refKtPos);
             nbt.putDouble(PHASE, this.phase);
-            nbt.putInt(FREQUENCY, this.frequency);
+            nbt.putInt(FREQUENCY, this.frequencyLevel);
             nbt.putBoolean(REVERSED, this.reversed);
             return nbt;
         }
@@ -403,7 +439,7 @@ public abstract class KtMachineTile extends MachineTile {
             this.equivalentInertia = nbt.getLong(EQUIVALENT_INERTIA);
             this.refKtPos = nbt.getLong(REF_KT_POS);
             this.phase = nbt.getDouble(PHASE);
-            this.frequency = nbt.getInt(FREQUENCY);
+            this.frequencyLevel = nbt.getInt(FREQUENCY);
             this.reversed = nbt.getBoolean(REVERSED);
         }
 
@@ -416,7 +452,7 @@ public abstract class KtMachineTile extends MachineTile {
                     "\n\tequivalentInertia=" + equivalentInertia +
                     "\n\tfinalInertia=" + this.getFinalInertia() +
                     "\n\trefKtPos=" + BlockPos.of(refKtPos).toShortString() +
-                    "\n\tfrequency=" + frequency +
+                    "\n\tfrequency=" + frequencyLevel +
                     "\n\tphase=" + phase +
                     "\n\treversed=" + reversed +
                     "\n}";
@@ -425,67 +461,59 @@ public abstract class KtMachineTile extends MachineTile {
 
     public static class ForceState implements ISaveLoad {
 
-        public static final String FORCE = "Force";
         public static final String INIT_RESIST = "InitResist";
         public static final String INIT_RESIST_CONSTANT = "FluidResistConstant";
-        public static final String EXTRA_RESIST = "ExtraResist";
         public static final String AXIAL_SUM_RESIST = "AxialSumResist";
         public static final String AXIAL_SUM_RES_CONSTANT = "AxialSumResConstant";
-        public static final String EQUIVALENT_RESIST = "EquivalentResist";
-        public static final String EQUIVALENT_RES_CONSTANT = "EquivalentResConstant";
+        public static final String OUTPUT_FORCE = "OutputForce";
+        public static final String FORCE = "Force";
+        public static final String RESIST = "Resist";
+        public static final String RES_CONSTANT = "ResConstant";
+
+        private int initResist;
+        private int initResistConstant;
+        protected int axialSumResist;
+        protected int axialSumResConstant;
+        protected int outputForce;
 
         protected int force = 0;
-        protected int initResist;
-        protected int initResistConstant;
-        protected int axialSumResist = 0;
-        protected int extraResist = 0;
-        protected int axialSumResConstant;
-
-        public int equivalentResist;
-        public int equivalentResConstant;
+        protected int resist = 0;
+        protected int resConstant = 0;
 
         public ForceState(int initResist, int initResistConstant) {
             this.initResist = Math.max(0, initResist);
             this.initResistConstant = Math.max(0, initResistConstant);
-        }
-
-        public int getAxialSumResConstant() {
-            return axialSumResConstant;
+            this.axialSumResConstant = this.getInitResistConstant();
+            this.axialSumResist = this.getInitResist();
         }
 
         public void init() {
             this.reset();
-            this.axialSumResConstant = this.initResistConstant;
-            this.axialSumResist = this.initResist;
+            this.axialSumResConstant = this.getInitResistConstant();
+            this.axialSumResist = this.getInitResist();
         }
 
         public void reset() {
-            this.extraResist = 0;
             this.force = 0;
-            this.equivalentResConstant = 0;
-            this.equivalentResist = 0;
+            this.resist = 0;
+            this.resConstant = 0;
         }
 
-
-        public void addForce(int force) {
-            this.force += force;
+        public void setOutputForce(int outputForce) {
+            this.outputForce = outputForce;
         }
 
-        public int getAxialSumResist() {
-            return this.axialSumResist;
+        public int getInitResist() {
+            return initResist;
         }
 
-        public int getFinalResConstant() {
-            return this.equivalentResConstant + this.axialSumResConstant;
-        }
-
-        public int getFinalResist() {
-            return this.equivalentResist + this.axialSumResist;
+        public int getInitResistConstant() {
+            return initResistConstant;
         }
 
         public ForceResult getFinalForce(float av) {
-            int fluidResist = Math.max(1, (int)(0.001F * av * av * this.getFinalResConstant()));
-            int resist = this.getFinalResist() + fluidResist;
+            int fluidResist = Math.max(1, (int)(0.001F * av * av * this.resConstant));
+            int resist = this.resist + fluidResist;
             if (this.force <= 0) {
                 if (-this.force <= resist) {
                     return ForceResult.RESULT.setResistant(true).setForce(resist + force);
@@ -503,26 +531,26 @@ public abstract class KtMachineTile extends MachineTile {
 
         @Override
         public void load(CompoundNBT nbt) {
-            this.force = nbt.getInt(FORCE);
             this.initResist = nbt.getInt(INIT_RESIST);
             this.initResistConstant = nbt.getInt(INIT_RESIST_CONSTANT);
-            this.extraResist = nbt.getInt(EXTRA_RESIST);
             this.axialSumResist = nbt.getInt(AXIAL_SUM_RESIST);
             this.axialSumResConstant = nbt.getInt(AXIAL_SUM_RES_CONSTANT);
-            this.equivalentResist = nbt.getInt(EQUIVALENT_RESIST);
-            this.equivalentResConstant = nbt.getInt(EQUIVALENT_RES_CONSTANT);
+            this.outputForce = nbt.getInt(OUTPUT_FORCE);
+            this.force = nbt.getInt(FORCE);
+            this.resist = nbt.getInt(RESIST);
+            this.resConstant = nbt.getInt(RES_CONSTANT);
         }
 
         @Override
         public CompoundNBT save(CompoundNBT nbt) {
-            nbt.putInt(FORCE, this.force);
             nbt.putInt(INIT_RESIST, this.initResist);
             nbt.putInt(INIT_RESIST_CONSTANT, this.initResistConstant);
-            nbt.putInt(EXTRA_RESIST, this.extraResist);
             nbt.putInt(AXIAL_SUM_RESIST, this.axialSumResist);
             nbt.putInt(AXIAL_SUM_RES_CONSTANT, this.axialSumResConstant);
-            nbt.putInt(EQUIVALENT_RESIST, this.equivalentResist);
-            nbt.putInt(EQUIVALENT_RES_CONSTANT, this.equivalentResConstant);
+            nbt.putInt(OUTPUT_FORCE, this.outputForce);
+            nbt.putInt(FORCE, this.force);
+            nbt.putInt(RESIST, this.resist);
+            nbt.putInt(RES_CONSTANT, this.resConstant);
             return nbt;
         }
 
@@ -530,16 +558,15 @@ public abstract class KtMachineTile extends MachineTile {
         public String toString() {
             return "ForceState{" +
                     "\n\tinitResist=" + initResist +
-                    "\n\taxialSumResist=" + axialSumResist +
-                    "\n\textraResist=" + extraResist +
-                    "\n\tforce=" + force +
                     "\n\tinitResistConstant=" + initResistConstant +
+                    "\n\taxialSumResist=" + axialSumResist +
                     "\n\taxialSumResConstant=" + axialSumResConstant +
-                    "\n\tequivalentResist=" + equivalentResist +
-                    "\n\tequivalentResConstant=" + equivalentResConstant +
+                    "\n\toutputForce=" + outputForce +
+                    "\n\tforce=" + force +
+                    "\n\tresist=" + resist +
+                    "\n\tresConstant=" + resConstant +
                     "\n}";
         }
-
     }
 }
 

@@ -3,7 +3,7 @@ package photontech.block.kinetic.gears;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import photontech.init.PtTileEntities;
-import photontech.utils.helperfunctions.AxisHelper;
+import photontech.utils.helper.fuctions.AxisHelper;
 
 public class KtSmallGearTile extends KtGearTile {
     public KtSmallGearTile(long initInertia) {

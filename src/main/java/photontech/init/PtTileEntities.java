@@ -12,6 +12,7 @@ import photontech.block.kinetic.gears.KtLargeGearTile;
 import photontech.block.kinetic.gears.KtSmallGearTile;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartA;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartB;
+import photontech.block.kinetic.motor.infinity.InfinityMotorTile;
 import photontech.block.magnet.permanent.PermanentMagnetTile;
 import photontech.block.mirror.PtMirrorTile;
 import net.minecraft.tileentity.TileEntityType;
@@ -93,4 +94,10 @@ public class PtTileEntities {
             () -> new PermanentMagnetTile(1.0),
             PtBlocks.FERRITE_MAGNET_PAINTED.get()
     ).build(null));
+
+    public static final RegistryObject<TileEntityType<InfinityMotorTile>> INFINITY_MOTOR = TILE_ENTITIES.register("infinity_motor_tileentity", () -> TileEntityType.Builder.of(
+            () -> new InfinityMotorTile(1),
+            PtBlocks.INFINITY_MOTOR_BLOCK.get()
+    ).build(null));
+
 }

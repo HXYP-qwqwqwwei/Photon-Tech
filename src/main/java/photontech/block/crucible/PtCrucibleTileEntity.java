@@ -23,7 +23,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import photontech.PhotonTech;
 import photontech.init.PtTileEntities;
-import photontech.utils.helperfunctions.CrucibleConnections;
+import photontech.utils.helper.fuctions.CrucibleConnections;
 import photontech.utils.PtConstants;
 import photontech.utils.capability.fluid.IMultiFluidTank;
 import photontech.utils.capability.fluid.PtMultiFluidTank;

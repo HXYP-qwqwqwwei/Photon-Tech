@@ -23,7 +23,8 @@ public abstract class KtGearTile extends FullAxleTile {
         if (level != null && !level.isClientSide) {
             KtMachineTile mainKt = this.getMainKtTile();
             long gt = level.getGameTime();
-            if (mainKt.flags + 1 == gt) {
+            // 延迟一个游戏刻
+            if (mainKt.gearNotifyTick + 1 == gt) {
                 MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeEvent(this));
                 mainKt.setDirty(true);
             }
@@ -37,7 +38,7 @@ public abstract class KtGearTile extends FullAxleTile {
         return radius;
     }
 
-    public int getTeethNumber() {
+    public int getTeethAmount() {
         return this.radius << 4; // radius * 16
     }
 

@@ -1,13 +1,22 @@
 package photontech.block.kinetic.motor.dc_brush;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import photontech.block.kinetic.DirectionalKtRotatingBlock;
+import photontech.init.PtCapabilities;
+import photontech.init.PtItems;
+import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -25,23 +34,23 @@ public class DCMotorBlockPartA extends DirectionalKtRotatingBlock {
         return new DCBrushTilePartA(initInertia);
     }
 
-//    @Nonnull
-//    @Override
-//    public ActionResultType use(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
-//        if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
-//            DCBrushTilePartA partA = (DCBrushTilePartA) worldIn.getBlockEntity(pos);
-//            if (partA != null) {
-//                ItemStack itemStack = player.getItemInHand(handIn);
-//                if (itemStack.getItem() == PtItems.ELECTIRC_BRUSH.get()) {
-//                    Direction.Axis axis = partA.getAxis();
-//                    Direction.Axis brushAxis = hit.getDirection().getAxis();
-//                    if (axis != brushAxis && partA.brushAxis == null) {
-//                        partA.setBrushAxis(brushAxis);
-//                        partA.setDirty(true);
-//                        updateNeighbors(state, worldIn, pos, AxisHelper.getVerticalDirections(axis));
-//                        return ActionResultType.SUCCESS;
-//                    }
-//                }
+    @Nonnull
+    @Override
+    public ActionResultType use(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
+        if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
+            DCBrushTilePartA partA = (DCBrushTilePartA) worldIn.getBlockEntity(pos);
+            if (partA != null) {
+                ItemStack itemStack = player.getItemInHand(handIn);
+                if (itemStack.getItem() == PtItems.ELECTIRC_BRUSH.get()) {
+                    Direction.Axis axis = partA.getAxis();
+                    Direction.Axis brushAxis = hit.getDirection().getAxis();
+                    if (axis != brushAxis && partA.brushAxis == null) {
+                        partA.setBrushAxis(brushAxis);
+                        partA.setDirty(true);
+                        updateNeighbors(state, worldIn, pos, AxisHelper.getVerticalDirections(axis));
+                        return ActionResultType.SUCCESS;
+                    }
+                }
 //                if (itemStack.getItem() == PtItems.WRENCH.get()) {
 //                    partA.getCapability(PtCapabilities.ROTATING_STATE, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() + 1F));
 //                    return ActionResultType.SUCCESS;
@@ -59,10 +68,10 @@ public class DCMotorBlockPartA extends DirectionalKtRotatingBlock {
 //                    partA.getCapability(PtCapabilities.ROTATING_STATE, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> LogManager.getLogger().info(iRigidBody.getOmega()));
 //                    return ActionResultType.SUCCESS;
 //                }
-//            }
-//        }
-//        return ActionResultType.FAIL;
-//    }
+            }
+        }
+        return ActionResultType.FAIL;
+    }
 
     @SuppressWarnings("deprecation")
     protected static void updateNeighbors(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, Direction[] updateSides) {

@@ -16,6 +16,7 @@ import photontech.block.kinetic.HalfAxleTile;
 import photontech.block.kinetic.gears.KtGearTile;
 import photontech.block.kinetic.motor.dc_brush.DCBrushMotorTERPartA;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartB;
+import photontech.block.kinetic.motor.infinity.InfinityMotorTER;
 import photontech.block.mirror.PtMirrorTER;
 import photontech.init.PtBlocks;
 import photontech.init.PtFluids;
@@ -35,9 +36,10 @@ public class ClientEventHandler {
             RenderTypeLookup.setRenderLayer(PtBlocks.QUARTZ_CRUCIBLE.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(PtBlocks.MIRROR.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.IRON_AXLE.get(), RenderType.cutout());
-//            RenderTypeLookup.setRenderLayer(PtBlocks.GEARS_BLOCK.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.BRUSH_DC_MOTOR_PART_B.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.BRUSH_DC_MOTOR_PART_A.get(), RenderType.cutout());
+
+            RenderTypeLookup.setRenderLayer(PtBlocks.INFINITY_MOTOR_BLOCK.get(), RenderType.translucent());
 
             RenderTypeLookup.setRenderLayer(PtFluids.MILK_FLUID.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(PtFluids.MILK_FLUID_FLOWING.get(), RenderType.translucent());
@@ -57,6 +59,8 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.LARGE_GEARS_TILEENTITY.get(), KtMachineTER<KtGearTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), DCBrushMotorTERPartA::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), KtMachineTER<DCBrushTilePartB>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.INFINITY_MOTOR.get(), InfinityMotorTER::new);
+
         });
 
         BUFFER_CACHE.registerCompartment(Compartment.BLOCK_MODEL);
@@ -67,6 +71,8 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onModelRegistryEvent(ModelRegistryEvent event) {
         ModelLoader.addSpecialModel(PtConstants.MODELS.DC_BRUSH_MODEL);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.INFINITY_MOTOR_ROTATER);
+
         ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_FRAME);
         ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_SUPPORT);
         ModelLoader.addSpecialModel(PtConstants.MODELS.SILVER_MIRROR);

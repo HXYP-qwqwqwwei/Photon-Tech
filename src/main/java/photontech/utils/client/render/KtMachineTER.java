@@ -8,13 +8,12 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
 import photontech.block.kinetic.KtMachineTile;
-import photontech.utils.helperfunctions.AxisHelper;
+import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class KtMachineTER<T extends KtMachineTile> extends MachineTileRenderer<T> {
-    public static final float PI = (float) Math.PI;
     public static final float HALF_PI = (float) Math.PI / 2;
 
     public KtMachineTER(TileEntityRendererDispatcher rendererDispatcher) {

@@ -11,7 +11,7 @@ import photontech.block.kinetic.AxleMaterial;
 import photontech.block.kinetic.KtMachineTile;
 import photontech.event.pt.KtEvent;
 import photontech.init.PtCapabilities;
-import photontech.utils.helperfunctions.AxisHelper;
+import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nullable;
 

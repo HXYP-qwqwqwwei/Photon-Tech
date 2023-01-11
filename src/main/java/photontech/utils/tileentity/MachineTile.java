@@ -42,12 +42,22 @@ public abstract class MachineTile extends MultiContainerTileEntity implements IT
     protected List<ConditionalRecipe> cachedRecipes;
     protected List<PtHeatCache> heatCaches;
 
-    public long flags = 0;
+    public long gearNotifyTick = 0;
     private int coldDown = 1;
     private int timer = 0;
 
     public MachineTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
+    }
+
+    public boolean isServerSide() {
+        return level != null && !level.isClientSide;
+    }
+
+    public void run() {}
+
+    public boolean isPrimary() {
+        return false;
     }
 
     // RECIPE
@@ -94,6 +104,13 @@ public abstract class MachineTile extends MultiContainerTileEntity implements IT
                     Block.popResource(level, this.worldPosition.offset(0.5, 0.5, 0.5), remainItem);
                 }
             }
+        }
+    }
+
+    public void popItems(ItemStack items) {
+        if (this.isServerSide()) {
+            assert level != null;
+            Block.popResource(level, this.worldPosition.offset(.5, .5, .5), items);
         }
     }
 

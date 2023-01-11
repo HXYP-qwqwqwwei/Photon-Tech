@@ -1,7 +1,7 @@
 package photontech.block.electric;
 
 import net.minecraft.tileentity.TileEntityType;
-import photontech.utils.helperfunctions.MutableDouble;
+import photontech.utils.helper.MutableDouble;
 import photontech.utils.tileentity.MachineTile;
 
 public abstract class EtMachineTile extends MachineTile {

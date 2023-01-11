@@ -19,6 +19,7 @@ import photontech.block.crucible.PtCrucibleBlock;
 import photontech.block.PtNormalBlock;
 import photontech.block.kinetic.gears.KtGearBlock;
 import photontech.block.kinetic.motor.dc_brush.DCMotorBlockPartA;
+import photontech.block.kinetic.motor.infinity.InfinityMotorBlock;
 import photontech.block.magnet.permanent.PermanentMagnetBlock;
 import photontech.block.mirror.PtMirrorBlock;
 import photontech.block.kinetic.motor.dc_brush.DCMotorBlockPartB;
@@ -59,6 +60,7 @@ public class PtBlocks {
     public static final RegistryObject<Block> LARGE_GEAR_BLOCK = BLOCKS.register("large_gear_block", () -> new KtGearBlock(16, KtGearBlock.GearType.LARGE_GEAR));
     public static final RegistryObject<KtRotatingBlock> BRUSH_DC_MOTOR_PART_A = BLOCKS.register("brush_dc_motor_part_a", DCMotorBlockPartA::new);
     public static final RegistryObject<KtRotatingBlock> BRUSH_DC_MOTOR_PART_B = BLOCKS.register("brush_dc_motor_part_b", DCMotorBlockPartB::new);
+    public static final RegistryObject<InfinityMotorBlock> INFINITY_MOTOR_BLOCK = BLOCKS.register("infinity_motor", InfinityMotorBlock::new);
 
     // ELECTRODE BLOCKS
     public static final RegistryObject<Block> GRAPHITE_ELECTRODE_1X = BLOCKS.register("graphite_electrode_1x", () -> new PtElectrodeBlock(PipeLikeBlock.Thickness.SIZE_1X));

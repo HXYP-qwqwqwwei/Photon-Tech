@@ -8,8 +8,8 @@ import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.ResistType;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.helperfunctions.AxisHelper;
-import photontech.utils.helperfunctions.MutableInt;
+import photontech.utils.helper.fuctions.AxisHelper;
+import photontech.utils.helper.MutableInt;
 
 public class DCBrushTilePartB extends FullAxleTile {
     private final Vector3d[] Bm = new Vector3d[4];
@@ -62,6 +62,6 @@ public class DCBrushTilePartB extends FullAxleTile {
     }
 
     public double getWireLength() {
-        return 10;
+        return 100;
     }
 }

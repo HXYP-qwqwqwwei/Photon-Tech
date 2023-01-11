@@ -1,4 +1,4 @@
-package photontech.utils.helperfunctions;
+package photontech.utils.helper.fuctions;
 
 import net.minecraft.util.Direction;
 
