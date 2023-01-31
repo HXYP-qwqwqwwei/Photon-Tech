@@ -51,27 +51,25 @@ public abstract class KtRotatingBlock extends AxisAlignedBlock {
 
     @Nonnull
     @Override
+    @SuppressWarnings("deprecation")
     public ActionResultType use(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
-            KtMachineTile axle = (KtMachineTile) worldIn.getBlockEntity(pos);
+            KineticMachine axle = (KineticMachine) worldIn.getBlockEntity(pos);
             if (axle != null) {
                 ItemStack itemStack = player.getItemInHand(handIn);
                 if (itemStack.getItem() == PtItems.WRENCH.get()) {
                     if (player.isShiftKeyDown()) {
                         axle.removeAxle();
                     }
-                    else axle.getMainKtTile().getRefKtTile().rotatingState.angularVelocity += 1F;
+                    else axle.getTerminal().getPrimary().state.angularVelocity += 1;
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == PtItems.PROTRACTOR.get()) {
-                    axle.getMainKtTile().getRefKtTile().rotatingState.angularVelocity -= 1F;
+                    axle.getTerminal().getPrimary().state.angularVelocity -= 1;
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == Items.IRON_INGOT) {
-                    LogManager.getLogger().info(axle.getMainKtTile().referenceState.toString());
-                    LogManager.getLogger().info(axle.getMainKtTile().forceState.toString());
-                    LogManager.getLogger().info(axle.getMainBodyPosition().toString());
-                    LogManager.getLogger().info(axle.getAngle());
+                    LogManager.getLogger().info(axle.getTerminal().state.toString());
                     return ActionResultType.SUCCESS;
                 }
             }
@@ -82,11 +80,13 @@ public abstract class KtRotatingBlock extends AxisAlignedBlock {
 
     @Nonnull
     @Override
+    @SuppressWarnings("deprecation")
     public BlockRenderType getRenderShape(@Nonnull BlockState blockState) {
         return BlockRenderType.INVISIBLE;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public float getShadeBrightness(@Nonnull BlockState blockState, @Nonnull IBlockReader blockReader, @Nonnull BlockPos blockPos) {
         return 0.5F;
     }
@@ -100,8 +100,8 @@ public abstract class KtRotatingBlock extends AxisAlignedBlock {
     @Nonnull
     public VoxelShape getShapeWithAxle(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         TileEntity te = reader.getBlockEntity(pos);
-        if (te instanceof KtMachineTile) {
-            if (!((KtMachineTile) te).getAxleBlockState().is(Blocks.AIR)) {
+        if (te instanceof KineticMachine) {
+            if (!((KineticMachine) te).getAxleBlockState().is(Blocks.AIR)) {
                 return VoxelShapes.or(super.getShape(blockState, reader, pos, context), this.getAxleShape(blockState));
             }
         }

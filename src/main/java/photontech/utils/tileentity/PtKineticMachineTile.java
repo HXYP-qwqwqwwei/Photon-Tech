@@ -41,7 +41,7 @@ public abstract class PtKineticMachineTile extends MachineTile {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == PtCapabilities.ROTATING_STATE) {
+        if (cap == PtCapabilities.KINETIC_STATE) {
             return getRigid(side).cast();
         }
         return super.getCapability(cap, side);

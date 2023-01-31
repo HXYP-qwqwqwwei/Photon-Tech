@@ -3,6 +3,8 @@ package photontech.utils.capability.kinetic;
 import net.minecraft.nbt.CompoundNBT;
 import photontech.utils.capability.ISaveLoad;
 
+import javax.annotation.Nonnull;
+
 public interface IRotateBody extends ISaveLoad {
 
     double DOUBLE_PI = Math.PI * 2;
@@ -88,6 +90,7 @@ public interface IRotateBody extends ISaveLoad {
 
 class InvalidBody implements IRotateBody {
     public void load(CompoundNBT nbt) {}
+    @Nonnull
     public CompoundNBT save(CompoundNBT nbt) {return new CompoundNBT();}
     public float getOmega() {return 0;}
     public void setOmega(float omega) {}

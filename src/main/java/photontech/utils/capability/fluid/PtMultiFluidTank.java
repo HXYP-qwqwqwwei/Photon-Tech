@@ -250,6 +250,7 @@ public class PtMultiFluidTank implements IMultiFluidTank {
         }
     }
 
+    @Nonnull
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         PtNBTUtils.saveFluidsToNBT(tanks, nbt);

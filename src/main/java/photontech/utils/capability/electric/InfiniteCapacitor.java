@@ -2,6 +2,8 @@ package photontech.utils.capability.electric;
 
 import net.minecraft.nbt.CompoundNBT;
 
+import javax.annotation.Nonnull;
+
 public class InfiniteCapacitor implements IMutableConductor {
     private double U;
 
@@ -48,6 +50,7 @@ public class InfiniteCapacitor implements IMutableConductor {
 
     }
 
+    @Nonnull
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putDouble("Voltage", this.U);

@@ -66,8 +66,8 @@ public abstract class DirectionalKtRotatingBlock extends KtRotatingBlock {
     public VoxelShape getShapeWithAxle(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         Direction facing = blockState.getValue(FACING);
         TileEntity te = reader.getBlockEntity(pos);
-        if (te instanceof KtMachineTile) {
-            if (!((KtMachineTile) te).getAxleBlockState().is(Blocks.AIR)) {
+        if (te instanceof KineticMachine) {
+            if (!((KineticMachine) te).getAxleBlockState().is(Blocks.AIR)) {
                 return VoxelShapes.or(shapes[facing.ordinal()], this.getAxleShape(blockState));
             }
         }

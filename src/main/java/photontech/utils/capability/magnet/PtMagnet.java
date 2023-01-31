@@ -2,6 +2,8 @@ package photontech.utils.capability.magnet;
 
 import net.minecraft.nbt.CompoundNBT;
 
+import javax.annotation.Nonnull;
+
 public class PtMagnet implements IMagnet {
     protected double B0;
     MagneticPole pole;
@@ -20,6 +22,7 @@ public class PtMagnet implements IMagnet {
         this.B0 = nbt.getDouble("B0");
     }
 
+    @Nonnull
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putDouble("B0", this.B0);

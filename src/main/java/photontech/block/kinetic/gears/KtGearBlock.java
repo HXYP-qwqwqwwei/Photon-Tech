@@ -17,8 +17,8 @@ public class KtGearBlock extends KtRotatingBlock {
 
     static {
         GEAR_SUPPLIERS = new IGearSupplier[GearType.values().length];
-        GEAR_SUPPLIERS[GearType.SMALL_GEAR.ordinal()] = KtSmallGearTile::new;
-        GEAR_SUPPLIERS[GearType.LARGE_GEAR.ordinal()] = KtLargeGearTile::new;
+        GEAR_SUPPLIERS[GearType.SMALL_GEAR.ordinal()] = SmallGearTile::new;
+        GEAR_SUPPLIERS[GearType.LARGE_GEAR.ordinal()] = LargeGearTile::new;
     }
 
     private final GearType type;

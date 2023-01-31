@@ -11,6 +11,6 @@ public class ActiveKineticMachine extends FullAxleTile {
     }
 
     protected void setOutput(int force) {
-        this.forceState.setOutputForce(force);
+//        this.state.setOutputForce(force);
     }
 }

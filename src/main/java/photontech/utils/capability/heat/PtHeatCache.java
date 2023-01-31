@@ -2,6 +2,8 @@ package photontech.utils.capability.heat;
 
 import net.minecraft.nbt.CompoundNBT;
 
+import javax.annotation.Nonnull;
+
 public class PtHeatCache extends PtHeatReservoir implements IHeatCache {
 
     private int requiredTransitionHeat;
@@ -95,6 +97,7 @@ public class PtHeatCache extends PtHeatReservoir implements IHeatCache {
         this.surplusHeat = nbt.getInt("SurplusHeat");
     }
 
+    @Nonnull
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         super.save(nbt);

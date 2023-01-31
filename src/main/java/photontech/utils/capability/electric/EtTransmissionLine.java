@@ -2,6 +2,8 @@ package photontech.utils.capability.electric;
 
 import net.minecraft.nbt.CompoundNBT;
 
+import javax.annotation.Nonnull;
+
 public class EtTransmissionLine implements IEtCapacitor {
     // 电容
     protected double capacity;
@@ -54,6 +56,7 @@ public class EtTransmissionLine implements IEtCapacitor {
         this.charge = charge;
     }
 
+    @Nonnull
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putDouble("Capacity", this.capacity);

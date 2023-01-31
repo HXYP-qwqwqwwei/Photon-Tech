@@ -2,6 +2,8 @@ package photontech.utils.capability.kinetic;
 
 import net.minecraft.nbt.CompoundNBT;
 
+import javax.annotation.Nonnull;
+
 public class KtRotateBody implements IRotateBody {
 
     public static final String INERTIA = "Inertia";
@@ -131,6 +133,7 @@ public class KtRotateBody implements IRotateBody {
 //        this.valid = false;
 //    }
 
+    @Nonnull
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
 //        nbt.putLong(INERTIA, this.inertia);

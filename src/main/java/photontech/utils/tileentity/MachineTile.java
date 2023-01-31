@@ -54,8 +54,6 @@ public abstract class MachineTile extends MultiContainerTileEntity implements IT
         return level != null && !level.isClientSide;
     }
 
-    public void run() {}
-
     public boolean isPrimary() {
         return false;
     }

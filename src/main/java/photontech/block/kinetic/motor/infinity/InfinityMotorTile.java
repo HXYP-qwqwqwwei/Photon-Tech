@@ -11,7 +11,7 @@ public class InfinityMotorTile extends ActiveKineticMachine {
 
     @Override
     public void tick() {
-        if (isServerSide() && this.isKtValid()) {
+        if (isServerSide() && this.isActive()) {
             this.setOutput(10);
         }
         super.tick();

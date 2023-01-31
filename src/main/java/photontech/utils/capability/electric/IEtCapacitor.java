@@ -4,6 +4,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.world_data.PtComplexCapabilityData;
 
+import javax.annotation.Nonnull;
+
 public interface IEtCapacitor extends PtComplexCapabilityData.ISaveLoadWithRefCnt {
     long INF = Long.MAX_VALUE;
     LazyOptional<IEtCapacitor> PLACE_HOLDER = LazyOptional.of(() -> new IEtCapacitor() {
@@ -62,6 +64,7 @@ public interface IEtCapacitor extends PtComplexCapabilityData.ISaveLoadWithRefCn
 
         }
 
+        @Nonnull
         @Override
         public CompoundNBT save(CompoundNBT nbt) {
             return null;

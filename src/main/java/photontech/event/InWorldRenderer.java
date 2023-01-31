@@ -1,13 +1,10 @@
 package photontech.event;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -18,12 +15,10 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.LogManager;
-import photontech.block.kinetic.KtMachineTile;
+import photontech.block.kinetic.KineticMachine;
 import photontech.init.PtItems;
 import photontech.utils.client.render.PtRenderType;
 
@@ -77,9 +72,12 @@ public class InWorldRenderer {
                 for (int dz = 0; dz <= range; ++dz) {
                     pos.set(x+dx, y+dy, z+dz);
                     TileEntity te = level.getBlockEntity(pos);
-                    if (te instanceof KtMachineTile) {
-                        if (((KtMachineTile) te).getMainBodyPosition().equals(pos)) {
-                            renderBlockOutline(player, event.getMatrixStack(), pos, 0.5F, 0, 0.5F, .8F);
+                    if (te instanceof KineticMachine) {
+                        if (((KineticMachine) te).isPrimary()) {
+                            renderBlockOutline(player, event.getMatrixStack(), pos, 0, 1.0F, 0, .8F);
+                        }
+                        else if (((KineticMachine) te).isTerminal()) {
+                            renderBlockOutline(player, event.getMatrixStack(), pos, .5F, 0, .5F, .8F);
                         }
                     }
                 }
@@ -130,7 +128,7 @@ public class InWorldRenderer {
 
         matrixStack.popPose();
 
-        RenderSystem.disableDepthTest();
+//        RenderSystem.disableDepthTest();
         buffer.endBatch();
     }
 

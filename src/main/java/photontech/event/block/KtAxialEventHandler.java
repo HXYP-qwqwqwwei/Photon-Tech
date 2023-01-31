@@ -8,10 +8,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import photontech.block.kinetic.AxleMaterial;
-import photontech.block.kinetic.KtMachineTile;
+import photontech.block.kinetic.KineticMachine;
 import photontech.event.pt.KtEvent;
-import photontech.init.PtCapabilities;
 import photontech.utils.helper.fuctions.AxisHelper;
+import photontech.utils.helper.fuctions.PtPhysics;
 
 import javax.annotation.Nullable;
 
@@ -24,90 +24,90 @@ public class KtAxialEventHandler {
         if (event.getWorld().isClientSide()) return;
 
         // 初始化
-        KtMachineTile selfKt = event.getSelfKt();
-        selfKt.initAll();
+        KineticMachine machine = event.getMachine();
+        machine.axialReset();
 
-        Direction positiveSide = AxisHelper.getAxisPositiveDirection(selfKt.getAxis());
-        KtMachineTile neighbor = getNeighborKt(selfKt, positiveSide);
-        KtEvent.KtActiveEvent activeEvent = new KtEvent.KtActiveEvent(selfKt, neighbor != null ? positiveSide.getOpposite() : positiveSide);
-        MinecraftForge.EVENT_BUS.post(activeEvent);
+        Direction positiveSide = AxisHelper.getAxisPositiveDirection(machine.getAxis());
+
+        KineticMachine posNeighbor = getNeighbor(machine, positiveSide);
+        KineticMachine negNeighbor = getNeighbor(machine, positiveSide.getOpposite());
+        PtPhysics.axialMomentumConservation(machine, posNeighbor, negNeighbor);
+        if (posNeighbor != null) {
+            MinecraftForge.EVENT_BUS.post(new KtEvent.KtActiveEvent(machine, positiveSide));
+        } else if (negNeighbor != null) {
+            MinecraftForge.EVENT_BUS.post(new KtEvent.KtActiveEvent(machine, positiveSide.getOpposite()));
+        } else {
+            MinecraftForge.EVENT_BUS.post(new KtEvent.KtAxialCombinedEvent(machine));
+        }
     }
 
+    /**
+     * 轴向合并，先尝试向更新方向邻居合并，然后通知反方向的邻居递归地合并
+     */
     @SubscribeEvent
     public static void onKtActive(KtEvent.KtActiveEvent event) {
-        BlockPos selfPos = event.getPos();
+        BlockPos pos = event.getPos();
         IWorld level = event.getWorld();
-        KtMachineTile selfKt = event.getSelfKt();
+        KineticMachine current = event.getMachine();
         Direction side = event.getUpdateDirection();
 
-        AxleMaterial selfMaterial = selfKt.getAxleMaterial();
-
-        // 为self初始化
-        selfKt.initAll();
+        // 初始化
+        current.axialReset();
 
         // 检查该方向邻居
-        KtMachineTile neighbor = getNeighborKt(selfKt, side);
-        // 若该方向有邻居
-        if (neighbor != null) {
-            KtMachineTile.RotatingState rotState = neighbor.getRotatingState();
-
-            // 若邻居的连接数未达上限，则将自己与其合并，合并后总连接数+1，否则跳过此步
-            if (rotState.axialLength < selfMaterial.maxConnect) {
-                // 设置轴向惯量、静态阻力和阻力系数
-                neighbor.axialCombine(selfKt);
-
-                rotState.axialLength += 1;
-                selfKt.setMainBodyPosition(neighbor.getMainBodyPosition());
-            }
-            else { //邻居的连接数已到达上限，则破坏自身
-                MinecraftForge.EVENT_BUS.post(new KtEvent.KtInvalidateEvent(selfKt));
-                level.destroyBlock(selfPos, true);
-                return;
-            }
+        KineticMachine neighbor = getNeighbor(current, side);
+        // 若该方向有邻居，尝试连接，失败则破坏自身
+        if (neighbor != null && !current.axialConnectTo(neighbor)) {
+            MinecraftForge.EVENT_BUS.post(new KtEvent.KtInvalidateEvent(current));
+            level.destroyBlock(pos, true);
+            return;
         }
 
         // 检查反方向邻居
-        KtMachineTile negativeNeighbor = getNeighborKt(selfKt, side.getOpposite());
+        KineticMachine negativeNeighbor = getNeighbor(current, side.getOpposite());
         // 若反方向有邻居，则在邻居处触发active事件，然后返回
         if (negativeNeighbor != null) {
             MinecraftForge.EVENT_BUS.post(new KtEvent.KtActiveEvent(negativeNeighbor, side));
             return;
         }
         // 否则表明轴向合并已完成，向总线报告一个完成事件
-        MinecraftForge.EVENT_BUS.post(new KtEvent.KtAxialCombinedEvent(selfKt));
+        MinecraftForge.EVENT_BUS.post(new KtEvent.KtAxialCombinedEvent(current));
     }
 
     @SubscribeEvent
     public static void onKtInvalidate(KtEvent.KtInvalidateEvent event) {
-        KtMachineTile selfKt = event.getSelfKt();
-        Direction.Axis axis = selfKt.getAxis();
+        KineticMachine current = event.getMachine();
+        Direction.Axis axis = current.getAxis();
         Direction positiveSide = AxisHelper.getAxisPositiveDirection(axis);
         Direction negativeSide = positiveSide.getOpposite();
 
-        KtMachineTile positiveNeighbor = getNeighborKt(selfKt, positiveSide);
-        KtMachineTile negativeNeighbor = getNeighborKt(selfKt, negativeSide);
-        selfKt.setMainBodyPosition(BlockPos.ZERO);
+        KineticMachine positiveNeighbor = getNeighbor(current, positiveSide);
+        KineticMachine negativeNeighbor = getNeighbor(current, negativeSide);
+        float av = current.getAngularVelocity();
+        current.kineticInvalidate();
 
         if (positiveNeighbor != null) {
             MinecraftForge.EVENT_BUS.post(new KtEvent.KtActiveEvent(positiveNeighbor, negativeSide));
+            positiveNeighbor.setAngularVelocity(av);
         }
         if (negativeNeighbor != null) {
             MinecraftForge.EVENT_BUS.post(new KtEvent.KtActiveEvent(negativeNeighbor, positiveSide));
+            negativeNeighbor.setAngularVelocity(av);
         }
     }
 
 
     @Nullable
-    private static KtMachineTile getNeighborKt(KtMachineTile kt, Direction direction) {
-        IWorld level = kt.getLevel();
-        AxleMaterial material = kt.getAxleMaterial();
+    private static KineticMachine getNeighbor(KineticMachine km, Direction direction) {
+        IWorld level = km.getLevel();
+        AxleMaterial material = km.getAxleMaterial();
         if (level == null || material == AxleMaterial.INVALID) return null;
-        TileEntity neighbor = level.getBlockEntity(kt.getBlockPos().relative(direction));
-        if (neighbor instanceof KtMachineTile) {
-            KtMachineTile neighborKt = (KtMachineTile) neighbor;
-            return kt.getCapability(PtCapabilities.ROTATING_STATE, direction).isPresent()
-                    && neighborKt.getCapability(PtCapabilities.ROTATING_STATE, direction.getOpposite()).isPresent()
-                    && neighborKt.getAxleMaterial() == material ? neighborKt : null;
+        TileEntity te = level.getBlockEntity(km.getBlockPos().relative(direction));
+        if (te instanceof KineticMachine) {
+            KineticMachine neighbor = (KineticMachine) te;
+            return km.isKtValidSide(direction)
+                    && neighbor.isKtValidSide(direction.getOpposite())
+                    && neighbor.getAxleMaterial() == material ? neighbor : null;
         }
         return null;
     }

@@ -2,7 +2,6 @@
   "minVersion": "0.8.4",
   "package": "photontech.mixins",
   "mixins": [
-    "MixinWorld"
   ],
   "client": [
     "MixinMinecraft"

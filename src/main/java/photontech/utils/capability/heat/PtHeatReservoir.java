@@ -2,6 +2,8 @@ package photontech.utils.capability.heat;
 
 import net.minecraft.nbt.CompoundNBT;
 
+import javax.annotation.Nonnull;
+
 public class PtHeatReservoir implements IHeatReservoir {
 
     private int heat;
@@ -104,6 +106,7 @@ public class PtHeatReservoir implements IHeatReservoir {
     }
 
 
+    @Nonnull
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("Heat", this.getHeat());
         nbt.putFloat("Capacity", this.getCapacity());

@@ -2,24 +2,24 @@ package photontech.event.pt;
 
 import net.minecraft.util.Direction;
 import net.minecraftforge.event.world.BlockEvent;
-import photontech.block.kinetic.KtMachineTile;
-import photontech.block.kinetic.gears.KtGearTile;
+import photontech.block.kinetic.KineticMachine;
+import photontech.block.kinetic.gears.GearTile;
 
 public class KtEvent extends BlockEvent {
 
-    protected final KtMachineTile selfKt;
+    protected final KineticMachine machine;
 
-    public KtEvent(KtMachineTile selfKt) {
-        super(selfKt.getLevel(), selfKt.getBlockPos(), selfKt.getBlockState());
-        this.selfKt = selfKt;
+    public KtEvent(KineticMachine machine) {
+        super(machine.getLevel(), machine.getBlockPos(), machine.getBlockState());
+        this.machine = machine;
     }
 
-    public KtMachineTile getSelfKt() {
-        return selfKt;
+    public KineticMachine getMachine() {
+        return machine;
     }
 
     public static class KtInvalidateEvent extends KtEvent {
-        public KtInvalidateEvent(KtMachineTile selfKt) {
+        public KtInvalidateEvent(KineticMachine selfKt) {
             super(selfKt);
         }
     }
@@ -28,7 +28,7 @@ public class KtEvent extends BlockEvent {
 
         protected final Direction updateDirection;
 
-        public KtActiveEvent(KtMachineTile selfKt, Direction updateDirection) {
+        public KtActiveEvent(KineticMachine selfKt, Direction updateDirection) {
             super(selfKt);
             this.updateDirection = updateDirection;
         }
@@ -36,7 +36,6 @@ public class KtEvent extends BlockEvent {
         public Direction getUpdateDirection() {
             return updateDirection;
         }
-
     }
 
     /**
@@ -44,15 +43,15 @@ public class KtEvent extends BlockEvent {
      * 用于处理合并后的cap合并问题。
      */
     public static class KtCreateEvent extends KtEvent {
-        public KtCreateEvent(KtMachineTile selfKt) {
+        public KtCreateEvent(KineticMachine selfKt) {
             super(selfKt);
         }
 
     }
 
     public static class KtAxialCombinedEvent extends KtEvent {
-        public KtAxialCombinedEvent(KtMachineTile selfKt) {
-            super(selfKt.getMainKtTile());
+        public KtAxialCombinedEvent(KineticMachine selfKt) {
+            super(selfKt.getTerminal());
         }
     }
 
@@ -69,20 +68,20 @@ public class KtEvent extends BlockEvent {
 
     public static class KtGearSynchronizeEvent extends KtEvent {
 
-        public KtGearSynchronizeEvent(KtGearTile selfKt) {
+        public KtGearSynchronizeEvent(GearTile selfKt) {
             super(selfKt);
         }
 
-        public KtGearTile getGearKt() {
-            return (KtGearTile) selfKt;
+        public GearTile getGearKt() {
+            return (GearTile) machine;
         }
 
     }
 
     public static class KtGearSynchronizeNotifyEvent extends KtEvent {
 
-        public KtGearSynchronizeNotifyEvent(KtMachineTile selfKt) {
-            super(selfKt.getMainKtTile());
+        public KtGearSynchronizeNotifyEvent(KineticMachine selfKt) {
+            super(selfKt.getTerminal());
         }
 
     }
