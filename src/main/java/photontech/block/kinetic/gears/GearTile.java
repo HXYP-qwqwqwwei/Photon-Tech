@@ -6,7 +6,7 @@ import net.minecraftforge.common.MinecraftForge;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.KineticMachine;
 import photontech.block.kinetic.ResistType;
-import photontech.event.pt.KtEvent;
+import photontech.event.define.kinetic.GearSynchronizeEvent;
 
 public abstract class GearTile extends FullAxleTile {
 
@@ -24,7 +24,7 @@ public abstract class GearTile extends FullAxleTile {
             long gt = level.getGameTime();
             // 延迟一个游戏刻
             if (mainKt.gearNotifyTick + 1 == gt) {
-                MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeEvent(this));
+                MinecraftForge.EVENT_BUS.post(new GearSynchronizeEvent(this));
                 mainKt.setDirty(true);
             }
         }

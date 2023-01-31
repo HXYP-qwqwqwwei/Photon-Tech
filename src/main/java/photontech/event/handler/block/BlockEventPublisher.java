@@ -1,4 +1,4 @@
-package photontech.event.block;
+package photontech.event.handler.block;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -9,7 +9,10 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import photontech.block.kinetic.KineticMachine;
-import photontech.event.pt.KtEvent;
+import photontech.event.define.kinetic.AxialCombinedEvent;
+import photontech.event.define.kinetic.AxialCompletedEvent;
+import photontech.event.define.kinetic.KineticInvalidateEvent;
+import photontech.event.define.kinetic.KineticPlaceEvent;
 
 import javax.annotation.Nonnull;
 
@@ -25,7 +28,7 @@ public class BlockEventPublisher {
         if (te instanceof KineticMachine) {
             KineticMachine machine = (KineticMachine) te;
             if (!machine.isActive()) return;
-            MinecraftForge.EVENT_BUS.post(new KtEvent.KtCreateEvent(machine));
+            MinecraftForge.EVENT_BUS.post(new KineticPlaceEvent(machine));
         }
     }
 
@@ -37,15 +40,15 @@ public class BlockEventPublisher {
             BlockPos selfPos = event.getPos();
             TileEntity self = level.getBlockEntity(selfPos);
             if (self instanceof KineticMachine && ((KineticMachine) self).isActive()) {
-                MinecraftForge.EVENT_BUS.post(new KtEvent.KtInvalidateEvent((KineticMachine) self));
+                MinecraftForge.EVENT_BUS.post(new KineticInvalidateEvent((KineticMachine) self));
             }
         }
     }
 
     @SubscribeEvent
-    public static void onKtKtActiveEvent(KtEvent.KtAxialCombinedEvent event) {
+    public static void onKtKtActiveEvent(AxialCombinedEvent event) {
         event.getMachine().primaryReset();
-        MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeNotifyEvent(event.getMachine()));
+        MinecraftForge.EVENT_BUS.post(new AxialCompletedEvent(event.getMachine()));
     }
 
 }

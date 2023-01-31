@@ -1,4 +1,4 @@
-package photontech.event.block;
+package photontech.event.define;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SixWayBlock;

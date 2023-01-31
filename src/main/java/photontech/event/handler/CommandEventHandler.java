@@ -1,4 +1,4 @@
-package photontech.event;
+package photontech.event.handler;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;

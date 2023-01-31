@@ -1,4 +1,4 @@
-package photontech.event;
+package photontech.event.handler;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;

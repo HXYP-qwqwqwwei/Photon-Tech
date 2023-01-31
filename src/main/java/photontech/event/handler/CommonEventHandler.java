@@ -1,4 +1,4 @@
-package photontech.event;
+package photontech.event.handler;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;

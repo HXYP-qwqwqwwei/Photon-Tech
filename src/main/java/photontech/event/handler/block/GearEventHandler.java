@@ -1,4 +1,4 @@
-package photontech.event.block;
+package photontech.event.handler.block;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -10,17 +10,19 @@ import net.minecraftforge.fml.common.Mod;
 import photontech.block.kinetic.KineticMachine;
 import photontech.block.kinetic.gears.ConnectCondition;
 import photontech.block.kinetic.gears.GearTile;
-import photontech.event.pt.KtEvent;
+import photontech.event.define.kinetic.AxialCompletedEvent;
+import photontech.event.define.kinetic.GearSynchronizeEvent;
+import photontech.event.define.kinetic.KineticInvalidateEvent;
 import photontech.utils.helper.fuctions.PtMath;
 import photontech.utils.helper.fuctions.PtPhysics;
 
 import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class KtGearsEventHandler {
+public class GearEventHandler {
 
     @SubscribeEvent
-    public static void onAxialCombinedEvent(KtEvent.KtGearSynchronizeNotifyEvent event) {
+    public static void onAxialCombinedEvent(AxialCompletedEvent event) {
         IWorld level = event.getWorld();
         KineticMachine selfKt = event.getMachine();
         selfKt.gearNotifyTick = level.getLevelData().getGameTime();
@@ -28,10 +30,10 @@ public class KtGearsEventHandler {
     }
 
     @SubscribeEvent
-    public static void onGearSynchronize(KtEvent.KtGearSynchronizeEvent event) {
+    public static void onGearSynchronize(GearSynchronizeEvent event) {
         IWorld level = event.getWorld();
         BlockPos pos = event.getPos();
-        GearTile currGear = event.getGearKt();
+        GearTile currGear = event.getGear();
         KineticMachine terminal = currGear.getTerminal();
         // 过期的事件
         if (terminal.expired) {
@@ -51,7 +53,7 @@ public class KtGearsEventHandler {
             if (frequencyLevel < 0) {   // 频率等级小于0的情况，重新以邻居为参考开始同步
                 terminal.expired = true;  // 用于取消已发布的事件
                 neighborTerminal.primaryReset();
-                MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeNotifyEvent(neighborGear));
+                MinecraftForge.EVENT_BUS.post(new AxialCompletedEvent(neighborGear));
                 break;
             }
             // 计算相位
@@ -63,7 +65,7 @@ public class KtGearsEventHandler {
             // 冲突的连接
             if (terminal.samePrimary(neighborTerminal)) {
                 if (neighborTerminal.getFreqLevel() != frequencyLevel || neighborTerminal.reversed() != reversed) {
-                    MinecraftForge.EVENT_BUS.post(new KtEvent.KtInvalidateEvent(currGear));
+                    MinecraftForge.EVENT_BUS.post(new KineticInvalidateEvent(currGear));
                     level.destroyBlock(pos, true);
                     break;
                 }
@@ -74,12 +76,12 @@ public class KtGearsEventHandler {
             neighborTerminal.gearCombine(terminal, frequencyLevel, fixedPhase, reversed);
 
             // 同步完之后，向总线报告一个通知事件
-            MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeNotifyEvent(neighborGear));
+            MinecraftForge.EVENT_BUS.post(new AxialCompletedEvent(neighborGear));
         }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onGearInvalidate(KtEvent.KtInvalidateEvent event) {
+    public static void onGearInvalidate(KineticInvalidateEvent event) {
         KineticMachine machine = event.getMachine();
         IWorld level = event.getWorld();
 
@@ -92,7 +94,7 @@ public class KtGearsEventHandler {
                 if (neighborGear == null) continue;
 
                 neighborGear.getTerminal().primaryReset();
-                MinecraftForge.EVENT_BUS.post(new KtEvent.KtGearSynchronizeNotifyEvent(neighborGear));
+                MinecraftForge.EVENT_BUS.post(new AxialCompletedEvent(neighborGear));
             }
         }
     }

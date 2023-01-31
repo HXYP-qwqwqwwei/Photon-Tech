@@ -1,4 +1,4 @@
-package photontech.event;
+package photontech.event.handler;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

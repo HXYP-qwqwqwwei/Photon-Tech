@@ -18,7 +18,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import photontech.block.kinetic.axle.FullAxleBlock;
-import photontech.event.pt.KtEvent;
+import photontech.event.define.kinetic.KineticInvalidateEvent;
+import photontech.event.define.kinetic.KineticPlaceEvent;
 import photontech.init.PtCapabilities;
 import photontech.item.ktblockitem.FullAxleBlockItem;
 import photontech.utils.helper.fuctions.PtMath;
@@ -287,7 +288,7 @@ protected final KineticState state;
         this.popItems(new ItemStack(this.axleBlockState.getBlock().asItem()));
         this.axleBlockState = Blocks.AIR.defaultBlockState();
         this.state.setExtraInertia(0L);
-        MinecraftForge.EVENT_BUS.post(new KtEvent.KtInvalidateEvent(this));
+        MinecraftForge.EVENT_BUS.post(new KineticInvalidateEvent(this));
         this.setDirty(true);
     }
 
@@ -312,8 +313,8 @@ protected final KineticState state;
     }
 
 
-    public KtEvent.KtCreateEvent createKtCreateEvent() {
-        return new KtEvent.KtCreateEvent(this);
+    public KineticPlaceEvent createKtCreateEvent() {
+        return new KineticPlaceEvent(this);
     }
 
     @Nonnull

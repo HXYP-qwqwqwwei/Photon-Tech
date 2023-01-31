@@ -1,4 +1,4 @@
-package photontech.event;
+package photontech.event.handler;
 
 import photontech.block.heater.solid.PtBurningItemHeaterScreen;
 import photontech.block.crucible.PtCrucibleScreen;

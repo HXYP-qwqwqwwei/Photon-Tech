@@ -1,4 +1,4 @@
-package photontech.event;
+package photontech.event.handler;
 
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
