@@ -2,8 +2,8 @@ package photontech.block.magnet;
 
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.util.LazyOptional;
-import photontech.utils.capability.magnet.IMagnet;
-import photontech.utils.capability.magnet.PtMagnet;
+import photontech.utils.data.magnet.IMagnet;
+import photontech.utils.data.magnet.PtMagnet;
 import photontech.utils.tileentity.MachineTile;
 
 public abstract class MagnetTile extends MachineTile {

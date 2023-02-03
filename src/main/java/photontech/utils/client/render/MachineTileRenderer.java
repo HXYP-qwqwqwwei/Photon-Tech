@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import photontech.event.ClientEventHandler;
+import photontech.event.handler.ClientEventHandler;
 import photontech.utils.tileentity.MachineTile;
 
 import javax.annotation.Nonnull;

@@ -5,7 +5,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import photontech.utils.capability.fluid.PtMultiFluidTank;
+import photontech.utils.data.fluid.PtMultiFluidTank;
 
 import java.util.function.Supplier;
 

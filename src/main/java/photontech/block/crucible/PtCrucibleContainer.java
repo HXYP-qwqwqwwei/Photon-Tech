@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import photontech.init.PtContainers;
 import photontech.utils.inventory.PtBaseContainer;
-import photontech.utils.capability.fluid.PtMultiFluidTank;
+import photontech.utils.data.fluid.PtMultiFluidTank;
 
 import javax.annotation.Nonnull;
 

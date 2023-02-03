@@ -9,8 +9,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import photontech.init.PtCapabilities;
-import photontech.utils.capability.heat.IHeatReservoir;
-import photontech.utils.capability.heat.PtHeatReservoir;
+import photontech.utils.data.heat.IHeatReservoir;
+import photontech.utils.data.heat.PtHeatReservoir;
 
 import javax.annotation.Nullable;
 

@@ -6,8 +6,8 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.util.LazyOptional;
-import photontech.utils.capability.heat.PtBurningHeatCache;
-import photontech.utils.capability.heat.PtHeatCache;
+import photontech.utils.data.heat.PtBurningHeatCache;
+import photontech.utils.data.heat.PtHeatCache;
 import photontech.utils.recipe.ConditionalRecipe;
 
 import javax.annotation.Nonnull;

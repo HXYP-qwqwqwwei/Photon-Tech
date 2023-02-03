@@ -8,14 +8,14 @@ import net.minecraft.util.Direction;
 import photontech.utils.PtConstants;
 import photontech.utils.client.render.KtMachineTER;
 import photontech.utils.client.render.SuperByteBuffer;
-import photontech.utils.helperfunctions.AxisHelper;
+import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 
 public class DCBrushMotorTERPartA extends KtMachineTER<DCBrushTilePartA> {
 
-    public DCBrushMotorTERPartA(TileEntityRendererDispatcher p_i226006_1_) {
-        super(p_i226006_1_);
+    public DCBrushMotorTERPartA(TileEntityRendererDispatcher rendererDispatcher) {
+        super(rendererDispatcher);
     }
 
     @Override

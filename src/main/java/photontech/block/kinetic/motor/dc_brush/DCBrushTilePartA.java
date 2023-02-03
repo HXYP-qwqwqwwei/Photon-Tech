@@ -6,13 +6,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.ResistType;
+import photontech.block.kinetic.motor.ActiveKineticMachine;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.capability.electric.IEtCapacitor;
-import photontech.utils.helperfunctions.AxisHelper;
-import photontech.utils.helperfunctions.MutableDouble;
+import photontech.utils.data.electric.ICapacitor;
+import photontech.utils.helper.fuctions.AxisHelper;
+import photontech.utils.helper.MutableDouble;
+import photontech.utils.helper.fuctions.PtPhysics;
 import photontech.utils.tileentity.IEtMachine;
 
 import static net.minecraft.util.Direction.Axis;
@@ -22,17 +23,17 @@ import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
-public class DCBrushTilePartA extends FullAxleTile implements IEtMachine {
+public class DCBrushTilePartA extends ActiveKineticMachine implements IEtMachine {
     public static final String BRUSH_AXIS = "BrushAxis";
 
     public MutableDouble I = new MutableDouble(0);
     public MutableDouble U = new MutableDouble(0);
     public Direction.Axis brushAxis = null;
 
-    protected DCBrushTilePartB partB = null;
+    protected DCBrushMotorCoilTile coil = null;
 
     public DCBrushTilePartA(long initInertia) {
-        super(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), initInertia, true, ResistType.NORMAL_MACHINE);
+        super(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), initInertia, ResistType.NORMAL_MACHINE);
     }
 
 
@@ -50,32 +51,31 @@ public class DCBrushTilePartA extends FullAxleTile implements IEtMachine {
             TileEntity posTE = level.getBlockEntity(this.worldPosition.relative(pDirection));
             TileEntity negTE = level.getBlockEntity(this.worldPosition.relative(nDirection));
             if (posTE == null || negTE == null) return;
-            LazyOptional<IEtCapacitor> positive = posTE.getCapability(PtCapabilities.CONDUCTOR, nDirection);
-            LazyOptional<IEtCapacitor> negative = negTE.getCapability(PtCapabilities.CONDUCTOR, pDirection);
-            if (this.partBExist()) {
+            LazyOptional<ICapacitor> positive = posTE.getCapability(PtCapabilities.CONDUCTOR, nDirection);
+            LazyOptional<ICapacitor> negative = negTE.getCapability(PtCapabilities.CONDUCTOR, pDirection);
+            if (this.coilExist()) {
                 positive.ifPresent(p -> negative.ifPresent(n -> {
-                    this.U.value = p.getU() - n.getU();
-                    // TODO 重写这部分的实现
-//                    this.getMainBody().ifPresent(body -> {
-//                        float omega = body.getOmega();
-//                        double K = this.partB.getK(this.brushAxis);
-//                        double R = this.partB.getR();
-//                        double dU_eq = omega * K * 0.1;
-//                        this.I.value = IEtCapacitor.chargeExchange(p, n, dU_eq, R);
-//                        double F = this.I.value * K;
-//                        body.setOmega(body.getOmega() + (float) (F * 0.05) / this.ktReferenceStatue.sumInertia);
-//                    });
+                    double U = p.getPotential() - n.getPotential();
+                    double K = this.coil.getK(this.brushAxis);
+                    double R = this.coil.getR();
+                    float av = this.getAngularVelocity();
+
+                    double I = (U - K * av) / R;
+                    PtPhysics.chargeTransfer(p, n, I);
+
+                    int force = (int) (I * K * this.getFrequency());
+                    this.setOutput(force);
                 }));
             }
         }
     }
 
-    protected boolean partBExist() {
+    protected boolean coilExist() {
         assert this.level != null;
         TileEntity tileEntity = this.level.getBlockEntity(this.worldPosition.relative(this.getBlockState().getValue(FACING)));
-        if (tileEntity instanceof DCBrushTilePartB) {
-            if (tileEntity != this.partB) {
-                this.partB = (DCBrushTilePartB) tileEntity;
+        if (tileEntity instanceof DCBrushMotorCoilTile) {
+            if (tileEntity != this.coil) {
+                this.coil = (DCBrushMotorCoilTile) tileEntity;
             }
             return true;
         }
@@ -87,7 +87,7 @@ public class DCBrushTilePartA extends FullAxleTile implements IEtMachine {
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == PtCapabilities.CONDUCTOR) {
             if (side != null && side.getAxis() == this.brushAxis) {
-                return IEtCapacitor.PLACE_HOLDER.cast();
+                return ICapacitor.PLACE_HOLDER.cast();
             }
             return LazyOptional.empty();
         }

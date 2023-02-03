@@ -4,7 +4,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 
-public class FullAxleTile extends KtMachineTile {
+public class FullAxleTile extends KineticMachine {
     public FullAxleTile(TileEntityType<?> tileEntityTypeIn, long initInertia) {
         super(tileEntityTypeIn, initInertia, false, ResistType.AXLE);
     }
@@ -15,7 +15,7 @@ public class FullAxleTile extends KtMachineTile {
 
     @Override
     public boolean isKtValidSide(Direction side) {
-        return side != null && side.getAxis() == this.getBlockState().getValue(BlockStateProperties.AXIS);
+        return side != null && this.isActive() && side.getAxis() == this.getBlockState().getValue(BlockStateProperties.AXIS);
     }
 
 }

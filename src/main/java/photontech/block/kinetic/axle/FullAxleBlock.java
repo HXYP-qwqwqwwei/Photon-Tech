@@ -7,12 +7,12 @@ import net.minecraft.world.IBlockReader;
 import photontech.block.kinetic.AxleMaterial;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.IAxleBlock;
-import photontech.block.kinetic.KtRotatingBlock;
+import photontech.block.kinetic.KineticRotatingBlock;
 import photontech.init.PtTileEntities;
 
 import javax.annotation.Nullable;
 
-public class FullAxleBlock extends KtRotatingBlock implements IAxleBlock {
+public class FullAxleBlock extends KineticRotatingBlock implements IAxleBlock {
 
     protected final AxleMaterial material;
 

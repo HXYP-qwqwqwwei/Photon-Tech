@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "photontech:block/infinity_motor/infinity_motor_frame",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "photontech:block/infinity_motor/infinity_motor_frame"
+    },
+    "axis=z": {
+      "model": "photontech:block/infinity_motor/infinity_motor_frame",
+      "x": 90,
+      "y": 180
+    }
+  }
+}

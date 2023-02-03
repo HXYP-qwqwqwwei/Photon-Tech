@@ -7,14 +7,13 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
-import photontech.block.kinetic.KtMachineTile;
-import photontech.utils.helperfunctions.AxisHelper;
+import photontech.block.kinetic.KineticMachine;
+import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class KtMachineTER<T extends KtMachineTile> extends MachineTileRenderer<T> {
-    public static final float PI = (float) Math.PI;
+public class KtMachineTER<T extends KineticMachine> extends MachineTileRenderer<T> {
     public static final float HALF_PI = (float) Math.PI / 2;
 
     public KtMachineTER(TileEntityRendererDispatcher rendererDispatcher) {
@@ -39,7 +38,7 @@ public class KtMachineTER<T extends KtMachineTile> extends MachineTileRenderer<T
      * @param te 当前te状态
      * @param superBuffer 模型原始buffer
      */
-    public static void renderRotatingBuffer(KtMachineTile te, SuperByteBuffer superBuffer, MatrixStack ms, IVertexBuilder buffer, int light) {
+    public static void renderRotatingBuffer(KineticMachine te, SuperByteBuffer superBuffer, MatrixStack ms, IVertexBuilder buffer, int light) {
         standardKineticRotationTransform(superBuffer, te, light).renderInto(ms, buffer);
     }
 
@@ -50,7 +49,7 @@ public class KtMachineTER<T extends KtMachineTile> extends MachineTileRenderer<T
      * @param light 当前光照信息
      * @return 变换后的buffer
      */
-    public static SuperByteBuffer standardKineticRotationTransform(SuperByteBuffer buffer, KtMachineTile te, int light) {
+    public static SuperByteBuffer standardKineticRotationTransform(SuperByteBuffer buffer, KineticMachine te, int light) {
         return kineticRotationTransform(buffer, te.getAxis(), te.getAngle(), light);
     }
 

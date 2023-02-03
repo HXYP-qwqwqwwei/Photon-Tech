@@ -1,17 +1,18 @@
 package photontech.init;
 
 import photontech.PhotonTech;
-import photontech.block.electric.infiniteBattery.PtInfiniteBatteryTile;
-import photontech.block.electric.wire.PtWireTile;
+import photontech.block.electric.infiniteBattery.InfiniteBatteryTile;
+import photontech.block.electric.wire.WireTile;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.HalfAxleTile;
 import photontech.block.heater.photon.PhotonHeaterTile;
 import photontech.block.heater.solid.PtBurningItemHeaterTile;
 import photontech.block.crucible.PtCrucibleTileEntity;
-import photontech.block.kinetic.gears.KtLargeGearTile;
-import photontech.block.kinetic.gears.KtSmallGearTile;
+import photontech.block.kinetic.gears.LargeGearTile;
+import photontech.block.kinetic.gears.SmallGearTile;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartA;
-import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartB;
+import photontech.block.kinetic.motor.dc_brush.DCBrushMotorCoilTile;
+import photontech.block.kinetic.motor.infinity.InfinityMotorTile;
 import photontech.block.magnet.permanent.PermanentMagnetTile;
 import photontech.block.mirror.PtMirrorTile;
 import net.minecraft.tileentity.TileEntityType;
@@ -59,13 +60,13 @@ public class PtTileEntities {
     ).build(null));
 
 
-    public static final RegistryObject<TileEntityType<KtSmallGearTile>> SMALL_GEARS_TILEENTITY = TILE_ENTITIES.register("small_gears_tileentity", () -> TileEntityType.Builder.of(
-            () -> new KtSmallGearTile(1),
+    public static final RegistryObject<TileEntityType<SmallGearTile>> SMALL_GEARS_TILEENTITY = TILE_ENTITIES.register("small_gears_tileentity", () -> TileEntityType.Builder.of(
+            () -> new SmallGearTile(1),
             PtBlocks.SMALL_GEAR_BLOCK.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<KtLargeGearTile>> LARGE_GEARS_TILEENTITY = TILE_ENTITIES.register("large_gears_tileentity", () -> TileEntityType.Builder.of(
-            () -> new KtLargeGearTile(1),
+    public static final RegistryObject<TileEntityType<LargeGearTile>> LARGE_GEARS_TILEENTITY = TILE_ENTITIES.register("large_gears_tileentity", () -> TileEntityType.Builder.of(
+            () -> new LargeGearTile(1),
             PtBlocks.LARGE_GEAR_BLOCK.get()
     ).build(null));
 
@@ -74,18 +75,18 @@ public class PtTileEntities {
             PtBlocks.BRUSH_DC_MOTOR_PART_A.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<DCBrushTilePartB>> DC_BRUSH_TILE_PART_B = TILE_ENTITIES.register("dc_brush_tileentity_part_b", () -> TileEntityType.Builder.of(
-            () -> new DCBrushTilePartB(1000),
+    public static final RegistryObject<TileEntityType<DCBrushMotorCoilTile>> DC_BRUSH_TILE_PART_B = TILE_ENTITIES.register("dc_brush_tileentity_part_b", () -> TileEntityType.Builder.of(
+            () -> new DCBrushMotorCoilTile(1000),
             PtBlocks.BRUSH_DC_MOTOR_PART_B.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<PtWireTile>> WIRE = TILE_ENTITIES.register("wire_tileentity", () -> TileEntityType.Builder.of(
-            () -> new PtWireTile(1, 10),
+    public static final RegistryObject<TileEntityType<WireTile>> WIRE = TILE_ENTITIES.register("wire_tileentity", () -> TileEntityType.Builder.of(
+            () -> new WireTile(10),
             PtBlocks.COPPER_WIRE_1X.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<PtInfiniteBatteryTile>> INFINITE_BATTERY = TILE_ENTITIES.register("infinite_battery_tileentity", () -> TileEntityType.Builder.of(
-            () -> new PtInfiniteBatteryTile(10.0),
+    public static final RegistryObject<TileEntityType<InfiniteBatteryTile>> INFINITE_BATTERY = TILE_ENTITIES.register("infinite_battery_tileentity", () -> TileEntityType.Builder.of(
+            () -> new InfiniteBatteryTile(10.0),
             PtBlocks.INFINITE_BATTERY.get()
     ).build(null));
 
@@ -93,4 +94,10 @@ public class PtTileEntities {
             () -> new PermanentMagnetTile(1.0),
             PtBlocks.FERRITE_MAGNET_PAINTED.get()
     ).build(null));
+
+    public static final RegistryObject<TileEntityType<InfinityMotorTile>> INFINITY_MOTOR = TILE_ENTITIES.register("infinity_motor_tileentity", () -> TileEntityType.Builder.of(
+            () -> new InfinityMotorTile(1),
+            PtBlocks.INFINITY_MOTOR_BLOCK.get()
+    ).build(null));
+
 }

@@ -1,6 +1,6 @@
 package photontech.utils.tileentity;
 
-import photontech.utils.capability.fluid.PtMultiFluidTank;
+import photontech.utils.data.fluid.PtMultiFluidTank;
 
 public interface IMultiTankTile {
 

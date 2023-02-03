@@ -59,6 +59,7 @@ public class PtConstants {
         // DC BRUSH MOTOR
         public static final ResourceLocation DC_BRUSH_MODEL = new ResourceLocation(PhotonTech.ID, "block/brush_motor_models/brush_model");
 
+        public static final ResourceLocation INFINITY_MOTOR_ROTATER = new ResourceLocation(PhotonTech.ID, "block/infinity_motor/infinity_motor_rotater");
         public static final ResourceLocation WOODEN_GEAR_MODEL = new ResourceLocation(PhotonTech.ID, "special/wooden_gear_model");
     }
 

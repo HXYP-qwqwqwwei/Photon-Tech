@@ -9,7 +9,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import photontech.PhotonTech;
-import photontech.world_data.EtTransmissionLineData;
+import photontech.data.DCWireDataManager;
 
 public class EtSystemStatueCommand implements Command<CommandSource> {
     public static EtSystemStatueCommand INSTANCE = new EtSystemStatueCommand();
@@ -18,7 +18,7 @@ public class EtSystemStatueCommand implements Command<CommandSource> {
     public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
         MinecraftServer server = context.getSource().getServer();
         ServerWorld serverWorld = server.getLevel(World.OVERWORLD);
-        EtTransmissionLineData data = EtTransmissionLineData.get(serverWorld);
+        DCWireDataManager data = DCWireDataManager.getData(serverWorld);
         int size = data.getSize();
         context.getSource().sendSuccess(new TranslationTextComponent(
                 "cmd." + PhotonTech.ID + ".etsys", size), false

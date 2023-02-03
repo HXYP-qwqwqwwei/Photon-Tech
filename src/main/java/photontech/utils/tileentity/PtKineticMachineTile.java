@@ -8,7 +8,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.init.PtCapabilities;
-import photontech.utils.capability.kinetic.IRotateBody;
+import photontech.utils.data.kinetic.IRotateBody;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -41,7 +41,7 @@ public abstract class PtKineticMachineTile extends MachineTile {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == PtCapabilities.ROTATING_STATE) {
+        if (cap == PtCapabilities.KINETIC_STATE) {
             return getRigid(side).cast();
         }
         return super.getCapability(cap, side);

@@ -1,8 +1,8 @@
 package photontech.utils.tileentity;
 
 import net.minecraftforge.common.util.Constants;
-import photontech.utils.capability.item.PtItemStackHandler;
-import photontech.utils.capability.fluid.PtMultiFluidTank;
+import photontech.utils.data.item.PtItemStackHandler;
+import photontech.utils.data.fluid.PtMultiFluidTank;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;

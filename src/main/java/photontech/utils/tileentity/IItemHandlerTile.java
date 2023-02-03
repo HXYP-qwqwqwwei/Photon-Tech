@@ -1,7 +1,7 @@
 package photontech.utils.tileentity;
 
-import photontech.utils.capability.item.PtIOLimitedItemHandler;
-import photontech.utils.capability.item.PtItemStackHandler;
+import photontech.utils.data.item.PtIOLimitedItemHandler;
+import photontech.utils.data.item.PtItemStackHandler;
 
 import java.util.function.Predicate;
 

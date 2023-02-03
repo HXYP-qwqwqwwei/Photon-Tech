@@ -99,6 +99,8 @@ public class PtItems {
     public static final RegistryObject<Item> DC_BRUSH_MOTOR_B = ITEMS.register("dc_brush_motor_b", () -> new BlockItem(PtBlocks.BRUSH_DC_MOTOR_PART_B.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> ELECTIRC_BRUSH = ITEMS.register("electric_brush", PtNormalItem::new);
 
+    public static final RegistryObject<Item> INFINITY_MOTOR = ITEMS.register("infinity_motor", () -> new BlockItem(PtBlocks.INFINITY_MOTOR_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+
 
     // ELECTRODE ITEMS
     public static final RegistryObject<Item> GRAPHITE_ELECTRODE_1X = ITEMS.register("graphite_electrode_1x", () -> new PtElectrodeItem(PtBlocks.GRAPHITE_ELECTRODE_1X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));

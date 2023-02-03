@@ -42,6 +42,6 @@ public class PtInfiniteBatteryBlock extends AxisAlignedBlock implements IConduct
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new PtInfiniteBatteryTile(10.0);
+        return new InfiniteBatteryTile(10.0);
     }
 }

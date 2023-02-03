@@ -1,7 +1,7 @@
 package photontech.utils.tileentity;
 
-import photontech.utils.capability.heat.IHeatReservoir;
-import photontech.utils.capability.heat.PtHeatReservoir;
+import photontech.utils.data.heat.IHeatReservoir;
+import photontech.utils.data.heat.PtHeatReservoir;
 
 public interface IHeatReservoirTile extends IHeatExchange {
 

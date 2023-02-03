@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import photontech.block.kinetic.IAxleBlock;
-import photontech.block.kinetic.KtMachineTile;
+import photontech.block.kinetic.KineticMachine;
 import photontech.group.PtItemGroups;
 
 import javax.annotation.Nonnull;
@@ -35,9 +35,9 @@ public class FullAxleBlockItem extends BlockItem {
             if (itemInHand.getItem() instanceof FullAxleBlockItem) {
 
                 TileEntity tile = level.getBlockEntity(pos);
-                if (tile instanceof KtMachineTile) {
+                if (tile instanceof KineticMachine) {
 
-                    KtMachineTile kt = (KtMachineTile) tile;
+                    KineticMachine kt = (KineticMachine) tile;
                     if (kt.canAddAxle()) {
                         kt.insertAxle((FullAxleBlockItem) itemInHand.getItem());
                         MinecraftForge.EVENT_BUS.post(kt.createKtCreateEvent());

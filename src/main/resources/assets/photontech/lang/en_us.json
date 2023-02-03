@@ -29,6 +29,6 @@
   "text.photontech.recipe_process" : "Process:%s%%",
   "text.photontech.pos": "Position%s%s%s",
 
-  "cmd.photontech.etsys": "Electric System Statue:\nTransmission line amount:%d.\nSystem size:%d"
+  "cmd.photontech.etsys": "Electric System Statue:\nTransmission line amount:%d."
 
 }
