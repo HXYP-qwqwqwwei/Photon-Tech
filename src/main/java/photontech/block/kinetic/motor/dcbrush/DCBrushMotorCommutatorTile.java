@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
-public class DCBrushMotorRectifierTile extends ActiveKineticMachine implements IEtMachine {
+public class DCBrushMotorCommutatorTile extends ActiveKineticMachine implements IEtMachine {
     public static final String BRUSH_AXIS = "BrushAxis";
 
     public MutableDouble I = new MutableDouble(0);
@@ -32,7 +32,7 @@ public class DCBrushMotorRectifierTile extends ActiveKineticMachine implements I
 
     protected DCBrushMotorCoilTile coil = null;
 
-    public DCBrushMotorRectifierTile(long initInertia) {
+    public DCBrushMotorCommutatorTile(long initInertia) {
         super(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), initInertia, ResistType.NORMAL_MACHINE);
     }
 

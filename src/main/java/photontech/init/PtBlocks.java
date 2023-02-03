@@ -18,7 +18,7 @@ import photontech.block.PtPowderBlock;
 import photontech.block.crucible.PtCrucibleBlock;
 import photontech.block.PtNormalBlock;
 import photontech.block.kinetic.gears.GearBlock;
-import photontech.block.kinetic.motor.dcbrush.DCBrushMotorRectifierBlock;
+import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCommutatorBlock;
 import photontech.block.kinetic.motor.infinity.InfinityMotorBlock;
 import photontech.block.magnet.permanent.PermanentMagnetBlock;
 import photontech.block.mirror.PtMirrorBlock;
@@ -58,8 +58,8 @@ public class PtBlocks {
 
     public static final RegistryObject<Block> SMALL_GEAR_BLOCK = BLOCKS.register("small_gear_block", () -> new GearBlock(8, GearBlock.GearType.SMALL_GEAR));
     public static final RegistryObject<Block> LARGE_GEAR_BLOCK = BLOCKS.register("large_gear_block", () -> new GearBlock(16, GearBlock.GearType.LARGE_GEAR));
-    public static final RegistryObject<KineticRotatingBlock> BRUSH_DC_MOTOR_PART_A = BLOCKS.register("brush_dc_motor_part_a", DCBrushMotorRectifierBlock::new);
-    public static final RegistryObject<KineticRotatingBlock> BRUSH_DC_MOTOR_PART_B = BLOCKS.register("brush_dc_motor_part_b", DCBrushMotorCoilBlock::new);
+    public static final RegistryObject<KineticRotatingBlock> DC_BRUSH_MOTOR_COMMUTATOR = BLOCKS.register("dc_brush_motor_commutator", DCBrushMotorCommutatorBlock::new);
+    public static final RegistryObject<KineticRotatingBlock> DC_BRUSH_MOTOR_COIL = BLOCKS.register("dc_brush_motor_coil", DCBrushMotorCoilBlock::new);
     public static final RegistryObject<InfinityMotorBlock> INFINITY_MOTOR_BLOCK = BLOCKS.register("infinity_motor", InfinityMotorBlock::new);
 
     // ELECTRODE BLOCKS

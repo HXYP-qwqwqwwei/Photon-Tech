@@ -19,9 +19,9 @@ import photontech.utils.helper.fuctions.AxisHelper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class DCBrushMotorRectifierBlock extends DirectionalKineticRotatingBlock {
+public class DCBrushMotorCommutatorBlock extends DirectionalKineticRotatingBlock {
 
-    public DCBrushMotorRectifierBlock() {
+    public DCBrushMotorCommutatorBlock() {
         super(10, 10, 0, 10);
     }
 
@@ -29,17 +29,17 @@ public class DCBrushMotorRectifierBlock extends DirectionalKineticRotatingBlock 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new DCBrushMotorRectifierTile(initInertia);
+        return new DCBrushMotorCommutatorTile(initInertia);
     }
 
     @Nonnull
     @Override
     public ActionResultType use(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
-            DCBrushMotorRectifierTile partA = (DCBrushMotorRectifierTile) worldIn.getBlockEntity(pos);
+            DCBrushMotorCommutatorTile partA = (DCBrushMotorCommutatorTile) worldIn.getBlockEntity(pos);
             if (partA != null) {
                 ItemStack itemStack = player.getItemInHand(handIn);
-                if (itemStack.getItem() == PtItems.ELECTIRC_BRUSH.get()) {
+                if (itemStack.getItem() == PtItems.DC_MOTOR_BRUSH.get()) {
                     Direction.Axis axis = partA.getAxis();
                     Direction.Axis brushAxis = hit.getDirection().getAxis();
                     if (axis != brushAxis && partA.brushAxis == null) {

@@ -7,13 +7,13 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
 import photontech.utils.PtConstants;
-import photontech.utils.client.render.KtMachineTER;
+import photontech.utils.client.render.KineticMachineTER;
 import photontech.utils.client.render.SuperByteBuffer;
 import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 
-public class InfinityMotorTER extends KtMachineTER<InfinityMotorTile> {
+public class InfinityMotorTER extends KineticMachineTER<InfinityMotorTile> {
     public InfinityMotorTER(TileEntityRendererDispatcher rendererDispatcher) {
         super(rendererDispatcher);
     }

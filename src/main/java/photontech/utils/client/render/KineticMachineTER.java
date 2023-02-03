@@ -13,10 +13,10 @@ import photontech.utils.helper.fuctions.AxisHelper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class KtMachineTER<T extends KineticMachine> extends MachineTileRenderer<T> {
+public class KineticMachineTER<T extends KineticMachine> extends MachineTileRenderer<T> {
     public static final float HALF_PI = (float) Math.PI / 2;
 
-    public KtMachineTER(TileEntityRendererDispatcher rendererDispatcher) {
+    public KineticMachineTER(TileEntityRendererDispatcher rendererDispatcher) {
         super(rendererDispatcher);
     }
 

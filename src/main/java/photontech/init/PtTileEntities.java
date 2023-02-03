@@ -10,7 +10,7 @@ import photontech.block.heater.solid.PtBurningItemHeaterTile;
 import photontech.block.crucible.PtCrucibleTileEntity;
 import photontech.block.kinetic.gears.LargeGearTile;
 import photontech.block.kinetic.gears.SmallGearTile;
-import photontech.block.kinetic.motor.dcbrush.DCBrushMotorRectifierTile;
+import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCommutatorTile;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCoilTile;
 import photontech.block.kinetic.motor.infinity.InfinityMotorTile;
 import photontech.block.magnet.permanent.PermanentMagnetTile;
@@ -70,14 +70,14 @@ public class PtTileEntities {
             PtBlocks.LARGE_GEAR_BLOCK.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<DCBrushMotorRectifierTile>> DC_BRUSH_TILE_PART_A = TILE_ENTITIES.register("dc_brush_tileentity_part_a", () -> TileEntityType.Builder.of(
-            () -> new DCBrushMotorRectifierTile(1000),
-            PtBlocks.BRUSH_DC_MOTOR_PART_A.get()
+    public static final RegistryObject<TileEntityType<DCBrushMotorCommutatorTile>> DC_BRUSH_TILE_PART_A = TILE_ENTITIES.register("dc_brush_tileentity_part_a", () -> TileEntityType.Builder.of(
+            () -> new DCBrushMotorCommutatorTile(1000),
+            PtBlocks.DC_BRUSH_MOTOR_COMMUTATOR.get()
     ).build(null));
 
     public static final RegistryObject<TileEntityType<DCBrushMotorCoilTile>> DC_BRUSH_TILE_PART_B = TILE_ENTITIES.register("dc_brush_tileentity_part_b", () -> TileEntityType.Builder.of(
             () -> new DCBrushMotorCoilTile(1000),
-            PtBlocks.BRUSH_DC_MOTOR_PART_B.get()
+            PtBlocks.DC_BRUSH_MOTOR_COIL.get()
     ).build(null));
 
     public static final RegistryObject<TileEntityType<WireTile>> WIRE = TILE_ENTITIES.register("wire_tileentity", () -> TileEntityType.Builder.of(

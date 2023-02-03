@@ -1,0 +1,31 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "photontech:block/dc_brush_motor_models/commutator_model",
+      "x": 90,
+      "y": 90
+    },
+    "facing=up": {
+      "model": "photontech:block/dc_brush_motor_models/commutator_model"
+    },
+    "facing=south": {
+      "model": "photontech:block/dc_brush_motor_models/commutator_model",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "photontech:block/dc_brush_motor_models/commutator_model",
+      "x": 90,
+      "y": 270
+    },
+    "facing=down": {
+      "model": "photontech:block/dc_brush_motor_models/commutator_model",
+      "x": 180
+    },
+    "facing=north": {
+      "model": "photontech:block/dc_brush_motor_models/commutator_model",
+      "x": 90
+    }
+
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "photontech:block/dc_brush_motor_models/coil_model",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "photontech:block/dc_brush_motor_models/coil_model"
+    },
+    "axis=z": {
+      "model": "photontech:block/dc_brush_motor_models/coil_model",
+      "x": 90,
+      "y": 180
+    }
+  }
+}

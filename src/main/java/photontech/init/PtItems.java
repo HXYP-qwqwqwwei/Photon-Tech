@@ -95,9 +95,9 @@ public class PtItems {
     public static final RegistryObject<Item> LARGE_GEAR = ITEMS.register("large_gear", () -> new BlockItem(PtBlocks.LARGE_GEAR_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
     // BRUSH DC MOTOR
-    public static final RegistryObject<Item> DC_BRUSH_MOTOR_A = ITEMS.register("dc_brush_motor_a", () -> new BlockItem(PtBlocks.BRUSH_DC_MOTOR_PART_A.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
-    public static final RegistryObject<Item> DC_BRUSH_MOTOR_B = ITEMS.register("dc_brush_motor_b", () -> new BlockItem(PtBlocks.BRUSH_DC_MOTOR_PART_B.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
-    public static final RegistryObject<Item> ELECTIRC_BRUSH = ITEMS.register("electric_brush", PtNormalItem::new);
+    public static final RegistryObject<Item> DC_BRUSH_MOTOR_COMMUTATOR = ITEMS.register("dc_brush_motor_commutator", () -> new BlockItem(PtBlocks.DC_BRUSH_MOTOR_COMMUTATOR.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> DC_BRUSH_MOTOR_COIL = ITEMS.register("dc_brush_motor_coil", () -> new BlockItem(PtBlocks.DC_BRUSH_MOTOR_COIL.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> DC_MOTOR_BRUSH = ITEMS.register("dc_motor_brush", PtNormalItem::new);
 
     public static final RegistryObject<Item> INFINITY_MOTOR = ITEMS.register("infinity_motor", () -> new BlockItem(PtBlocks.INFINITY_MOTOR_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 

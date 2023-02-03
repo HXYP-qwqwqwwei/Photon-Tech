@@ -14,7 +14,7 @@ import photontech.block.heater.solid.PtBurningItemHeaterTER;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.HalfAxleTile;
 import photontech.block.kinetic.gears.GearTile;
-import photontech.block.kinetic.motor.dcbrush.DCBrushMotorRectifierTER;
+import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCommutatorTER;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCoilTile;
 import photontech.block.kinetic.motor.infinity.InfinityMotorTER;
 import photontech.block.mirror.PtMirrorTER;
@@ -23,7 +23,7 @@ import photontech.init.PtFluids;
 import photontech.init.PtTileEntities;
 import photontech.utils.PtConstants;
 import photontech.utils.client.render.Compartment;
-import photontech.utils.client.render.KtMachineTER;
+import photontech.utils.client.render.KineticMachineTER;
 import photontech.utils.client.render.SuperByteBufferCache;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -36,8 +36,8 @@ public class ClientEventHandler {
             RenderTypeLookup.setRenderLayer(PtBlocks.QUARTZ_CRUCIBLE.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(PtBlocks.MIRROR.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(PtBlocks.IRON_AXLE.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(PtBlocks.BRUSH_DC_MOTOR_PART_B.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(PtBlocks.BRUSH_DC_MOTOR_PART_A.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(PtBlocks.DC_BRUSH_MOTOR_COIL.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(PtBlocks.DC_BRUSH_MOTOR_COMMUTATOR.get(), RenderType.cutout());
 
             RenderTypeLookup.setRenderLayer(PtBlocks.INFINITY_MOTOR_BLOCK.get(), RenderType.translucent());
 
@@ -53,12 +53,12 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.CRUCIBLE_TILEENTITY.get(), PtCrucibleTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.HEATER_TILEENTITY.get(), PtBurningItemHeaterTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.MIRROR_TILEENTITY.get(), PtMirrorTER::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.AXLE_TILE.get(), KtMachineTER<FullAxleTile>::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.HALF_AXLE_TILE.get(), KtMachineTER<HalfAxleTile>::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.SMALL_GEARS_TILEENTITY.get(), KtMachineTER<GearTile>::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.LARGE_GEARS_TILEENTITY.get(), KtMachineTER<GearTile>::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), DCBrushMotorRectifierTER::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), KtMachineTER<DCBrushMotorCoilTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.AXLE_TILE.get(), KineticMachineTER<FullAxleTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.HALF_AXLE_TILE.get(), KineticMachineTER<HalfAxleTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.SMALL_GEARS_TILEENTITY.get(), KineticMachineTER<GearTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.LARGE_GEARS_TILEENTITY.get(), KineticMachineTER<GearTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), DCBrushMotorCommutatorTER::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), KineticMachineTER<DCBrushMotorCoilTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.INFINITY_MOTOR.get(), InfinityMotorTER::new);
 
         });
@@ -70,7 +70,7 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public static void onModelRegistryEvent(ModelRegistryEvent event) {
-        ModelLoader.addSpecialModel(PtConstants.MODELS.DC_BRUSH_MODEL);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.BRUSH_MODEL);
         ModelLoader.addSpecialModel(PtConstants.MODELS.INFINITY_MOTOR_ROTATER);
 
         ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_FRAME);
