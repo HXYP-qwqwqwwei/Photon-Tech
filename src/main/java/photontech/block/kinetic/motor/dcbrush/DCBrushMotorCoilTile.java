@@ -1,4 +1,4 @@
-package photontech.block.kinetic.motor.dc_brush;
+package photontech.block.kinetic.motor.dcbrush;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;

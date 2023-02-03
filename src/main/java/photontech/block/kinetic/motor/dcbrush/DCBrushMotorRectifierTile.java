@@ -1,4 +1,4 @@
-package photontech.block.kinetic.motor.dc_brush;
+package photontech.block.kinetic.motor.dcbrush;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
-public class DCBrushTilePartA extends ActiveKineticMachine implements IEtMachine {
+public class DCBrushMotorRectifierTile extends ActiveKineticMachine implements IEtMachine {
     public static final String BRUSH_AXIS = "BrushAxis";
 
     public MutableDouble I = new MutableDouble(0);
@@ -32,7 +32,7 @@ public class DCBrushTilePartA extends ActiveKineticMachine implements IEtMachine
 
     protected DCBrushMotorCoilTile coil = null;
 
-    public DCBrushTilePartA(long initInertia) {
+    public DCBrushMotorRectifierTile(long initInertia) {
         super(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), initInertia, ResistType.NORMAL_MACHINE);
     }
 

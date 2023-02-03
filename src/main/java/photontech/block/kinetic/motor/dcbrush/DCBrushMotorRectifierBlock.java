@@ -1,4 +1,4 @@
-package photontech.block.kinetic.motor.dc_brush;
+package photontech.block.kinetic.motor.dcbrush;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,9 +19,9 @@ import photontech.utils.helper.fuctions.AxisHelper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class DCMotorBlockPartA extends DirectionalKineticRotatingBlock {
+public class DCBrushMotorRectifierBlock extends DirectionalKineticRotatingBlock {
 
-    public DCMotorBlockPartA() {
+    public DCBrushMotorRectifierBlock() {
         super(10, 10, 0, 10);
     }
 
@@ -29,14 +29,14 @@ public class DCMotorBlockPartA extends DirectionalKineticRotatingBlock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new DCBrushTilePartA(initInertia);
+        return new DCBrushMotorRectifierTile(initInertia);
     }
 
     @Nonnull
     @Override
     public ActionResultType use(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
         if (!worldIn.isClientSide && handIn == Hand.MAIN_HAND) {
-            DCBrushTilePartA partA = (DCBrushTilePartA) worldIn.getBlockEntity(pos);
+            DCBrushMotorRectifierTile partA = (DCBrushMotorRectifierTile) worldIn.getBlockEntity(pos);
             if (partA != null) {
                 ItemStack itemStack = player.getItemInHand(handIn);
                 if (itemStack.getItem() == PtItems.ELECTIRC_BRUSH.get()) {

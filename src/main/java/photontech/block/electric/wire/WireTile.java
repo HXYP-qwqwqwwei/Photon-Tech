@@ -1,5 +1,6 @@
 package photontech.block.electric.wire;
 
+import com.sun.jna.platform.unix.X11;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.nbt.CompoundNBT;

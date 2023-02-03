@@ -1,4 +1,4 @@
-package photontech.block.kinetic.motor.dc_brush;
+package photontech.block.kinetic.motor.dcbrush;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
@@ -7,9 +7,9 @@ import photontech.block.kinetic.KineticRotatingBlock;
 
 import javax.annotation.Nullable;
 
-public class DCMotorBlockPartB extends KineticRotatingBlock {
+public class DCBrushMotorCoilBlock extends KineticRotatingBlock {
 
-    public DCMotorBlockPartB() {
+    public DCBrushMotorCoilBlock() {
         super(16, 16, 20);
     }
 

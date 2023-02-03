@@ -1,4 +1,4 @@
-package photontech.block.kinetic.motor.dc_brush;
+package photontech.block.kinetic.motor.dcbrush;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -12,14 +12,14 @@ import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 
-public class DCBrushMotorTERPartA extends KtMachineTER<DCBrushTilePartA> {
+public class DCBrushMotorRectifierTER extends KtMachineTER<DCBrushMotorRectifierTile> {
 
-    public DCBrushMotorTERPartA(TileEntityRendererDispatcher rendererDispatcher) {
+    public DCBrushMotorRectifierTER(TileEntityRendererDispatcher rendererDispatcher) {
         super(rendererDispatcher);
     }
 
     @Override
-    public void render(@Nonnull DCBrushTilePartA partA, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(@Nonnull DCBrushMotorRectifierTile partA, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         super.render(partA, partialTicks, matrixStack, bufferIn, combinedLightIn, combinedOverlayIn);
         Direction.Axis brushAxis = partA.getBrushAxis();
         if (brushAxis != null) {

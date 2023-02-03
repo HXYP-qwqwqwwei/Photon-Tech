@@ -14,8 +14,8 @@ import photontech.block.heater.solid.PtBurningItemHeaterTER;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.HalfAxleTile;
 import photontech.block.kinetic.gears.GearTile;
-import photontech.block.kinetic.motor.dc_brush.DCBrushMotorTERPartA;
-import photontech.block.kinetic.motor.dc_brush.DCBrushMotorCoilTile;
+import photontech.block.kinetic.motor.dcbrush.DCBrushMotorRectifierTER;
+import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCoilTile;
 import photontech.block.kinetic.motor.infinity.InfinityMotorTER;
 import photontech.block.mirror.PtMirrorTER;
 import photontech.init.PtBlocks;
@@ -57,7 +57,7 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.HALF_AXLE_TILE.get(), KtMachineTER<HalfAxleTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.SMALL_GEARS_TILEENTITY.get(), KtMachineTER<GearTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.LARGE_GEARS_TILEENTITY.get(), KtMachineTER<GearTile>::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), DCBrushMotorTERPartA::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), DCBrushMotorRectifierTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), KtMachineTER<DCBrushMotorCoilTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.INFINITY_MOTOR.get(), InfinityMotorTER::new);
 
