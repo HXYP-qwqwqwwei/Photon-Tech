@@ -26,8 +26,7 @@
   "text.photontech.current_temperature": "当前温度:%sK",
   "text.photontech.overload_temperature" : "最高耐受:%sK",
   "text.photontech.recipe_process" : "进度:%s%%",
-  "text.photontech.pos": "坐标%s%s%s",
+  "text.photontech.pos": "坐标%s%s%s"
 
-  "cmd.photontech.etsys": "Electric System Statue:\nTransmission line amount:%d.\nSystem size:%d"
 
 }

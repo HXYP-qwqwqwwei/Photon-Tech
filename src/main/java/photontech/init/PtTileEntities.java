@@ -1,8 +1,8 @@
 package photontech.init;
 
 import photontech.PhotonTech;
-import photontech.block.electric.infiniteBattery.PtInfiniteBatteryTile;
-import photontech.block.electric.wire.PtWireTile;
+import photontech.block.electric.infiniteBattery.InfiniteBatteryTile;
+import photontech.block.electric.wire.WireTile;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.HalfAxleTile;
 import photontech.block.heater.photon.PhotonHeaterTile;
@@ -11,7 +11,7 @@ import photontech.block.crucible.PtCrucibleTileEntity;
 import photontech.block.kinetic.gears.LargeGearTile;
 import photontech.block.kinetic.gears.SmallGearTile;
 import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartA;
-import photontech.block.kinetic.motor.dc_brush.DCBrushTilePartB;
+import photontech.block.kinetic.motor.dc_brush.DCBrushMotorCoilTile;
 import photontech.block.kinetic.motor.infinity.InfinityMotorTile;
 import photontech.block.magnet.permanent.PermanentMagnetTile;
 import photontech.block.mirror.PtMirrorTile;
@@ -75,18 +75,18 @@ public class PtTileEntities {
             PtBlocks.BRUSH_DC_MOTOR_PART_A.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<DCBrushTilePartB>> DC_BRUSH_TILE_PART_B = TILE_ENTITIES.register("dc_brush_tileentity_part_b", () -> TileEntityType.Builder.of(
-            () -> new DCBrushTilePartB(1000),
+    public static final RegistryObject<TileEntityType<DCBrushMotorCoilTile>> DC_BRUSH_TILE_PART_B = TILE_ENTITIES.register("dc_brush_tileentity_part_b", () -> TileEntityType.Builder.of(
+            () -> new DCBrushMotorCoilTile(1000),
             PtBlocks.BRUSH_DC_MOTOR_PART_B.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<PtWireTile>> WIRE = TILE_ENTITIES.register("wire_tileentity", () -> TileEntityType.Builder.of(
-            () -> new PtWireTile(1, 10),
+    public static final RegistryObject<TileEntityType<WireTile>> WIRE = TILE_ENTITIES.register("wire_tileentity", () -> TileEntityType.Builder.of(
+            () -> new WireTile(10),
             PtBlocks.COPPER_WIRE_1X.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<PtInfiniteBatteryTile>> INFINITE_BATTERY = TILE_ENTITIES.register("infinite_battery_tileentity", () -> TileEntityType.Builder.of(
-            () -> new PtInfiniteBatteryTile(10.0),
+    public static final RegistryObject<TileEntityType<InfiniteBatteryTile>> INFINITE_BATTERY = TILE_ENTITIES.register("infinite_battery_tileentity", () -> TileEntityType.Builder.of(
+            () -> new InfiniteBatteryTile(10.0),
             PtBlocks.INFINITE_BATTERY.get()
     ).build(null));
 

@@ -5,7 +5,7 @@ public enum ResistType {
     AXLE(0, 16),
     SMALL_GEAR(0, 64),
     LARGE_GEAR(0, 256),
-    NORMAL_MACHINE(32, 0),
+    NORMAL_MACHINE(0, 0),
     FAN(0, 1024)
     ;
 

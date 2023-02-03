@@ -4,12 +4,12 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
-import photontech.block.kinetic.KtRotatingBlock;
+import photontech.block.kinetic.KineticRotatingBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class InfinityMotorBlock extends KtRotatingBlock {
+public class InfinityMotorBlock extends KineticRotatingBlock {
     public InfinityMotorBlock() {
         super(12, 16, 2, 1);
     }

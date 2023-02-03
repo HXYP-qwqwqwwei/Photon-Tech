@@ -8,7 +8,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.init.PtCapabilities;
-import photontech.utils.capability.kinetic.IRotateBody;
+import photontech.utils.data.kinetic.IRotateBody;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

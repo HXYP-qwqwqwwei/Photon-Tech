@@ -11,9 +11,13 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.fluids.FluidStack;
+import photontech.utils.data.ISaveLoad;
 
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 
 public class PtNBTUtils {
@@ -21,7 +25,8 @@ public class PtNBTUtils {
     public static final String ITEMS = "Items";
     public static final String INGREDIENTS = "Ingredients";
     public static final String FLUIDS = "Fluids";
-    public static final String ROTATE_BODIES = "RigidBodies";
+    public static final String KEY = "Key";
+    public static final String VALUE = "Value";
 
     public static INBT writeIngredientToNBT(Ingredient ingredient) throws CommandSyntaxException {
         JsonElement json = ingredient.toJson();
@@ -98,14 +103,29 @@ public class PtNBTUtils {
         return nbt;
     }
 
-//    public static void loadRigidBodies(List<PtRotateBody> list, CompoundNBT nbt) {
-//        ListNBT listNBT = (ListNBT) nbt.get(ROTATE_BODIES);
-//        if (listNBT != null) {
-//            for (INBT rigidNBT : listNBT) {
-//                list.add();
-//            }
-//
-//        }
-//    }
+    public static<T extends ISaveLoad> void saveMap(CompoundNBT nbt, String key, Map<Long, T> map) {
+        ListNBT dataList = new ListNBT();
+        for (Map.Entry<Long, T> e : map.entrySet()) {
+            CompoundNBT entryNBT = new CompoundNBT();
+            entryNBT.putLong(KEY, e.getKey());
+            entryNBT.put(VALUE, e.getValue().save(new CompoundNBT()));
+            dataList.add(entryNBT);
+        }
+        nbt.put(key, dataList);
+    }
+
+    public static<T extends ISaveLoad> Map<Long, T> loadMap(CompoundNBT nbt, String key, Supplier<T> factory) {
+        ListNBT dataList = nbt.getList(key, 10);
+        Map<Long, T> map = new HashMap<>();
+        for (INBT data : dataList) {
+            CompoundNBT entry = (CompoundNBT) data;
+            T val = factory.get();
+            val.load(entry.getCompound(VALUE));
+            map.put(entry.getLong(KEY), val);
+        }
+        return map;
+    }
+
+
 
 }

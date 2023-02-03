@@ -34,6 +34,8 @@ public abstract class KineticMachine extends MachineTile {
     public static final String AXLE_BLOCK_STATE = "AxleBlockState";
     public static final String KINETIC_STATE = "KineticState";
     public static final String IS_INVALID = "IsInvalid";
+    public static final String INIT_RESIST = "InitResist";
+    public static final String RESIST_CONSTANT = "ResistConstant";
 
     public static final Logger LOGGER = LogManager.getLogger();
 
@@ -41,6 +43,13 @@ public abstract class KineticMachine extends MachineTile {
 
     private boolean needAxle;
     private boolean isInvalid = false;
+
+    private int initResist;
+    private int resistConstant;
+
+    // No need to save/load
+    protected int extraForce = 0;
+    protected int extraResist = 0;
 
 protected final KineticState state;
 
@@ -54,10 +63,12 @@ protected final KineticState state;
         this(tileEntityTypeIn, initInertia, needAxle, type.initResist, type.resistConstant);
     }
 
-    public KineticMachine(TileEntityType<?> tileEntityTypeIn, long initInertia, boolean needAxle, int initResist, int fluidResistConstant) {
+    public KineticMachine(TileEntityType<?> tileEntityTypeIn, long initInertia, boolean needAxle, int initResist, int resistConstant) {
         super(tileEntityTypeIn);
         this.state = new KineticState(initInertia);
         this.needAxle = needAxle;
+        this.initResist = initResist;
+        this.resistConstant = resistConstant;
     }
 
     public void axialReset() {
@@ -84,7 +95,7 @@ protected final KineticState state;
     @Override
     public void tick() {
         if (isServerSide()) {
-//            this.applyAllForce();
+            this.applyForce(this.extraForce, this.extraResist);
 
             if (isPrimary()) {
                 // 更新角度
@@ -181,10 +192,6 @@ protected final KineticState state;
     public long getMomentum() {
         return this.getPrimary().state.getMomentum() * (this.reversed() ? -1 : 1);
     }
-
-//    public void setAngularMomentum(long L) {
-//        this.state.momentum = L;
-//    }
 
     public void setAngularVelocity(float av) {
         KineticMachine terminal = this.getTerminal();
@@ -301,15 +308,14 @@ protected final KineticState state;
     }
 
 
-    protected void applyAllForce(int force, int resist, int resConstant) {
-        KineticMachine terminal = this.getTerminal();
-        KineticMachine primary = terminal.getPrimary();
-        int frequency = terminal.getFrequency();
+    protected void applyForce(int force, int extreResist) {
+        KineticMachine primary = this.getPrimary();
+        int frequency = this.getFrequency();
         KineticState primaryState = primary.state;
 
         primaryState.addForce(force * frequency);
-        primaryState.addResist(resist * frequency);
-        primaryState.addResConstant(resConstant * frequency * frequency);
+        primaryState.addResist((extreResist + this.initResist) * frequency);
+        primaryState.addResConstant(this.resistConstant * frequency * frequency);
     }
 
 
@@ -325,6 +331,8 @@ protected final KineticState state;
         nbt.putInt(AXLE_BLOCK_STATE, Block.getId(this.axleBlockState));
         nbt.putBoolean(NEED_AXLE, this.needAxle);
         nbt.putBoolean(IS_INVALID, this.isInvalid);
+        nbt.putInt(INIT_RESIST, this.initResist);
+        nbt.putInt(RESIST_CONSTANT, this.resistConstant);
         nbt.put(KINETIC_STATE, this.state.save(new CompoundNBT()));
         return nbt;
     }
@@ -335,6 +343,8 @@ protected final KineticState state;
         this.axleBlockState = Block.stateById(nbt.getInt(AXLE_BLOCK_STATE));
         this.needAxle = nbt.getBoolean(NEED_AXLE);
         this.isInvalid = nbt.getBoolean(IS_INVALID);
+        this.initResist = nbt.getInt(INIT_RESIST);
+        this.resistConstant = nbt.getInt(RESIST_CONSTANT);
         this.state.load(nbt.getCompound(KINETIC_STATE));
     }
 

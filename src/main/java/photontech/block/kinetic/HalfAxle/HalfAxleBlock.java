@@ -5,7 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import photontech.block.kinetic.AxleMaterial;
-import photontech.block.kinetic.DirectionalKtRotatingBlock;
+import photontech.block.kinetic.DirectionalKineticRotatingBlock;
 import photontech.block.kinetic.HalfAxleTile;
 import photontech.block.kinetic.IAxleBlock;
 import photontech.init.PtTileEntities;
@@ -13,7 +13,7 @@ import photontech.init.PtTileEntities;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class HalfAxleBlock extends DirectionalKtRotatingBlock implements IAxleBlock {
+public class HalfAxleBlock extends DirectionalKineticRotatingBlock implements IAxleBlock {
 
     protected final AxleMaterial material;
 

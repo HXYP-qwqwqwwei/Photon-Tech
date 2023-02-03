@@ -10,7 +10,12 @@ public class ActiveKineticMachine extends FullAxleTile {
         super(tileEntityTypeIn, initInertia, true, type);
     }
 
+    protected void setOutput(int force, int resist) {
+        this.extraForce = force;
+        this.extraResist = resist;
+    }
+
     protected void setOutput(int force) {
-//        this.state.setOutputForce(force);
+        this.setOutput(force, 0);
     }
 }

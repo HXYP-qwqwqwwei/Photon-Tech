@@ -7,17 +7,17 @@ import net.minecraftforge.registries.ForgeRegistries;
 import photontech.PhotonTech;
 import photontech.block.electric.electrode.PtElectrodeBlock;
 import photontech.block.electric.infiniteBattery.PtInfiniteBatteryBlock;
-import photontech.block.electric.wire.PtWireBlock;
+import photontech.block.electric.wire.WireBlock;
 import photontech.block.kinetic.AxleMaterial;
 import photontech.block.kinetic.HalfAxle.HalfAxleBlock;
 import photontech.block.kinetic.axle.FullAxleBlock;
-import photontech.block.kinetic.KtRotatingBlock;
+import photontech.block.kinetic.KineticRotatingBlock;
 import photontech.block.heater.photon.PhotonHeaterBlock;
 import photontech.block.heater.solid.PtBurningItemHeaterBlock;
 import photontech.block.PtPowderBlock;
 import photontech.block.crucible.PtCrucibleBlock;
 import photontech.block.PtNormalBlock;
-import photontech.block.kinetic.gears.KtGearBlock;
+import photontech.block.kinetic.gears.GearBlock;
 import photontech.block.kinetic.motor.dc_brush.DCMotorBlockPartA;
 import photontech.block.kinetic.motor.infinity.InfinityMotorBlock;
 import photontech.block.magnet.permanent.PermanentMagnetBlock;
@@ -56,10 +56,10 @@ public class PtBlocks {
     public static final RegistryObject<HalfAxleBlock> HALF_IRON_AXLE = BLOCKS.register("half_iron_axle", () -> new HalfAxleBlock(AxleMaterial.IRON));
     public static final RegistryObject<HalfAxleBlock> HALF_WOOD_AXLE = BLOCKS.register("half_wood_axle", () -> new HalfAxleBlock(AxleMaterial.WOOD));
 
-    public static final RegistryObject<Block> SMALL_GEAR_BLOCK = BLOCKS.register("small_gear_block", () -> new KtGearBlock(8, KtGearBlock.GearType.SMALL_GEAR));
-    public static final RegistryObject<Block> LARGE_GEAR_BLOCK = BLOCKS.register("large_gear_block", () -> new KtGearBlock(16, KtGearBlock.GearType.LARGE_GEAR));
-    public static final RegistryObject<KtRotatingBlock> BRUSH_DC_MOTOR_PART_A = BLOCKS.register("brush_dc_motor_part_a", DCMotorBlockPartA::new);
-    public static final RegistryObject<KtRotatingBlock> BRUSH_DC_MOTOR_PART_B = BLOCKS.register("brush_dc_motor_part_b", DCMotorBlockPartB::new);
+    public static final RegistryObject<Block> SMALL_GEAR_BLOCK = BLOCKS.register("small_gear_block", () -> new GearBlock(8, GearBlock.GearType.SMALL_GEAR));
+    public static final RegistryObject<Block> LARGE_GEAR_BLOCK = BLOCKS.register("large_gear_block", () -> new GearBlock(16, GearBlock.GearType.LARGE_GEAR));
+    public static final RegistryObject<KineticRotatingBlock> BRUSH_DC_MOTOR_PART_A = BLOCKS.register("brush_dc_motor_part_a", DCMotorBlockPartA::new);
+    public static final RegistryObject<KineticRotatingBlock> BRUSH_DC_MOTOR_PART_B = BLOCKS.register("brush_dc_motor_part_b", DCMotorBlockPartB::new);
     public static final RegistryObject<InfinityMotorBlock> INFINITY_MOTOR_BLOCK = BLOCKS.register("infinity_motor", InfinityMotorBlock::new);
 
     // ELECTRODE BLOCKS
@@ -71,7 +71,7 @@ public class PtBlocks {
 //    public static final RegistryObject<Block> GLASS_COVER = BLOCKS.register("glass_cover", () -> new PermanentMagnetBlock(7, 10.0));
 
     // WIRE BLOCKS
-    public static final RegistryObject<Block> COPPER_WIRE_1X = BLOCKS.register("copper_wire_1x", () -> new PtWireBlock(PipeLikeBlock.Thickness.SIZE_1X, 1));
+    public static final RegistryObject<Block> COPPER_WIRE_1X = BLOCKS.register("copper_wire_1x", () -> new WireBlock(PipeLikeBlock.Thickness.SIZE_1X, 1));
 
     public static final RegistryObject<Block> INFINITE_BATTERY = BLOCKS.register("infinite_battery", PtInfiniteBatteryBlock::new);
 

@@ -17,11 +17,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import photontech.init.PtCapabilities;
 import photontech.init.PtRecipes;
-import photontech.utils.capability.ISaveLoad;
-import photontech.utils.capability.heat.IHeatReservoir;
-import photontech.utils.capability.heat.PtHeatCache;
-import photontech.utils.capability.heat.PtHeatReservoir;
-import photontech.utils.capability.item.PtIOLimitedItemHandler;
+import photontech.utils.data.ISaveLoad;
+import photontech.utils.data.heat.IHeatReservoir;
+import photontech.utils.data.heat.PtHeatCache;
+import photontech.utils.data.heat.PtHeatReservoir;
+import photontech.utils.data.item.PtIOLimitedItemHandler;
 import photontech.utils.recipe.ConditionalRecipe;
 import photontech.utils.recipe.RecipeCondition;
 

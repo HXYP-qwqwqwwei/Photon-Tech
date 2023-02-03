@@ -3,7 +3,6 @@ package photontech.block.kinetic.motor.dc_brush;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -13,15 +12,14 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-import photontech.block.kinetic.DirectionalKtRotatingBlock;
-import photontech.init.PtCapabilities;
+import photontech.block.kinetic.DirectionalKineticRotatingBlock;
 import photontech.init.PtItems;
 import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class DCMotorBlockPartA extends DirectionalKtRotatingBlock {
+public class DCMotorBlockPartA extends DirectionalKineticRotatingBlock {
 
     public DCMotorBlockPartA() {
         super(10, 10, 0, 10);

@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.IItemHandler;
-import photontech.utils.capability.fluid.PtMultiFluidTank;
+import photontech.utils.data.fluid.PtMultiFluidTank;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

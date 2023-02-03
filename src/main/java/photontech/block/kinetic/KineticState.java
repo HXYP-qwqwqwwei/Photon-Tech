@@ -2,7 +2,7 @@ package photontech.block.kinetic;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
-import photontech.utils.capability.ISaveLoad;
+import photontech.utils.data.ISaveLoad;
 
 import javax.annotation.Nonnull;
 

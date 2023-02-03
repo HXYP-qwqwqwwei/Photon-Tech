@@ -10,9 +10,10 @@ import photontech.block.kinetic.ResistType;
 import photontech.block.kinetic.motor.ActiveKineticMachine;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.capability.electric.IEtCapacitor;
+import photontech.utils.data.electric.ICapacitor;
 import photontech.utils.helper.fuctions.AxisHelper;
 import photontech.utils.helper.MutableDouble;
+import photontech.utils.helper.fuctions.PtPhysics;
 import photontech.utils.tileentity.IEtMachine;
 
 import static net.minecraft.util.Direction.Axis;
@@ -29,7 +30,7 @@ public class DCBrushTilePartA extends ActiveKineticMachine implements IEtMachine
     public MutableDouble U = new MutableDouble(0);
     public Direction.Axis brushAxis = null;
 
-    protected DCBrushTilePartB partB = null;
+    protected DCBrushMotorCoilTile coil = null;
 
     public DCBrushTilePartA(long initInertia) {
         super(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), initInertia, ResistType.NORMAL_MACHINE);
@@ -50,32 +51,31 @@ public class DCBrushTilePartA extends ActiveKineticMachine implements IEtMachine
             TileEntity posTE = level.getBlockEntity(this.worldPosition.relative(pDirection));
             TileEntity negTE = level.getBlockEntity(this.worldPosition.relative(nDirection));
             if (posTE == null || negTE == null) return;
-            LazyOptional<IEtCapacitor> positive = posTE.getCapability(PtCapabilities.CONDUCTOR, nDirection);
-            LazyOptional<IEtCapacitor> negative = negTE.getCapability(PtCapabilities.CONDUCTOR, pDirection);
-//            if (this.partBExist()) {
-//                positive.ifPresent(p -> negative.ifPresent(n -> {
-//                    this.U.value = p.getU() - n.getU();
-//
-//                    KineticMachine ref = this.getPrimary();
-//                    float av = ref.rotatingState.angularVelocity;
-//                    double K = this.partB.getK(this.brushAxis);
-//                    double R = this.partB.getR();
-//                    double dU_eq = av * K * 0.1;
-//                    this.I.value = IEtCapacitor.chargeExchange(p, n, dU_eq, R);
-//                    int force = (int) (this.I.value * K * MathFunctions.pow2Int(ref.referenceState.frequencyLevel));
-//                    this.setOutput(force);
-////                    this.addForce(ref, force);
-//                }));
-//            }
+            LazyOptional<ICapacitor> positive = posTE.getCapability(PtCapabilities.CONDUCTOR, nDirection);
+            LazyOptional<ICapacitor> negative = negTE.getCapability(PtCapabilities.CONDUCTOR, pDirection);
+            if (this.coilExist()) {
+                positive.ifPresent(p -> negative.ifPresent(n -> {
+                    double U = p.getPotential() - n.getPotential();
+                    double K = this.coil.getK(this.brushAxis);
+                    double R = this.coil.getR();
+                    float av = this.getAngularVelocity();
+
+                    double I = (U - K * av) / R;
+                    PtPhysics.chargeTransfer(p, n, I);
+
+                    int force = (int) (I * K * this.getFrequency());
+                    this.setOutput(force);
+                }));
+            }
         }
     }
 
-    protected boolean partBExist() {
+    protected boolean coilExist() {
         assert this.level != null;
         TileEntity tileEntity = this.level.getBlockEntity(this.worldPosition.relative(this.getBlockState().getValue(FACING)));
-        if (tileEntity instanceof DCBrushTilePartB) {
-            if (tileEntity != this.partB) {
-                this.partB = (DCBrushTilePartB) tileEntity;
+        if (tileEntity instanceof DCBrushMotorCoilTile) {
+            if (tileEntity != this.coil) {
+                this.coil = (DCBrushMotorCoilTile) tileEntity;
             }
             return true;
         }
@@ -87,7 +87,7 @@ public class DCBrushTilePartA extends ActiveKineticMachine implements IEtMachine
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == PtCapabilities.CONDUCTOR) {
             if (side != null && side.getAxis() == this.brushAxis) {
-                return IEtCapacitor.PLACE_HOLDER.cast();
+                return ICapacitor.PLACE_HOLDER.cast();
             }
             return LazyOptional.empty();
         }

@@ -2,6 +2,7 @@ package photontech.utils.helper.fuctions;
 
 import photontech.block.kinetic.KineticMachine;
 import photontech.block.kinetic.gears.GearTile;
+import photontech.utils.data.electric.ICapacitor;
 
 public class PtPhysics {
 
@@ -29,5 +30,51 @@ public class PtPhysics {
         float av = 1F * L / I;
         g1.setAngularVelocity(av / g1.getRadius());
         g2.setAngularVelocity(av / g2.getRadius() * c);
+    }
+
+    public static void chargeTransfer(ICapacitor p, ICapacitor n, double I) {
+        p.setQ(p.getQ() - I * 0.05);
+        n.setQ(n.getQ() + I * 0.05);
+    }
+
+    public static double chargeExchange(ICapacitor p, ICapacitor n, double dU_eq) {
+        if (p == n) {
+            return Double.POSITIVE_INFINITY;
+        }
+        final double C1 = p.getCapacity();
+        final double C2 = n.getCapacity();
+        final double Q1 = p.getQ();
+        final double Q2 = n.getQ();
+
+        double dQ0 = (Q1*C2 - Q2*C1 - dU_eq*C1*C2) / (C1 + C2);
+
+        p.setQ(Q1 - dQ0);
+        n.setQ(Q2 + dQ0);
+        return dQ0;
+    }
+
+    public static double chargeExchange(ICapacitor p, ICapacitor n, double dU_eq, double R) {
+        if (R == 0) {
+            return chargeExchange(p, n, dU_eq);
+        }
+        final double U1 = p.getPotential();
+        final double U2 = n.getPotential();
+        // 有效电势差U_valid
+        final double Uv = U1 - U2 - dU_eq;
+        if (p == n) {
+            return Uv / R * 0.05;
+        }
+        final double C1 = p.getCapacity();
+        final double C2 = n.getCapacity();
+        final double Q1 = p.getQ();
+        final double Q2 = n.getQ();
+
+        double dQ0 = (Q1*C2 - Q2*C1 - dU_eq*C1*C2) / (C1 + C2);
+        double dQdt = Uv / R * 0.05;
+        dQ0 = dQ0 > 0 ? Math.min(dQdt, dQ0) : Math.max(dQdt, dQ0);
+
+        p.setQ(Q1 - dQ0);
+        n.setQ(Q2 + dQ0);
+        return dQ0 * 20;
     }
 }
