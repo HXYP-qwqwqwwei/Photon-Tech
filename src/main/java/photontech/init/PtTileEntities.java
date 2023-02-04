@@ -13,7 +13,7 @@ import photontech.block.kinetic.gears.SmallGearTile;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCommutatorTile;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCoilTile;
 import photontech.block.kinetic.motor.infinity.InfinityMotorTile;
-import photontech.block.magnet.permanent.PermanentMagnetTile;
+import photontech.block.magnet.permanent.PermanentMagnet;
 import photontech.block.mirror.PtMirrorTile;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
@@ -90,8 +90,8 @@ public class PtTileEntities {
             PtBlocks.INFINITE_BATTERY.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<PermanentMagnetTile>> PERMANENT_MAGNET = TILE_ENTITIES.register("permanent_magnet_tileentity", () -> TileEntityType.Builder.of(
-            () -> new PermanentMagnetTile(1.0),
+    public static final RegistryObject<TileEntityType<PermanentMagnet>> PERMANENT_MAGNET = TILE_ENTITIES.register("permanent_magnet_tileentity", () -> TileEntityType.Builder.of(
+            () -> new PermanentMagnet(1.0),
             PtBlocks.FERRITE_MAGNET_PAINTED.get()
     ).build(null));
 

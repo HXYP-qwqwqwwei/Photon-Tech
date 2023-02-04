@@ -1,6 +1,5 @@
 package photontech.block.electric.wire;
 
-import com.sun.jna.platform.unix.X11;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.nbt.CompoundNBT;
@@ -48,14 +47,15 @@ public class WireTile extends ElectricMachine {
             }
             if (this.id != maxID) {
                 DCWireDataManager.getData(this.level).remove(this.id);
-                this.id = maxID;
+                this.setID(maxID);
                 DCWireDataManager.getData(this.level).put(this.id, () -> DCWireCapacitor.create(overloadCurrent));
             }
         }
     }
 
-    public void setId(int id) {
+    public void setID(int id) {
         this.id = id;
+        this.setChanged();
     }
 
     public int getId() {
@@ -92,7 +92,7 @@ public class WireTile extends ElectricMachine {
 
     @Override
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
-        this.id = nbt.getInt(ID);
+        this.setID(nbt.getInt(ID));
         super.load(state, nbt);
     }
 

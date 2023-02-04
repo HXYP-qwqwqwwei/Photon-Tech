@@ -15,7 +15,7 @@ import photontech.utils.data.electric.ICapacitor;
 import photontech.utils.data.heat.IHeatReservoir;
 import photontech.utils.data.heat.PtHeatReservoir;
 import photontech.utils.data.magnet.IMagnet;
-import photontech.utils.data.magnet.PtMagnet;
+import photontech.utils.data.magnet.MagnetPole;
 
 import javax.annotation.Nullable;
 
@@ -71,7 +71,7 @@ public class CommonEventHandler {
 
             @Override
             public void readNBT(Capability<IMagnet> capability, IMagnet instance, Direction side, INBT nbt) {}
-        }, () -> PtMagnet.create(IMagnet.MagneticPole.N, 0)));
+        }, () -> MagnetPole.create(IMagnet.MagneticPoleType.N, 0)));
 
     }
 }

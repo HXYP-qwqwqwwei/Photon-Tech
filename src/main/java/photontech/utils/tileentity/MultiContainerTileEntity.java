@@ -97,6 +97,7 @@ public abstract class MultiContainerTileEntity extends TileEntity implements IMu
 
     public void setDirty(boolean dirty) {
         isDirty = dirty;
+        this.setChanged();
     }
 
 

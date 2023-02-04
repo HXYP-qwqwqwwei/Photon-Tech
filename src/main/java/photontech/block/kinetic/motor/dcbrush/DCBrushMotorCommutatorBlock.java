@@ -49,26 +49,9 @@ public class DCBrushMotorCommutatorBlock extends DirectionalKineticRotatingBlock
                         return ActionResultType.SUCCESS;
                     }
                 }
-//                if (itemStack.getItem() == PtItems.WRENCH.get()) {
-//                    partA.getCapability(PtCapabilities.ROTATING_STATE, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() + 1F));
-//                    return ActionResultType.SUCCESS;
-//                }
-//                if (itemStack.getItem() == PtItems.PROTRACTOR.get()) {
-//                    partA.getCapability(PtCapabilities.ROTATING_STATE, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> iRigidBody.setOmega(iRigidBody.getOmega() - 1F));
-//                    return ActionResultType.SUCCESS;
-//                }
-//                if (itemStack.getItem() == Items.IRON_INGOT) {
-////                    partA.getCapability(PtCapabilities.RIGID_BODY, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> LogManager.getLogger().info(iRigidBody.getInertia()));
-//                    LogManager.getLogger().info("I=" + partA.I.value);
-//                    return ActionResultType.SUCCESS;
-//                }
-//                if (itemStack.getItem() == Items.GOLD_INGOT) {
-//                    partA.getCapability(PtCapabilities.ROTATING_STATE, AxisHelper.getAxisPositiveDirection(state.getValue(AXIS))).ifPresent(iRigidBody -> LogManager.getLogger().info(iRigidBody.getOmega()));
-//                    return ActionResultType.SUCCESS;
-//                }
             }
         }
-        return ActionResultType.FAIL;
+        return super.use(state, worldIn, pos, player, handIn, hit);
     }
 
     @SuppressWarnings("deprecation")
@@ -82,20 +65,4 @@ public class DCBrushMotorCommutatorBlock extends DirectionalKineticRotatingBlock
         }
     }
 
-//    @Nonnull
-//    @Override
-//    public VoxelShape getShape(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
-//        TileEntity te = reader.getBlockEntity(pos);
-//        if (te instanceof KtMachineTile) {
-//            if (!((KtMachineTile) te).getAxleBlockState().is(Blocks.AIR)) {
-//                return VoxelShapes.or(super.getShape(blockState, reader, pos, context), this.getAxleShape(blockState));
-//            }
-//        }
-//        return super.getShape(blockState, reader, pos, context);
-//    }
-//
-//    public VoxelShape getAxleShape(BlockState blockState) {
-//        Direction facing = blockState.getValue(FACING);
-//        return axleShapes[facing.ordinal()];
-//    }
 }

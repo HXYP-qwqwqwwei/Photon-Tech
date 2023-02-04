@@ -8,15 +8,15 @@ import photontech.block.magnet.MagnetBlock;
 import javax.annotation.Nullable;
 
 public class PermanentMagnetBlock extends MagnetBlock {
-    double B0;
-    public PermanentMagnetBlock(int width, double B0) {
+    double magnetFluxDensity;
+    public PermanentMagnetBlock(int width, double magneticFluxDensity) {
         super(width);
-        this.B0 = B0;
+        this.magnetFluxDensity = magneticFluxDensity;
     }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new PermanentMagnetTile(this.B0);
+        return new PermanentMagnet(this.magnetFluxDensity);
     }
 }

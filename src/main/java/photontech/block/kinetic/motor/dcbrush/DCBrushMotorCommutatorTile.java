@@ -53,29 +53,30 @@ public class DCBrushMotorCommutatorTile extends ActiveKineticMachine implements 
             if (posTE == null || negTE == null) return;
             LazyOptional<ICapacitor> positive = posTE.getCapability(PtCapabilities.CONDUCTOR, nDirection);
             LazyOptional<ICapacitor> negative = negTE.getCapability(PtCapabilities.CONDUCTOR, pDirection);
-            if (this.coilExist()) {
+            if (this.isCoilExist()) {
                 positive.ifPresent(p -> negative.ifPresent(n -> {
                     double U = p.getPotential() - n.getPotential();
-                    double K = this.coil.getK(this.brushAxis);
+                    double Kt = this.coil.getKt();
                     double R = this.coil.getR();
                     float av = this.getAngularVelocity();
 
-                    double I = (U - K * av) / R;
+                    double I = (U - Kt * av) / R;
                     PtPhysics.chargeTransfer(p, n, I);
 
-                    int force = (int) (I * K * this.getFrequency());
+                    int force = (int) (I * Kt * this.getFrequency());
                     this.setOutput(force);
                 }));
             }
         }
     }
 
-    protected boolean coilExist() {
+    protected boolean isCoilExist() {
         assert this.level != null;
         TileEntity tileEntity = this.level.getBlockEntity(this.worldPosition.relative(this.getBlockState().getValue(FACING)));
         if (tileEntity instanceof DCBrushMotorCoilTile) {
             if (tileEntity != this.coil) {
                 this.coil = (DCBrushMotorCoilTile) tileEntity;
+                coil.setBrushAxis(brushAxis);
             }
             return true;
         }

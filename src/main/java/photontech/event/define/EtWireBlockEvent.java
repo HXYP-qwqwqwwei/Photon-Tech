@@ -38,12 +38,12 @@ public class EtWireBlockEvent {
 
             DCWireDataManager data = DCWireDataManager.getData(level);
             if (nearbyLatestWire != null) {
-                wire.setId(nearbyLatestWire.getId());
+                wire.setID(nearbyLatestWire.getId());
                 data.put(wire.getId(), wire::createCapacitor);
             }
             else {
                 int id = data.allocateID();
-                wire.setId(id);
+                wire.setID(id);
                 data.put(id, wire::createCapacitor);
             }
         }
@@ -66,7 +66,7 @@ public class EtWireBlockEvent {
                         int id = DCWireDataManager.getData(level).allocateID();
                         data.remove(nearbyWire.getId());
                         data.put(id, nearbyWire::createCapacitor);
-                        nearbyWire.setId(id);
+                        nearbyWire.setID(id);
                     }
                 }
             }
