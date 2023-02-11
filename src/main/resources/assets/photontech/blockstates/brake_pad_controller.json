@@ -1,0 +1,57 @@
+{
+  "variants": {
+    "facing=east,axis_rotated=false": {
+      "model": "photontech:block/brake_models/brake_pad_controller_model",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,axis_rotated=true": {
+      "model": "photontech:block/brake_models/brake_pad_controller_vertical_model",
+      "x": 90,
+      "y": 90
+    },
+    "facing=up,axis_rotated=false": {
+      "model": "photontech:block/brake_models/brake_pad_controller_model"
+    },
+    "facing=up,axis_rotated=true": {
+      "model": "photontech:block/brake_models/brake_pad_controller_vertical_model"
+    },
+    "facing=south,axis_rotated=false": {
+      "model": "photontech:block/brake_models/brake_pad_controller_model",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,axis_rotated=true": {
+      "model": "photontech:block/brake_models/brake_pad_controller_vertical_model",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west,axis_rotated=false": {
+      "model": "photontech:block/brake_models/brake_pad_controller_model",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,axis_rotated=true": {
+      "model": "photontech:block/brake_models/brake_pad_controller_vertical_model",
+      "x": 90,
+      "y": 270
+    },
+    "facing=down,axis_rotated=false": {
+      "model": "photontech:block/brake_models/brake_pad_controller_model",
+      "x": 180
+    },
+    "facing=down,axis_rotated=true": {
+      "model": "photontech:block/brake_models/brake_pad_controller_vertical_model",
+      "x": 180
+    },
+    "facing=north,axis_rotated=false": {
+      "model": "photontech:block/brake_models/brake_pad_controller_model",
+      "x": 90
+    },
+    "facing=north,axis_rotated=true": {
+      "model": "photontech:block/brake_models/brake_pad_controller_vertical_model",
+      "x": 90
+    }
+
+  }
+}

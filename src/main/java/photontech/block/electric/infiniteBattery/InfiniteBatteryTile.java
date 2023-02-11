@@ -7,16 +7,19 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import photontech.block.electric.ElectricMachine;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.data.electric.ICapacitor;
+import photontech.utils.data.electric.ElectricCapacitor;
+import photontech.utils.helper.fuctions.AxisHelper;
 import photontech.utils.helper.fuctions.PtPhysics;
+import photontech.utils.tileentity.MachineTile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class InfiniteBatteryTile extends ElectricMachine {
+import static photontech.utils.PtConstants.BlockStateProperties.REVERSED;
+
+public class InfiniteBatteryTile extends MachineTile {
 
     double voltage;
     public static final String VOLTAGE = "Voltage";
@@ -26,29 +29,20 @@ public class InfiniteBatteryTile extends ElectricMachine {
         this.voltage = voltage;
     }
 
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == PtCapabilities.CONDUCTOR) {
-            Direction facing = this.getBlockState().getValue(BlockStateProperties.FACING);
-            if (side != null && side.getAxis() == facing.getAxis()) {
-                return ICapacitor.PLACE_HOLDER.cast();
-            }
-            return LazyOptional.empty();
-        }
-        return super.getCapability(cap, side);
-    }
-
     @Override
     public void tick() {
         if (this.level != null && !this.level.isClientSide) {
-            Direction facing = this.getBlockState().getValue(BlockStateProperties.FACING);
-            TileEntity posTE = level.getBlockEntity(this.worldPosition.relative(facing));
-            TileEntity negTE = level.getBlockEntity(this.worldPosition.relative(facing.getOpposite()));
+            boolean reversed = this.getBlockState().getValue(REVERSED);
+            Direction.Axis axis = this.getBlockState().getValue(BlockStateProperties.AXIS);
+            Direction positiveSide = AxisHelper.getAxisPositiveDirection(axis);
+            if (reversed) positiveSide = positiveSide.getOpposite();
+
+            TileEntity posTE = level.getBlockEntity(this.worldPosition.relative(positiveSide));
+            TileEntity negTE = level.getBlockEntity(this.worldPosition.relative(positiveSide.getOpposite()));
             if (posTE == null || negTE == null) return;
-            LazyOptional<ICapacitor> positive = posTE.getCapability(PtCapabilities.CONDUCTOR, facing.getOpposite());
-            LazyOptional<ICapacitor> negative = negTE.getCapability(PtCapabilities.CONDUCTOR, facing);
-            positive.ifPresent(p -> negative.ifPresent(n -> PtPhysics.chargeExchange(p, n, voltage)));
+            LazyOptional<ElectricCapacitor> positive = posTE.getCapability(PtCapabilities.CONDUCTOR, positiveSide.getOpposite());
+            LazyOptional<ElectricCapacitor> negative = negTE.getCapability(PtCapabilities.CONDUCTOR, positiveSide);
+            positive.ifPresent(p -> negative.ifPresent(n -> PtPhysics.maintainVoltage(p, n, voltage)));
         }
 
     }
@@ -66,4 +60,18 @@ public class InfiniteBatteryTile extends ElectricMachine {
         super.load(state, nbt);
         this.voltage = nbt.getDouble(VOLTAGE);
     }
+
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (cap == PtCapabilities.CONDUCTOR) {
+            Direction.Axis axis = this.getBlockState().getValue(BlockStateProperties.AXIS);
+            if (side != null && side.getAxis() == axis) {
+                return ElectricCapacitor.PLACE_HOLDER.cast();
+            }
+            return LazyOptional.empty();
+        }
+        return super.getCapability(cap, side);
+    }
+
 }

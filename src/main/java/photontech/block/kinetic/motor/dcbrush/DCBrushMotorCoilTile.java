@@ -40,7 +40,7 @@ public class DCBrushMotorCoilTile extends FullAxleTile {
     }
 
     public double getR() {
-        return 0.1;
+        return 2;
     }
 
     public double getSumMagnetFlux() {

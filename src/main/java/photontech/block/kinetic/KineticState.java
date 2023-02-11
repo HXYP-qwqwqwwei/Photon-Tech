@@ -2,11 +2,12 @@ package photontech.block.kinetic;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
-import photontech.utils.data.ISaveLoad;
+import photontech.utils.data.SaveLoadable;
+import photontech.utils.helper.fuctions.PtMath;
 
 import javax.annotation.Nonnull;
 
-public class KineticState implements ISaveLoad {
+public class KineticState implements SaveLoadable {
     public static final double DOUBLE_PI = Math.PI * 2;
 
     public static final String ROTATING_ANGLE = "RotatingAngle";
@@ -108,7 +109,7 @@ public class KineticState implements ISaveLoad {
     }
 
     public long getMomentum() {
-        return (long) (this.angularVelocity * this.inertia);
+        return PtMath.roundToZero(this.angularVelocity * this.inertia);
     }
 
     public void setAngularVelocity(float angularVelocity) {

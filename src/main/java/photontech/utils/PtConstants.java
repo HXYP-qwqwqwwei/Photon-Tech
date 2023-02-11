@@ -61,6 +61,10 @@ public class PtConstants {
 
         public static final ResourceLocation INFINITY_MOTOR_ROTATER = new ResourceLocation(PhotonTech.ID, "block/infinity_motor/infinity_motor_rotater");
         public static final ResourceLocation WOODEN_GEAR_MODEL = new ResourceLocation(PhotonTech.ID, "special/wooden_gear_model");
+        public static final ResourceLocation BRAKE_PAD = new ResourceLocation(PhotonTech.ID, "special/brake_pad_model");
+        public static final ResourceLocation BRAKE_PAD_VERTICAL = new ResourceLocation(PhotonTech.ID, "special/brake_pad_vertical_model");
+        public static final ResourceLocation BRAKE_PAD_PUSHED = new ResourceLocation(PhotonTech.ID, "special/brake_pad_pushed_model");
+        public static final ResourceLocation BRAKE_PAD_PUSHED_VERTICAL = new ResourceLocation(PhotonTech.ID, "special/brake_pad_pushed_vertical_model");
     }
 
 

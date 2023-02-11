@@ -5,26 +5,29 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.capabilities.Capability;
 import photontech.block.crucible.PtCrucibleBlock;
-import photontech.block.electric.IConductiveBlock;
+import photontech.block.electric.Conductive;
 import photontech.init.PtCapabilities;
 import photontech.utils.block.PipeLikeBlock;
 import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 
-public class PtElectrodeBlock extends PipeLikeBlock implements IConductiveBlock {
+public class PtElectrodeBlock extends PipeLikeBlock implements Conductive {
 
 
     public PtElectrodeBlock(Thickness size) {
         super(PipeLikeBlock.Thickness.SIZE_1X, createMainShape(size), Properties.of(Material.STONE).strength(3).noOcclusion());
+        // FIXME
         this.registerDefaultState(
                 this.getStateDefinition().any()
                         .setValue(EAST, false)
@@ -55,6 +58,11 @@ public class PtElectrodeBlock extends PipeLikeBlock implements IConductiveBlock 
     @Override
     protected Direction[] getValidDirections() {
         return AxisHelper.XZ_DIRECTIONS;
+    }
+
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return null;
     }
 
     @Nonnull

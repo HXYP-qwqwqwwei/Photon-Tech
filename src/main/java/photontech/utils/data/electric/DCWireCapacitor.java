@@ -4,7 +4,9 @@ import net.minecraft.nbt.CompoundNBT;
 
 import javax.annotation.Nonnull;
 
-public class DCWireCapacitor implements ICapacitor {
+public class DCWireCapacitor implements ElectricCapacitor {
+    public static final String CHARGE = "Charge";
+    public static final String OVERLOAD_CURRENT = "OverloadCurrent";
     // 电容
 //    protected double capacity;
     // 存储的电荷量
@@ -17,13 +19,13 @@ public class DCWireCapacitor implements ICapacitor {
         this.overloadCurrent = overloadCurrent;
     }
 
-    public static DCWireCapacitor create(double overloadEtCurrent) {
-        return new DCWireCapacitor(overloadEtCurrent);
+    public static DCWireCapacitor create(double overloadCurrent) {
+        return new DCWireCapacitor(overloadCurrent);
     }
 
     @Override
     public double getPotential() {
-        return this.getQ() / this.getCapacity();
+        return this.getCharge() / this.getCapacity();
     }
 
     @Override
@@ -32,12 +34,12 @@ public class DCWireCapacitor implements ICapacitor {
     }
 
     @Override
-    public double getQ() {
+    public double getCharge() {
         return this.charge;
     }
 
     @Override
-    public void setQ(double charge) {
+    public void setCharge(double charge) {
         this.charge = charge;
     }
 
@@ -45,18 +47,18 @@ public class DCWireCapacitor implements ICapacitor {
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
 //        nbt.putDouble("Capacity", this.capacity);
-        nbt.putDouble("Charge", this.charge);
-        nbt.putDouble("OverloadEtCurrent", this.overloadCurrent);
-        nbt.putInt("RefCnt", this.refCnt);
+        nbt.putDouble(CHARGE, this.charge);
+        nbt.putDouble(OVERLOAD_CURRENT, this.overloadCurrent);
+        nbt.putInt(REF_CNT, this.refCnt);
         return nbt;
     }
 
     @Override
     public void load(CompoundNBT nbt) {
 //        this.capacity = nbt.getFloat("Capacity");
-        this.charge = nbt.getDouble("Charge");
-        this.overloadCurrent = nbt.getDouble("OverloadEtCurrent");
-        this.refCnt = nbt.getInt("RefCnt");
+        this.charge = nbt.getDouble(CHARGE);
+        this.overloadCurrent = nbt.getDouble(OVERLOAD_CURRENT);
+        this.refCnt = nbt.getInt(REF_CNT);
     }
 
     @Override

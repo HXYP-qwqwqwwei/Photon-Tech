@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class PtMultiFluidTank implements IMultiFluidTank {
+public class PtMultiFluidTank implements MultiFluidTank {
 
     protected NonNullList<FluidStack> tanks;
     protected Predicate<FluidStack> validator;

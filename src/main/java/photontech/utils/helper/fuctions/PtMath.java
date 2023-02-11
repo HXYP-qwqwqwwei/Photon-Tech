@@ -8,4 +8,8 @@ public class PtMath {
     public static int pow2Int(int p) {
         return (int) Math.pow(2, p);
     }
+
+    public static long roundToZero(double d) {
+        return (long) (d < 0 ? Math.ceil(d) : Math.floor(d));
+    }
 }

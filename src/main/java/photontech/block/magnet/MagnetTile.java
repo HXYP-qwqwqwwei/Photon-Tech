@@ -7,7 +7,7 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.init.PtCapabilities;
-import photontech.utils.data.magnet.IMagnet;
+import photontech.utils.data.magnet.Magnet;
 import photontech.utils.data.magnet.MagnetPole;
 import photontech.utils.helper.fuctions.AxisHelper;
 import photontech.utils.tileentity.MachineTile;
@@ -21,13 +21,13 @@ import static photontech.utils.PtConstants.BlockStateProperties.REVERSED;
 public abstract class MagnetTile extends MachineTile {
     public static final String NORTH_POLE = "NorthPole";
     public static final String SOUTH_POLE = "SouthPole";
-    protected IMagnet northPole;
-    protected IMagnet southPole;
+    protected Magnet northPole;
+    protected Magnet southPole;
 
     public MagnetTile(TileEntityType<?> tileEntityTypeIn, double magneticFluxDensity) {
         super(tileEntityTypeIn);
-        this.northPole = MagnetPole.create(IMagnet.MagneticPoleType.N, magneticFluxDensity);
-        this.southPole = MagnetPole.create(IMagnet.MagneticPoleType.S, magneticFluxDensity);
+        this.northPole = MagnetPole.create(Magnet.MagneticPoleType.N, magneticFluxDensity);
+        this.southPole = MagnetPole.create(Magnet.MagneticPoleType.S, magneticFluxDensity);
     }
 
     @Nonnull
@@ -46,7 +46,7 @@ public abstract class MagnetTile extends MachineTile {
         return this.getBlockState().getValue(AXIS);
     }
 
-    public IMagnet getMagnetPole(Direction side) {
+    public Magnet getMagnetPole(Direction side) {
         boolean reversed = this.getBlockState().getValue(REVERSED);
         boolean positive = AxisHelper.isAxisPositiveDirection(side);
         return positive ^ reversed ? this.northPole : this.southPole;

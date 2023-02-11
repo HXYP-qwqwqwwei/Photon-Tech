@@ -92,10 +92,10 @@ public abstract class MultiContainerTileEntity extends TileEntity implements IMu
     public void updateIfDirty() {
         if (!isDirty || level == null || level.isClientSide) return;
         level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
-        this.setDirty(false);
+        this.setUpdateFlag(false);
     }
 
-    public void setDirty(boolean dirty) {
+    public void setUpdateFlag(boolean dirty) {
         isDirty = dirty;
         this.setChanged();
     }

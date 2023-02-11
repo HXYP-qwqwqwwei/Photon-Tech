@@ -12,37 +12,39 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static net.minecraft.state.properties.BlockStateProperties.AXIS;
-import static net.minecraft.state.properties.BlockStateProperties.FACING;
+import static net.minecraft.state.properties.BlockStateProperties.*;
+import static photontech.utils.PtConstants.BlockStateProperties.*;
 
 public abstract class DirectionalKineticRotatingBlock extends KineticRotatingBlock {
 
 
     public DirectionalKineticRotatingBlock(double length, double width, double offset, long initInertia) {
         super(length, width, offset, initInertia);
-        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.EAST));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(AXIS, Direction.Axis.X).setValue(REVERSED, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(FACING));
+        super.createBlockStateDefinition(builder.add(REVERSED));
     }
 
     @Override
+    @SuppressWarnings("all")
     protected VoxelShape[] initShapes(double length, double width, double offset) {
         VoxelShape[] shapes = new VoxelShape[6];
         double maxX = 8 + 0.5*width;
         double minX = 8 - 0.5*width;
-        shapes[Direction.EAST.ordinal()] = Block.box(16 - length + offset, minX, minX, 16 + offset, maxX, maxX);
-        shapes[Direction.WEST.ordinal()] = Block.box(offset, minX, minX, length + offset, maxX, maxX);
-        shapes[Direction.UP.ordinal()] = Block.box(minX, 16 - length + offset, minX, maxX, 16 + offset, maxX);
-        shapes[Direction.DOWN.ordinal()] = Block.box(minX, offset, minX, maxX, length + offset, maxX);
-        shapes[Direction.SOUTH.ordinal()] = Block.box(minX, minX, 16 - length + offset, maxX, maxX, 16 + offset);
-        shapes[Direction.NORTH.ordinal()] = Block.box(minX, minX, offset, maxX, maxX, length + offset);
+        shapes[Direction.Axis.X.ordinal()*2] = Block.box(16 - length + offset, minX, minX, 16 + offset, maxX, maxX);
+        shapes[Direction.Axis.X.ordinal()*2 + 1] = Block.box(offset, minX, minX, length + offset, maxX, maxX);
+        shapes[Direction.Axis.Y.ordinal()*2] = Block.box(minX, 16 - length + offset, minX, maxX, 16 + offset, maxX);
+        shapes[Direction.Axis.Y.ordinal()*2 + 1] = Block.box(minX, offset, minX, maxX, length + offset, maxX);
+        shapes[Direction.Axis.Z.ordinal()*2] = Block.box(minX, minX, 16 - length + offset, maxX, maxX, 16 + offset);
+        shapes[Direction.Axis.Z.ordinal()*2 + 1] = Block.box(minX, minX, offset, maxX, maxX, length + offset);
         return shapes;
     }
 
@@ -52,8 +54,8 @@ public abstract class DirectionalKineticRotatingBlock extends KineticRotatingBlo
         Direction clickedFace = context.getClickedFace();
         boolean reverse = context.getPlayer() != null && context.getPlayer().isShiftKeyDown();
         return this.defaultBlockState()
-                .setValue(FACING, reverse ? clickedFace : clickedFace.getOpposite())
-                .setValue(AXIS, clickedFace.getAxis());
+                .setValue(AXIS, clickedFace.getAxis())
+                .setValue(REVERSED, reverse ^ !AxisHelper.isAxisPositiveDirection(clickedFace.getOpposite()));
     }
 
     @Nonnull
@@ -64,14 +66,15 @@ public abstract class DirectionalKineticRotatingBlock extends KineticRotatingBlo
 
     @Nonnull
     public VoxelShape getShapeWithAxle(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
-        Direction facing = blockState.getValue(FACING);
+        Direction.Axis axis = blockState.getValue(AXIS);
+        boolean reversed = blockState.getValue(REVERSED);
         TileEntity te = reader.getBlockEntity(pos);
         if (te instanceof KineticMachine) {
             if (!((KineticMachine) te).getAxleBlockState().is(Blocks.AIR)) {
-                return VoxelShapes.or(shapes[facing.ordinal()], this.getAxleShape(blockState));
+                return VoxelShapes.or(shapes[axis.ordinal()*2 + (reversed ? 1 : 0)], this.getAxleShape(blockState));
             }
         }
-        return shapes[facing.ordinal()];
+        return shapes[axis.ordinal()*2 + (reversed ? 1 : 0)];
     }
 
     public VoxelShape getAxleShape(BlockState blockState) {

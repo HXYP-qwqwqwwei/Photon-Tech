@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import photontech.init.PtCapabilities;
-import photontech.utils.data.heat.IHeatReservoir;
+import photontech.utils.data.heat.HeatReservoir;
 import photontech.utils.data.heat.PtHeatReservoir;
 
 import javax.annotation.Nullable;
@@ -21,7 +21,7 @@ public interface IHeatExchange {
     double CAMPFIRE_EXTINGUISH_CHANCE = 0.001;
 
 
-    IHeatReservoir ENVIRONMENT = new PtHeatReservoir() {
+    HeatReservoir ENVIRONMENT = new PtHeatReservoir() {
         @Override
         public int extractHeat(int maxHeat, boolean simulate) {
             return Math.max(0, maxHeat);
@@ -48,7 +48,7 @@ public interface IHeatExchange {
         }
     };
 
-    IHeatReservoir CAMPFIRE = new PtHeatReservoir() {
+    HeatReservoir CAMPFIRE = new PtHeatReservoir() {
         @Override
         public int extractHeat(int maxHeat, boolean simulate) {
             return Math.max(0, maxHeat);
@@ -81,11 +81,11 @@ public interface IHeatExchange {
     };
 
     default void heatExchangeWithEnvironment(PtHeatReservoir reservoir) {
-        IHeatReservoir.heatExchange(reservoir, ENVIRONMENT);
+        HeatReservoir.heatExchange(reservoir, ENVIRONMENT);
     }
 
     default void heatExchangeWithEnvironment(PtHeatReservoir reservoir, float rate) {
-        IHeatReservoir.heatExchange(reservoir, ENVIRONMENT, rate);
+        HeatReservoir.heatExchange(reservoir, ENVIRONMENT, rate);
     }
 
     default void heatExchangeWithCampfireHeat(World world, BlockPos pos, PtHeatReservoir reservoir) {
@@ -93,7 +93,7 @@ public interface IHeatExchange {
         BlockState campfire = world.getBlockState(down);
         if (campfire.getBlock() == Blocks.CAMPFIRE) {
             if (campfire.getValue(BlockStateProperties.LIT)) {
-                IHeatReservoir.heatExchange(reservoir, CAMPFIRE);
+                HeatReservoir.heatExchange(reservoir, CAMPFIRE);
                 if (Math.random() <= CAMPFIRE_EXTINGUISH_CHANCE) {
                     world.setBlock(down, campfire.setValue(BlockStateProperties.LIT, false), 1);
                     world.sendBlockUpdated(down, campfire, campfire, Constants.BlockFlags.BLOCK_UPDATE);
@@ -110,7 +110,7 @@ public interface IHeatExchange {
      */
     default void heatExchangeWithTile(PtHeatReservoir from, @Nullable TileEntity other, Direction side) {
         if (other == null) return;
-        other.getCapability(PtCapabilities.HEAT_RESERVOIR, side).ifPresent(to -> IHeatReservoir.heatExchange(from, to));
+        other.getCapability(PtCapabilities.HEAT_RESERVOIR, side).ifPresent(to -> HeatReservoir.heatExchange(from, to));
     }
 
 }

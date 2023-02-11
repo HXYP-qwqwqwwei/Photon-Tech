@@ -1,10 +1,10 @@
 package photontech.data;
 
-import photontech.utils.data.ISaveLoadWithRefCnt;
+import photontech.utils.data.SaveLoadableWithRefCnt;
 
 import java.util.function.Supplier;
 
-public abstract class PtDataManagerWithRefCnt<T extends ISaveLoadWithRefCnt> extends PtDataManager<T> {
+public abstract class PtDataManagerWithRefCnt<T extends SaveLoadableWithRefCnt> extends PtDataManager<T> {
     PtDataManagerWithRefCnt(String name) {
         super(name);
     }

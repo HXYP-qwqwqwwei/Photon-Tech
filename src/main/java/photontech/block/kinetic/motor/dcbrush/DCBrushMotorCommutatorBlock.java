@@ -44,7 +44,7 @@ public class DCBrushMotorCommutatorBlock extends DirectionalKineticRotatingBlock
                     Direction.Axis brushAxis = hit.getDirection().getAxis();
                     if (axis != brushAxis && partA.brushAxis == null) {
                         partA.setBrushAxis(brushAxis);
-                        partA.setDirty(true);
+                        partA.setUpdateFlag(true);
                         updateNeighbors(state, worldIn, pos, AxisHelper.getVerticalDirections(axis));
                         return ActionResultType.SUCCESS;
                     }

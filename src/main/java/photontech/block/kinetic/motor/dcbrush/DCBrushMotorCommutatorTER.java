@@ -19,17 +19,17 @@ public class DCBrushMotorCommutatorTER extends KineticMachineTER<DCBrushMotorCom
     }
 
     @Override
-    public void render(@Nonnull DCBrushMotorCommutatorTile partA, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        super.render(partA, partialTicks, matrixStack, bufferIn, combinedLightIn, combinedOverlayIn);
-        Direction.Axis brushAxis = partA.getBrushAxis();
+    public void render(@Nonnull DCBrushMotorCommutatorTile machine, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        super.render(machine, partialTicks, matrixStack, bufferIn, combinedLightIn, combinedOverlayIn);
+        Direction.Axis brushAxis = machine.getBrushAxis();
         if (brushAxis != null) {
-            SuperByteBuffer superByteBuffer = this.getModel(partA.getBlockState(), PtConstants.MODELS.BRUSH_MODEL);
+            SuperByteBuffer superByteBuffer = bufferFromResourceLocation(machine.getBlockState(), PtConstants.MODELS.BRUSH_MODEL);
+            rotateBuffer(superByteBuffer, AxisHelper.getVerticalAxis(machine.getBrushAxis(), Direction.Axis.Y), HALF_PI, combinedLightIn);
             for (RenderType type : RenderType.chunkBufferLayers()) {
-                kineticRotationTransform(superByteBuffer, AxisHelper.getVerticalAxis(brushAxis, Direction.Axis.Y), HALF_PI, combinedLightIn).renderInto(matrixStack, bufferIn.getBuffer(type));
+                superByteBuffer.renderInto(matrixStack, bufferIn.getBuffer(type));
             }
         }
 
     }
-
 
 }

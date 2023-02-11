@@ -31,7 +31,7 @@ public abstract class KineticRotatingBlock extends AxisAlignedBlock {
     protected final VoxelShape[] axleShapes;
 
     public KineticRotatingBlock(double length, double width, long initInertia) {
-        this(length, width, 0, initInertia);
+        this(length, width, (16-length)/2, initInertia);
     }
 
     public KineticRotatingBlock(double length, double width, double offset, long initInertia) {

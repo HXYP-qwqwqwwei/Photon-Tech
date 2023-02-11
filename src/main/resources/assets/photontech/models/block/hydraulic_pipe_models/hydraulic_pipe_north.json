@@ -1,0 +1,40 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"0": "photontech:block/hydraulic_pipe",
+		"particle": "photontech:block/hydraulic_pipe"
+	},
+	"elements": [
+		{
+			"name": "north",
+			"from": [7, 7, 0],
+			"to": [8, 8, 7],
+			"faces": {
+				"east": {"uv": [2.9, 1, 4.1, 8], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [2.9, 1, 4.1, 8], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [4.1, 8, 2.9, 1], "texture": "#0"},
+				"down": {"uv": [4.1, 8, 2.9, 1], "texture": "#0"}
+			}
+		},
+		{
+			"name": "north",
+			"from": [8, 8, 0],
+			"to": [9, 9, 8],
+			"faces": {
+				"east": {"uv": [0.9, 1, 2.1, 9], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [0.9, 1, 2.1, 9], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [2.1, 9, 0.9, 1], "texture": "#0"},
+				"down": {"uv": [2.1, 9, 0.9, 1], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "north",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [0, 1]
+		}
+	]
+}

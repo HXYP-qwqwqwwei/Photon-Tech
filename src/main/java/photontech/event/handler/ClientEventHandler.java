@@ -13,6 +13,8 @@ import photontech.block.crucible.PtCrucibleTER;
 import photontech.block.heater.solid.PtBurningItemHeaterTER;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.HalfAxleTile;
+import photontech.block.kinetic.brake.BrakeDiskTile;
+import photontech.block.kinetic.brake.BrakePadControllerTER;
 import photontech.block.kinetic.gears.GearTile;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCommutatorTER;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCoilTile;
@@ -34,13 +36,7 @@ public class ClientEventHandler {
     public static void onRenderTypeSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             RenderTypeLookup.setRenderLayer(PtBlocks.QUARTZ_CRUCIBLE.get(), RenderType.translucent());
-            RenderTypeLookup.setRenderLayer(PtBlocks.MIRROR.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(PtBlocks.IRON_AXLE.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(PtBlocks.DC_BRUSH_MOTOR_COIL.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(PtBlocks.DC_BRUSH_MOTOR_COMMUTATOR.get(), RenderType.cutout());
-
             RenderTypeLookup.setRenderLayer(PtBlocks.INFINITY_MOTOR_BLOCK.get(), RenderType.translucent());
-
             RenderTypeLookup.setRenderLayer(PtFluids.MILK_FLUID.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(PtFluids.MILK_FLUID_FLOWING.get(), RenderType.translucent());
         });
@@ -60,6 +56,9 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_A.get(), DCBrushMotorCommutatorTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.DC_BRUSH_TILE_PART_B.get(), KineticMachineTER<DCBrushMotorCoilTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.INFINITY_MOTOR.get(), InfinityMotorTER::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.BRAKE_DISC.get(), KineticMachineTER<BrakeDiskTile>::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.BRAKE_PAD_CONTROLLER.get(), BrakePadControllerTER::new);
+
 
         });
 
@@ -77,5 +76,10 @@ public class ClientEventHandler {
         ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_SUPPORT);
         ModelLoader.addSpecialModel(PtConstants.MODELS.SILVER_MIRROR);
         ModelLoader.addSpecialModel(PtConstants.MODELS.WOODEN_GEAR_MODEL);
+
+        ModelLoader.addSpecialModel(PtConstants.MODELS.BRAKE_PAD);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.BRAKE_PAD_VERTICAL);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.BRAKE_PAD_PUSHED);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.BRAKE_PAD_PUSHED_VERTICAL);
     }
 }

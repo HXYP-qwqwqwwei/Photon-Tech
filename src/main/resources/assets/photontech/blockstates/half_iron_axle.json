@@ -1,28 +1,28 @@
 {
   "variants": {
-    "facing=east": {
+    "axis=x,reversed=false": {
       "model": "photontech:block/axle/half_iron_axle_model",
       "x": 90,
       "y": 90
     },
-    "facing=up": {
-      "model": "photontech:block/axle/half_iron_axle_model"
-    },
-    "facing=south": {
-      "model": "photontech:block/axle/half_iron_axle_model",
-      "x": 90,
-      "y": 180
-    },
-    "facing=west": {
+    "axis=x,reversed=true": {
       "model": "photontech:block/axle/half_iron_axle_model",
       "x": 90,
       "y": 270
     },
-    "facing=down": {
+    "axis=y,reversed=false": {
+      "model": "photontech:block/axle/half_iron_axle_model"
+    },
+    "axis=y,reversed=true": {
       "model": "photontech:block/axle/half_iron_axle_model",
       "x": 180
     },
-    "facing=north": {
+    "axis=z,reversed=false": {
+      "model": "photontech:block/axle/half_iron_axle_model",
+      "x": 90,
+      "y": 180
+    },
+    "axis=z,reversed=true": {
       "model": "photontech:block/axle/half_iron_axle_model",
       "x": 90
     }

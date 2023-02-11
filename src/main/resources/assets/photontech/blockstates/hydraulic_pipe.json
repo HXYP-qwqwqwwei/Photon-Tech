@@ -1,0 +1,57 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "photontech:block/hydraulic_pipe_models/hydraulic_pipe_core"
+      }
+    },
+    {
+      "when": {
+        "east": true
+      },
+      "apply": {
+        "model": "photontech:block/hydraulic_pipe_models/hydraulic_pipe_east"
+      }
+    },
+    {
+      "when": {
+        "west": true
+      },
+      "apply": {
+        "model": "photontech:block/hydraulic_pipe_models/hydraulic_pipe_west"
+      }
+    },
+    {
+      "when": {
+        "south": true
+      },
+      "apply": {
+        "model": "photontech:block/hydraulic_pipe_models/hydraulic_pipe_south"
+      }
+    },
+    {
+      "when": {
+        "north": true
+      },
+      "apply": {
+        "model": "photontech:block/hydraulic_pipe_models/hydraulic_pipe_north"
+      }
+    },
+    {
+      "when": {
+        "up": true
+      },
+      "apply": {
+        "model": "photontech:block/hydraulic_pipe_models/hydraulic_pipe_up"
+      }
+    },
+    {
+      "when": {
+        "down": true
+      },
+      "apply": {
+        "model": "photontech:block/hydraulic_pipe_models/hydraulic_pipe_down"
+      }
+    }
+  ]
+}

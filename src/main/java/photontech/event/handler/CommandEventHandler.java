@@ -8,7 +8,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import photontech.PhotonTech;
-import photontech.command.EtSystemStatueCommand;
+import photontech.command.PipeDataSystemStatueCommand;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommandEventHandler {
@@ -17,9 +17,9 @@ public class CommandEventHandler {
         CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
         LiteralCommandNode<CommandSource> cmd = dispatcher.register(
                 Commands.literal(PhotonTech.ID).then(
-                        Commands.literal("etsys")
+                        Commands.literal("pipesys")
                                 .requires((commandSource) -> commandSource.hasPermission(0))
-                                .executes(EtSystemStatueCommand.INSTANCE)
+                                .executes(PipeDataSystemStatueCommand.INSTANCE)
                 )
         );
         dispatcher.register(Commands.literal("pt").redirect(cmd));

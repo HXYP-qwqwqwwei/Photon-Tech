@@ -8,7 +8,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.init.PtCapabilities;
-import photontech.utils.data.kinetic.IRotateBody;
+import photontech.utils.data.kinetic.RotateBody;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -16,14 +16,14 @@ import java.util.List;
 
 public abstract class PtKineticMachineTile extends MachineTile {
 
-    protected List<LazyOptional<IRotateBody>> rigidBodies;
+    protected List<LazyOptional<RotateBody>> rigidBodies;
 
     public PtKineticMachineTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
         rigidBodies = NonNullList.withSize(6, LazyOptional.empty());
     }
 
-    protected LazyOptional<IRotateBody> getRigid(@Nullable Direction side) {
+    protected LazyOptional<RotateBody> getRigid(@Nullable Direction side) {
         return side == null ? LazyOptional.empty() : rigidBodies.get(side.ordinal());
     }
 

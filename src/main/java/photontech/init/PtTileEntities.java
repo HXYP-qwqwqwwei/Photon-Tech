@@ -3,11 +3,15 @@ package photontech.init;
 import photontech.PhotonTech;
 import photontech.block.electric.infiniteBattery.InfiniteBatteryTile;
 import photontech.block.electric.wire.WireTile;
+import photontech.block.hydraulic.HydraulicLeverTile;
+import photontech.block.hydraulic.HydraulicPipeTile;
 import photontech.block.kinetic.FullAxleTile;
 import photontech.block.kinetic.HalfAxleTile;
 import photontech.block.heater.photon.PhotonHeaterTile;
 import photontech.block.heater.solid.PtBurningItemHeaterTile;
 import photontech.block.crucible.PtCrucibleTileEntity;
+import photontech.block.kinetic.brake.BrakeDiskTile;
+import photontech.block.kinetic.brake.BrakePadControllerTile;
 import photontech.block.kinetic.gears.LargeGearTile;
 import photontech.block.kinetic.gears.SmallGearTile;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCommutatorTile;
@@ -99,5 +103,26 @@ public class PtTileEntities {
             () -> new InfinityMotorTile(1),
             PtBlocks.INFINITY_MOTOR_BLOCK.get()
     ).build(null));
+
+    public static final RegistryObject<TileEntityType<BrakeDiskTile>> BRAKE_DISC = TILE_ENTITIES.register("brake_disc_tileentity", () -> TileEntityType.Builder.of(
+            () -> new BrakeDiskTile(1),
+            PtBlocks.BRAKE_DISC.get()
+    ).build(null));
+
+    public static final RegistryObject<TileEntityType<BrakePadControllerTile>> BRAKE_PAD_CONTROLLER = TILE_ENTITIES.register("brake_pad_controller_tileentity", () -> TileEntityType.Builder.of(
+            BrakePadControllerTile::new,
+            PtBlocks.BRAKE_PAD_CONTROLLER.get()
+    ).build(null));
+
+    public static final RegistryObject<TileEntityType<HydraulicPipeTile>> HYDRAULIC_PIPE = TILE_ENTITIES.register("hydraulic_pipe_tileentity", () -> TileEntityType.Builder.of(
+            HydraulicPipeTile::new,
+            PtBlocks.HYDRAULIC_PIPE.get()
+    ).build(null));
+
+    public static final RegistryObject<TileEntityType<HydraulicLeverTile>> HYDRAULIC_LEVER = TILE_ENTITIES.register("hydraulic_lever_tileentity", () -> TileEntityType.Builder.of(
+            HydraulicLeverTile::new,
+            PtBlocks.HYDRAULIC_LEVER.get()
+    ).build(null));
+
 
 }

@@ -3,14 +3,14 @@ package photontech.data;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.storage.WorldSavedData;
 import photontech.utils.PtNBTUtils;
-import photontech.utils.data.ISaveLoad;
+import photontech.utils.data.SaveLoadable;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public abstract class PtDataManager<T extends ISaveLoad> extends WorldSavedData {
+public abstract class PtDataManager<T extends SaveLoadable> extends WorldSavedData {
     public static final String DATAS = "Datas";
     public static final String NEXT_ID = "NextID";
 

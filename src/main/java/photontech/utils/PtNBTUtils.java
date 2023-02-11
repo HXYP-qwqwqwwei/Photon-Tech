@@ -11,7 +11,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.fluids.FluidStack;
-import photontech.utils.data.ISaveLoad;
+import photontech.utils.data.SaveLoadable;
 
 import java.io.StringReader;
 import java.util.HashMap;
@@ -103,7 +103,7 @@ public class PtNBTUtils {
         return nbt;
     }
 
-    public static<T extends ISaveLoad> void saveMap(CompoundNBT nbt, String key, Map<Long, T> map) {
+    public static<T extends SaveLoadable> void saveMap(CompoundNBT nbt, String key, Map<Long, T> map) {
         ListNBT dataList = new ListNBT();
         for (Map.Entry<Long, T> e : map.entrySet()) {
             CompoundNBT entryNBT = new CompoundNBT();
@@ -114,7 +114,7 @@ public class PtNBTUtils {
         nbt.put(key, dataList);
     }
 
-    public static<T extends ISaveLoad> Map<Long, T> loadMap(CompoundNBT nbt, String key, Supplier<T> factory) {
+    public static<T extends SaveLoadable> Map<Long, T> loadMap(CompoundNBT nbt, String key, Supplier<T> factory) {
         ListNBT dataList = nbt.getList(key, 10);
         Map<Long, T> map = new HashMap<>();
         for (INBT data : dataList) {

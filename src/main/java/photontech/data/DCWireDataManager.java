@@ -3,13 +3,13 @@ package photontech.data;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
+import photontech.utils.data.electric.ElectricCapacitor;
 import photontech.utils.data.electric.DCWireCapacitor;
-import photontech.utils.data.electric.ICapacitor;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-public class DCWireDataManager extends PtDataManagerWithRefCnt<ICapacitor> {
+public class DCWireDataManager extends PtDataManagerWithRefCnt<ElectricCapacitor> {
     public static final String NAME = "etsystem";
 
     public DCWireDataManager() {
@@ -18,7 +18,7 @@ public class DCWireDataManager extends PtDataManagerWithRefCnt<ICapacitor> {
 
     @Nonnull
     @Override
-    public Supplier<ICapacitor> getSupplier() {
+    public Supplier<ElectricCapacitor> getSupplier() {
         return () -> DCWireCapacitor.create(1);
     }
 

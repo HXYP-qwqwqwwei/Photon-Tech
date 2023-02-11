@@ -23,9 +23,9 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import photontech.PhotonTech;
 import photontech.init.PtTileEntities;
+import photontech.utils.data.fluid.MultiFluidTank;
 import photontech.utils.helper.fuctions.CrucibleConnections;
 import photontech.utils.PtConstants;
-import photontech.utils.data.fluid.IMultiFluidTank;
 import photontech.utils.data.fluid.PtMultiFluidTank;
 import photontech.utils.data.heat.PtHeatCache;
 import photontech.utils.recipe.ConditionalRecipe;
@@ -79,7 +79,7 @@ public class PtCrucibleTileEntity extends MachineTile implements ITickableTileEn
 
     public void transferLiquidToNearByCrucible(TileEntity tileEntity) {
         LazyOptional<PtMultiFluidTank> targetFluidTank = tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).cast();
-        targetFluidTank.ifPresent(tTank -> IMultiFluidTank.fluidExchange(this.getFluidTanks(), tTank));
+        targetFluidTank.ifPresent(tTank -> MultiFluidTank.fluidExchange(this.getFluidTanks(), tTank));
     }
 
     @Override

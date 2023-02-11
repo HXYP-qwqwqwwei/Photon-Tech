@@ -17,8 +17,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import photontech.init.PtCapabilities;
 import photontech.init.PtRecipes;
-import photontech.utils.data.ISaveLoad;
-import photontech.utils.data.heat.IHeatReservoir;
+import photontech.utils.data.SaveLoadable;
+import photontech.utils.data.heat.HeatReservoir;
 import photontech.utils.data.heat.PtHeatCache;
 import photontech.utils.data.heat.PtHeatReservoir;
 import photontech.utils.data.item.PtIOLimitedItemHandler;
@@ -125,7 +125,7 @@ public abstract class MachineTile extends MultiContainerTileEntity implements IT
         RecipeCondition condition = recipe.getCondition();
         float rate = recipe.rate < 0 ? heatCache.getHeatTransferRate() : recipe.rate;
 
-        IHeatReservoir.heatExchange(this.getHeatReservoir(), heatCache, rate);
+        HeatReservoir.heatExchange(this.getHeatReservoir(), heatCache, rate);
 
         if (heatCache.isProcessDone()) {
             initHeatProcess(heatCache, condition);
@@ -209,11 +209,11 @@ public abstract class MachineTile extends MultiContainerTileEntity implements IT
         this.coldDown = nbt.getInt("ColdDown");
     }
 
-    public void saveCap(LazyOptional<? extends ISaveLoad> thing, String name, CompoundNBT nbt) {
+    public void saveCap(LazyOptional<? extends SaveLoadable> thing, String name, CompoundNBT nbt) {
         thing.ifPresent(saveLoad -> nbt.put(name, saveLoad.save(new CompoundNBT())));
     }
 
-    public void loadCap(LazyOptional<? extends ISaveLoad> thing, String name, CompoundNBT nbt) {
+    public void loadCap(LazyOptional<? extends SaveLoadable> thing, String name, CompoundNBT nbt) {
         thing.ifPresent(saveLoad -> saveLoad.load(nbt.getCompound(name)));
     }
 

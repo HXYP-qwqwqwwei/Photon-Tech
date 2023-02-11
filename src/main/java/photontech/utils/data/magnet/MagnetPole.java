@@ -6,7 +6,7 @@ import photontech.utils.helper.fuctions.AxisHelper;
 
 import javax.annotation.Nonnull;
 
-public class MagnetPole implements IMagnet {
+public class MagnetPole implements Magnet {
     public static final String FLUX_DENSITY = "FluxDensity";
     protected double fluxDensity;
     MagneticPoleType poleType;
@@ -16,7 +16,7 @@ public class MagnetPole implements IMagnet {
         this.fluxDensity = Math.max(0, fluxDensity);
     }
 
-    public static IMagnet create(MagneticPoleType pole, double fluxDensity) {
+    public static Magnet create(MagneticPoleType pole, double fluxDensity) {
         return new MagnetPole(pole, fluxDensity);
     }
 

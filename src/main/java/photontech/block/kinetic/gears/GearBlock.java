@@ -24,7 +24,7 @@ public class GearBlock extends KineticRotatingBlock {
     private final GearType type;
 
     public GearBlock(long initInertia, GearType type) {
-        super(5, 16, 5.5, initInertia);
+        super(5, 16, initInertia);
         this.type = type;
     }
 

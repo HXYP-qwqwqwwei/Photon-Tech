@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 
 public class InfinityMotorBlock extends KineticRotatingBlock {
     public InfinityMotorBlock() {
-        super(12, 16, 2, 1);
+        super(12, 16, 1);
     }
 
     @Nullable

@@ -25,7 +25,7 @@ public abstract class GearTile extends FullAxleTile {
             // 延迟一个游戏刻
             if (mainKt.gearNotifyTick + 1 == gt) {
                 MinecraftForge.EVENT_BUS.post(new GearSynchronizeEvent(this));
-                mainKt.setDirty(true);
+                mainKt.setUpdateFlag(true);
             }
         }
         super.tick();

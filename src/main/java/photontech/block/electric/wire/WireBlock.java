@@ -59,11 +59,6 @@ public class WireBlock extends PipeLikeBlock {
         return Direction.values();
     }
 
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
@@ -78,23 +73,20 @@ public class WireBlock extends PipeLikeBlock {
             WireTile wire = (WireTile) worldIn.getBlockEntity(pos);
             if (wire != null) {
                 ItemStack itemStack = player.getItemInHand(handIn);
-                if (itemStack.getItem() == Items.IRON_INGOT) {
-                    LogManager.getLogger().info(wire.getI());
-                    return ActionResultType.SUCCESS;
-                }
                 if (itemStack.getItem() == Items.GOLD_INGOT) {
                     wire.getCapability(PtCapabilities.CONDUCTOR).ifPresent(self -> {
-                        LogManager.getLogger().info("Q = " + self.getQ());
+                        LogManager.getLogger().info("Q = " + self.getCharge());
                         LogManager.getLogger().info("U = " + self.getPotential());
                     });
                     return ActionResultType.SUCCESS;
                 }
                 if (itemStack.getItem() == PtItems.WRENCH.get()) {
-                    wire.getCapability(PtCapabilities.CONDUCTOR).ifPresent(self -> self.setQ(self.getQ() + 1));
+                    wire.getCapability(PtCapabilities.CONDUCTOR).ifPresent(self -> self.setCharge(self.getCharge() + 1));
                     return ActionResultType.SUCCESS;
                 }
             }
         }
         return ActionResultType.FAIL;
     }
+
 }

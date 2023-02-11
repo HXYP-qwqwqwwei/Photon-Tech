@@ -34,7 +34,7 @@ public abstract class PipeLikeBlock extends SixWayBlock {
     protected final Thickness thickness;
 
     public enum Thickness {
-        SIZE_1X(7, 9),
+        SIZE_1X(6, 10),
         SIZE_4X(6, 10),
         SIZE_9X(5, 11),
         SIZE_16X(4, 12);
@@ -66,6 +66,14 @@ public abstract class PipeLikeBlock extends SixWayBlock {
         TileEntity tile = world.getBlockEntity(currentPos.relative(direction));
         return tile != null && tile.getCapability(this.getConnectCapability(), direction.getOpposite()).isPresent();
     }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Override
+    abstract public TileEntity createTileEntity(BlockState state, IBlockReader world);
 
     abstract protected Direction[] getValidDirections();
 
@@ -111,7 +119,8 @@ public abstract class PipeLikeBlock extends SixWayBlock {
 
     @Nonnull
     @Override
-    public VoxelShape getShape(@Nonnull BlockState blockState, @Nonnull IBlockReader blockReader, @Nonnull BlockPos pos, @Nonnull ISelectionContext selectionContext) {
+    @SuppressWarnings("all")
+    public VoxelShape getShape(BlockState blockState, IBlockReader blockReader, BlockPos pos, ISelectionContext context) {
         return this.shapes[this.getAABBIndex(blockState)];
     }
 

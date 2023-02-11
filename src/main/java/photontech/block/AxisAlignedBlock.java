@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 import static net.minecraft.state.properties.BlockStateProperties.AXIS;
 import static net.minecraft.util.Direction.Axis.*;
 
-public abstract class AxisAlignedBlock extends Block implements IPartalBlock {
+public abstract class AxisAlignedBlock extends Block implements PartialBlock {
     protected final VoxelShape[] shapes;
 
     public AxisAlignedBlock(double length, double width, double offset, Properties properties) {
@@ -47,6 +47,7 @@ public abstract class AxisAlignedBlock extends Block implements IPartalBlock {
 
     @Nonnull
     @Override
+    @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState blockState, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         Direction.Axis axis = blockState.getValue(AXIS);
         return shapes[axis.ordinal()];

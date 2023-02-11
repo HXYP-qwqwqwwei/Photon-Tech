@@ -15,8 +15,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import photontech.block.kinetic.axle.FullAxleBlock;
 import photontech.event.define.kinetic.KineticInvalidateEvent;
 import photontech.event.define.kinetic.KineticPlaceEvent;
@@ -36,8 +34,6 @@ public abstract class KineticMachine extends MachineTile {
     public static final String IS_INVALID = "IsInvalid";
     public static final String INIT_RESIST = "InitResist";
     public static final String RESIST_CONSTANT = "ResistConstant";
-
-    public static final Logger LOGGER = LogManager.getLogger();
 
     protected BlockState axleBlockState = Blocks.AIR.defaultBlockState();
 
@@ -75,7 +71,7 @@ protected final KineticState state;
         this.state.setAngularVelocity(this.getAngularVelocity());
         this.state.setRotatingAngle(this.getAngle());
         this.state.axialReset(this.worldPosition);
-        this.setDirty(true);
+        this.setUpdateFlag(true);
     }
 
     public void primaryReset() {
@@ -84,7 +80,7 @@ protected final KineticState state;
         tm.state.setAngularVelocity(tm.getAngularVelocity());
         tm.state.setRotatingAngle(tm.getAngle());
         tm.state.primaryReset(tm.worldPosition);
-        tm.setDirty(true);
+        tm.setUpdateFlag(true);
     }
 
     public void kineticInvalidate() {
@@ -94,7 +90,7 @@ protected final KineticState state;
 
     @Override
     public void tick() {
-        if (isServerSide()) {
+        if (isServerSide() && isActive()) {
             this.applyForce(this.extraForce, this.extraResist);
 
             if (isPrimary()) {
@@ -114,7 +110,7 @@ protected final KineticState state;
                 this.state.setAngularVelocity(av);
                 this.state.clearAllForce();
 
-                this.setDirty(true);
+                this.setUpdateFlag(true);
             }
             this.updateIfDirty();
         }
@@ -125,7 +121,7 @@ protected final KineticState state;
      */
     public boolean axialConnectTo(KineticMachine parent) {
         if (this.state.axialConnectTo(parent.getTerminal().state, this.getAxleMaterial().maxConnect)) {
-            this.setDirty(true);
+            this.setUpdateFlag(true);
             return true;
         }
         return false;
@@ -155,10 +151,6 @@ protected final KineticState state;
 
     public Direction.Axis getAxis() {
         return this.getBlockState().getValue(BlockStateProperties.AXIS);
-    }
-
-    public int getLength() {
-        return state.axialLength;
     }
 
     public long getAxialSumInertia() {
@@ -224,7 +216,6 @@ protected final KineticState state;
             return (KineticMachine) te;
         }
         if (!level.isClientSide) {
-            LOGGER.warn("Invalid terminal at {}.", this.state.getTerminalPos());
             this.state.axialReset(this.worldPosition);
             this.state.setAngularVelocity(0F);
         }
@@ -241,7 +232,6 @@ protected final KineticState state;
                 return (KineticMachine) primary;
             }
             else if (!level.isClientSide){
-                LOGGER.warn("Invalid primary machine at {}", primaryPos);
                 terminal.state.primaryReset(terminal.worldPosition);
             }
         }
@@ -288,7 +278,7 @@ protected final KineticState state;
         this.axleBlockState = item.getBlock().defaultBlockState().setValue(BlockStateProperties.AXIS, this.getAxis());
         this.state.setExtraInertia(IAxleBlock.getMaterial(item.getBlock()).initInertia);
 //        this.terminalPos = this.worldPosition;
-        this.setDirty(true);
+        this.setUpdateFlag(true);
     }
 
     public void removeAxle() {
@@ -296,7 +286,7 @@ protected final KineticState state;
         this.axleBlockState = Blocks.AIR.defaultBlockState();
         this.state.setExtraInertia(0L);
         MinecraftForge.EVENT_BUS.post(new KineticInvalidateEvent(this));
-        this.setDirty(true);
+        this.setUpdateFlag(true);
     }
 
     public void fixRotatingState(KineticState refState) {
@@ -313,7 +303,7 @@ protected final KineticState state;
         int frequency = this.getFrequency();
         KineticState primaryState = primary.state;
 
-        primaryState.addForce(force * frequency);
+        primaryState.addForce(force * frequency * (reversed() ? -1 : 1));
         primaryState.addResist((extreResist + this.initResist) * frequency);
         primaryState.addResConstant(this.resistConstant * frequency * frequency);
     }

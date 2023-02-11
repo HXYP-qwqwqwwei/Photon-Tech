@@ -19,18 +19,18 @@ public class InfinityMotorTER extends KineticMachineTER<InfinityMotorTile> {
     }
 
     @Override
-    public void render(@Nonnull InfinityMotorTile te, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(@Nonnull InfinityMotorTile machine, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        SuperByteBuffer superByteBuffer = bufferFromResourceLocation(machine.getAxleBlockState(), PtConstants.MODELS.INFINITY_MOTOR_ROTATER);
         for (RenderType type : RenderType.chunkBufferLayers()) {
-            SuperByteBuffer superByteBuffer = getModel(te.getAxleBlockState(), PtConstants.MODELS.INFINITY_MOTOR_ROTATER);
-            if (RenderTypeLookup.canRenderInLayer(te.getBlockState(), type)){
+            if (RenderTypeLookup.canRenderInLayer(machine.getBlockState(), type)){
 
-                if (te.getAxleBlockState() != null) {
-                    renderRotatingBuffer(te, getBlockModel(te.getAxleBlockState()), matrixStack, bufferIn.getBuffer(type), combinedLightIn);
+                if (machine.getAxleBlockState() != null) {
+                    renderRotatingBuffer(machine, bufferFromBlockState(machine.getAxleBlockState()), matrixStack, bufferIn.getBuffer(type), combinedLightIn);
                 }
 
-                SuperByteBuffer rotatedBuffer = standardKineticRotationTransform(superByteBuffer, te, combinedLightIn);
-                SuperByteBuffer fixedBuffer = kineticRotationTransform(rotatedBuffer,  AxisHelper.getVerticalAxis(te.getAxis(), Direction.Axis.Y), HALF_PI, combinedLightIn);
-                fixedBuffer.renderInto(matrixStack, bufferIn.getBuffer(type));
+                rotateBuffer(superByteBuffer, machine.getAxis(), machine.getAngle(), combinedLightIn);
+                rotateBuffer(superByteBuffer,  AxisHelper.getVerticalAxis(machine.getAxis(), Direction.Axis.Y), HALF_PI, combinedLightIn);
+                superByteBuffer.renderInto(matrixStack, bufferIn.getBuffer(type));
 
             }
         }

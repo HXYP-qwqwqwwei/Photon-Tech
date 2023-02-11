@@ -6,8 +6,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import photontech.PhotonTech;
 import photontech.block.electric.electrode.PtElectrodeBlock;
-import photontech.block.electric.infiniteBattery.PtInfiniteBatteryBlock;
+import photontech.block.electric.infiniteBattery.InfiniteBatteryBlock;
 import photontech.block.electric.wire.WireBlock;
+import photontech.block.hydraulic.HydraulicLeverBlock;
+import photontech.block.hydraulic.HydraulicPipeBlock;
 import photontech.block.kinetic.AxleMaterial;
 import photontech.block.kinetic.HalfAxle.HalfAxleBlock;
 import photontech.block.kinetic.axle.FullAxleBlock;
@@ -17,6 +19,8 @@ import photontech.block.heater.solid.PtBurningItemHeaterBlock;
 import photontech.block.PtPowderBlock;
 import photontech.block.crucible.PtCrucibleBlock;
 import photontech.block.PtNormalBlock;
+import photontech.block.kinetic.brake.BrakeDiscBlock;
+import photontech.block.kinetic.brake.BrakePadControllerBlock;
 import photontech.block.kinetic.gears.GearBlock;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCommutatorBlock;
 import photontech.block.kinetic.motor.infinity.InfinityMotorBlock;
@@ -62,18 +66,27 @@ public class PtBlocks {
     public static final RegistryObject<KineticRotatingBlock> DC_BRUSH_MOTOR_COIL = BLOCKS.register("dc_brush_motor_coil", DCBrushMotorCoilBlock::new);
     public static final RegistryObject<InfinityMotorBlock> INFINITY_MOTOR_BLOCK = BLOCKS.register("infinity_motor", InfinityMotorBlock::new);
 
-    // ELECTRODE BLOCKS
+    public static final RegistryObject<BrakeDiscBlock> BRAKE_DISC = BLOCKS.register("brake_disc", () -> new BrakeDiscBlock(16));
+    public static final RegistryObject<BrakePadControllerBlock> BRAKE_PAD_CONTROLLER = BLOCKS.register("brake_pad_controller", BrakePadControllerBlock::new);
+
+
+    // WIRE BLOCKS
     public static final RegistryObject<Block> GRAPHITE_ELECTRODE_1X = BLOCKS.register("graphite_electrode_1x", () -> new PtElectrodeBlock(PipeLikeBlock.Thickness.SIZE_1X));
     public static final RegistryObject<Block> GRAPHITE_ELECTRODE_4X = BLOCKS.register("graphite_electrode_4x", () -> new PtElectrodeBlock(PipeLikeBlock.Thickness.SIZE_4X));
     public static final RegistryObject<Block> GRAPHITE_ELECTRODE_9X = BLOCKS.register("graphite_electrode_9x", () -> new PtElectrodeBlock(PipeLikeBlock.Thickness.SIZE_9X));
+
+    // HYDRAULIC_BLOCKS
+    public static final RegistryObject<Block> HYDRAULIC_PIPE = BLOCKS.register("hydraulic_pipe", HydraulicPipeBlock::new);
+    public static final RegistryObject<Block> HYDRAULIC_LEVER = BLOCKS.register("hydraulic_lever", HydraulicLeverBlock::new);
+
 
     // ELECTRODE COVER
 //    public static final RegistryObject<Block> GLASS_COVER = BLOCKS.register("glass_cover", () -> new PermanentMagnetBlock(7, 10.0));
 
     // WIRE BLOCKS
-    public static final RegistryObject<Block> COPPER_WIRE_1X = BLOCKS.register("copper_wire_1x", () -> new WireBlock(PipeLikeBlock.Thickness.SIZE_1X, 1));
+    public static final RegistryObject<Block> COPPER_WIRE_1X = BLOCKS.register("copper_wire_1x", () -> new WireBlock(PipeLikeBlock.Thickness.SIZE_1X, 20));
 
-    public static final RegistryObject<Block> INFINITE_BATTERY = BLOCKS.register("infinite_battery", PtInfiniteBatteryBlock::new);
+    public static final RegistryObject<Block> INFINITE_BATTERY = BLOCKS.register("infinite_battery", InfiniteBatteryBlock::new);
 
     // MAGNET BLOCKS
     public static final RegistryObject<Block> FERRITE_MAGNET_PAINTED = BLOCKS.register("ferrite_magnet_painted", () -> new PermanentMagnetBlock(7, 0.1));

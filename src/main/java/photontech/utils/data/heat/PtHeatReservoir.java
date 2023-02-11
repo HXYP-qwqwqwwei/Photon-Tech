@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundNBT;
 
 import javax.annotation.Nonnull;
 
-public class PtHeatReservoir implements IHeatReservoir {
+public class PtHeatReservoir implements HeatReservoir {
 
     private int heat;
     private float overloadTemp;

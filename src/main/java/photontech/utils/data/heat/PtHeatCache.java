@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundNBT;
 
 import javax.annotation.Nonnull;
 
-public class PtHeatCache extends PtHeatReservoir implements IHeatCache {
+public class PtHeatCache extends PtHeatReservoir implements HeatCache {
 
     private int requiredTransitionHeat;
     private float transitionTemperature;

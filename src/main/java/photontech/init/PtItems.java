@@ -94,6 +94,10 @@ public class PtItems {
     public static final RegistryObject<Item> SMALL_GEAR = ITEMS.register("small_gear", () -> new BlockItem(PtBlocks.SMALL_GEAR_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> LARGE_GEAR = ITEMS.register("large_gear", () -> new BlockItem(PtBlocks.LARGE_GEAR_BLOCK.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
+    public static final RegistryObject<Item> BRAKE_DISC = ITEMS.register("brake_disc", () -> new BlockItem(PtBlocks.BRAKE_DISC.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> BRAKE_PAD_CONTROLLER = ITEMS.register("brake_pad_controller", () -> new BlockItem(PtBlocks.BRAKE_PAD_CONTROLLER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+
+
     // BRUSH DC MOTOR
     public static final RegistryObject<Item> DC_BRUSH_MOTOR_COMMUTATOR = ITEMS.register("dc_brush_motor_commutator", () -> new BlockItem(PtBlocks.DC_BRUSH_MOTOR_COMMUTATOR.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> DC_BRUSH_MOTOR_COIL = ITEMS.register("dc_brush_motor_coil", () -> new BlockItem(PtBlocks.DC_BRUSH_MOTOR_COIL.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
@@ -107,8 +111,13 @@ public class PtItems {
     public static final RegistryObject<Item> GRAPHITE_ELECTRODE_4X = ITEMS.register("graphite_electrode_4x", () -> new PtElectrodeItem(PtBlocks.GRAPHITE_ELECTRODE_4X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> GRAPHITE_ELECTRODE_9X = ITEMS.register("graphite_electrode_9x", () -> new PtElectrodeItem(PtBlocks.GRAPHITE_ELECTRODE_9X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
 
-    // WIRE ITEMS
+    // PIPE ITEMS
     public static final RegistryObject<Item> COPPER_WIRE_1X = ITEMS.register("copper_wire_1x", () -> new BlockItem(PtBlocks.COPPER_WIRE_1X.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+
+    // HYDRAULIC ITEMS
+    public static final RegistryObject<Item> HYDRAULIC_PIPE = ITEMS.register("hydraulic_pipe", () -> new BlockItem(PtBlocks.HYDRAULIC_PIPE.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> HYDRAULIC_LEVER = ITEMS.register("hydraulic_lever", () -> new BlockItem(PtBlocks.HYDRAULIC_LEVER.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+
 
     // BATTERY
     public static final RegistryObject<Item> INFINITE_BATTERY = ITEMS.register("infinite_battery", () -> new BlockItem(PtBlocks.INFINITE_BATTERY.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));

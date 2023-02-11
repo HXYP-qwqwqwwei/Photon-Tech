@@ -10,9 +10,10 @@ import photontech.block.kinetic.ResistType;
 import photontech.block.kinetic.motor.ActiveKineticMachine;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
-import photontech.utils.data.electric.ICapacitor;
+import photontech.utils.data.electric.ElectricCapacitor;
 import photontech.utils.helper.fuctions.AxisHelper;
 import photontech.utils.helper.MutableDouble;
+import photontech.utils.helper.fuctions.PtMath;
 import photontech.utils.helper.fuctions.PtPhysics;
 import photontech.utils.tileentity.IEtMachine;
 
@@ -22,6 +23,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.*;
+import static photontech.utils.PtConstants.BlockStateProperties.*;
 
 public class DCBrushMotorCommutatorTile extends ActiveKineticMachine implements IEtMachine {
     public static final String BRUSH_AXIS = "BrushAxis";
@@ -51,19 +53,24 @@ public class DCBrushMotorCommutatorTile extends ActiveKineticMachine implements 
             TileEntity posTE = level.getBlockEntity(this.worldPosition.relative(pDirection));
             TileEntity negTE = level.getBlockEntity(this.worldPosition.relative(nDirection));
             if (posTE == null || negTE == null) return;
-            LazyOptional<ICapacitor> positive = posTE.getCapability(PtCapabilities.CONDUCTOR, nDirection);
-            LazyOptional<ICapacitor> negative = negTE.getCapability(PtCapabilities.CONDUCTOR, pDirection);
+            LazyOptional<ElectricCapacitor> positive = posTE.getCapability(PtCapabilities.CONDUCTOR, nDirection);
+            LazyOptional<ElectricCapacitor> negative = negTE.getCapability(PtCapabilities.CONDUCTOR, pDirection);
             if (this.isCoilExist()) {
                 positive.ifPresent(p -> negative.ifPresent(n -> {
                     double U = p.getPotential() - n.getPotential();
-                    double Kt = this.coil.getKt();
+                    double KT = this.coil.getKt();
                     double R = this.coil.getR();
                     float av = this.getAngularVelocity();
 
-                    double I = (U - Kt * av) / R;
+                    // UI = Fv + I^2 * R
+                    // F ∝ I ==> F = KT * I
+                    // ==> UI = KT*I*av + I^2 * R
+                    // ==> U = KT*av + IR
+
+                    double I = (U - KT * av) / R;
                     PtPhysics.chargeTransfer(p, n, I);
 
-                    int force = (int) (I * Kt * this.getFrequency());
+                    int force = (int) PtMath.roundToZero(I * KT);
                     this.setOutput(force);
                 }));
             }
@@ -72,8 +79,8 @@ public class DCBrushMotorCommutatorTile extends ActiveKineticMachine implements 
 
     protected boolean isCoilExist() {
         assert this.level != null;
-        TileEntity tileEntity = this.level.getBlockEntity(this.worldPosition.relative(this.getBlockState().getValue(FACING)));
-        if (tileEntity instanceof DCBrushMotorCoilTile) {
+        TileEntity tileEntity = this.level.getBlockEntity(this.worldPosition.relative(this.getFacing()));
+        if (tileEntity instanceof DCBrushMotorCoilTile && ((DCBrushMotorCoilTile) tileEntity).isActive()) {
             if (tileEntity != this.coil) {
                 this.coil = (DCBrushMotorCoilTile) tileEntity;
                 coil.setBrushAxis(brushAxis);
@@ -83,12 +90,16 @@ public class DCBrushMotorCommutatorTile extends ActiveKineticMachine implements 
         return false;
     }
 
+    protected Direction getFacing() {
+        return AxisHelper.getAxisDirections(this.getBlockState().getValue(AXIS))[getBlockState().getValue(REVERSED) ? 1 : 0];
+    }
+
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == PtCapabilities.CONDUCTOR) {
             if (side != null && side.getAxis() == this.brushAxis) {
-                return ICapacitor.PLACE_HOLDER.cast();
+                return ElectricCapacitor.PLACE_HOLDER.cast();
             }
             return LazyOptional.empty();
         }
