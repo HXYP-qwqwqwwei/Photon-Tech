@@ -25,7 +25,7 @@ import photontech.block.kinetic.gears.GearBlock;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCommutatorBlock;
 import photontech.block.kinetic.motor.infinity.InfinityMotorBlock;
 import photontech.block.magnet.permanent.PermanentMagnetBlock;
-import photontech.block.mirror.PtMirrorBlock;
+import photontech.block.light.mirror.MirrorFrameBlock;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCoilBlock;
 import photontech.utils.block.PipeLikeBlock;
 
@@ -51,7 +51,7 @@ public class PtBlocks {
 //    public static final RegistryObject<Block> LIQUID_HEATER = BLOCKS.register("liquid_heater", PtHeaterBlock::new);
 
     // Pt BLOCKS
-    public static final RegistryObject<Block> MIRROR = BLOCKS.register("mirror", PtMirrorBlock::new);
+    public static final RegistryObject<Block> MIRROR_FRAME = BLOCKS.register("mirror_frame", MirrorFrameBlock::new);
 
     // KINETIC BLOCKS
     public static final RegistryObject<FullAxleBlock> IRON_AXLE = BLOCKS.register("iron_axle", () -> new FullAxleBlock(AxleMaterial.IRON));

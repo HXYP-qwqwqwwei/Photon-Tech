@@ -18,7 +18,7 @@ import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCommutatorTile;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCoilTile;
 import photontech.block.kinetic.motor.infinity.InfinityMotorTile;
 import photontech.block.magnet.permanent.PermanentMagnet;
-import photontech.block.mirror.PtMirrorTile;
+import photontech.block.light.mirror.MirrorFrameTile;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -41,9 +41,9 @@ public class PtTileEntities {
             PtBlocks.BURNING_ITEM_HEATER.get()
     ).build(null));
 
-    public static final RegistryObject<TileEntityType<PtMirrorTile>> MIRROR_TILEENTITY = TILE_ENTITIES.register("mirror_tileentity", () -> TileEntityType.Builder.of(
-            PtMirrorTile::new,
-            PtBlocks.MIRROR.get()
+    public static final RegistryObject<TileEntityType<MirrorFrameTile>> MIRROR_FRAME_TILEENTITY = TILE_ENTITIES.register("mirror_frame_tileentity", () -> TileEntityType.Builder.of(
+            MirrorFrameTile::new,
+            PtBlocks.MIRROR_FRAME.get()
     ).build(null));
 
     public static final RegistryObject<TileEntityType<PhotonHeaterTile>> PHOTON_HEATER_TILEENTITY = TILE_ENTITIES.register("photon_heater_tileentity", () -> TileEntityType.Builder.of(

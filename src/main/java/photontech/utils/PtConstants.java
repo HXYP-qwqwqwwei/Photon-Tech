@@ -52,19 +52,18 @@ public class PtConstants {
 
     public static final class MODELS {
         // MIRROR
-        public static final ResourceLocation MIRROR_FRAME = new ResourceLocation(PhotonTech.ID, "special/frame");
-        public static final ResourceLocation MIRROR_SUPPORT = new ResourceLocation(PhotonTech.ID, "special/support");
-        public static final ResourceLocation SILVER_MIRROR = new ResourceLocation(PhotonTech.ID, "special/silver_mirror");
+        public static final ResourceLocation MIRROR_FRAME = new ResourceLocation(PhotonTech.ID, "block/mirror_models/frame_golden_frame_model");
+        public static final ResourceLocation MIRROR_SUPPORTER = new ResourceLocation(PhotonTech.ID, "block/mirror_models/frame_supporter_model");
 
         // DC BRUSH MOTOR
         public static final ResourceLocation BRUSH_MODEL = new ResourceLocation(PhotonTech.ID, "block/dc_brush_motor_models/brush_model");
 
         public static final ResourceLocation INFINITY_MOTOR_ROTATER = new ResourceLocation(PhotonTech.ID, "block/infinity_motor/infinity_motor_rotater");
         public static final ResourceLocation WOODEN_GEAR_MODEL = new ResourceLocation(PhotonTech.ID, "special/wooden_gear_model");
-        public static final ResourceLocation BRAKE_PAD = new ResourceLocation(PhotonTech.ID, "special/brake_pad_model");
-        public static final ResourceLocation BRAKE_PAD_VERTICAL = new ResourceLocation(PhotonTech.ID, "special/brake_pad_vertical_model");
-        public static final ResourceLocation BRAKE_PAD_PUSHED = new ResourceLocation(PhotonTech.ID, "special/brake_pad_pushed_model");
-        public static final ResourceLocation BRAKE_PAD_PUSHED_VERTICAL = new ResourceLocation(PhotonTech.ID, "special/brake_pad_pushed_vertical_model");
+        public static final ResourceLocation BRAKE_PAD = new ResourceLocation(PhotonTech.ID, "block/brake_models/brake_pad_model");
+        public static final ResourceLocation BRAKE_PAD_VERTICAL = new ResourceLocation(PhotonTech.ID, "block/brake_models/brake_pad_vertical_model");
+        public static final ResourceLocation BRAKE_PAD_PUSHED = new ResourceLocation(PhotonTech.ID, "block/brake_models/brake_pad_pushed_model");
+        public static final ResourceLocation BRAKE_PAD_PUSHED_VERTICAL = new ResourceLocation(PhotonTech.ID, "block/brake_models/brake_pad_pushed_vertical_model");
     }
 
 

@@ -7,7 +7,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import org.apache.logging.log4j.LogManager;
 import photontech.block.hydraulic.HydraulicPipeTile;
 import photontech.init.PtCapabilities;
 import photontech.init.PtTileEntities;
@@ -40,8 +39,7 @@ public class BrakePadControllerTile extends MachineTile {
                 this.connected = canConnect;
                 this.setUpdateFlag(true);
             }
-            if (connected) {
-                assert pipe != null;
+            if (canConnect) {
                 int pressure = pipe.getPressure();
                 this.applyPressure(pressure);
             }

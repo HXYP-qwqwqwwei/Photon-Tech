@@ -77,9 +77,11 @@ public abstract class DirectionalKineticRotatingBlock extends KineticRotatingBlo
         return shapes[axis.ordinal()*2 + (reversed ? 1 : 0)];
     }
 
+    @Override
     public VoxelShape getAxleShape(BlockState blockState) {
-        Direction facing = blockState.getValue(FACING);
-        return axleShapes[facing.ordinal()];
+        Direction.Axis axis = blockState.getValue(AXIS);
+        boolean reversed = blockState.getValue(REVERSED);
+        return axleShapes[axis.ordinal() * 2 + (reversed ? 1 : 0)];
     }
 
     public VoxelShape[] initAxleShapes() {

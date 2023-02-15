@@ -19,7 +19,7 @@ import photontech.block.kinetic.gears.GearTile;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCommutatorTER;
 import photontech.block.kinetic.motor.dcbrush.DCBrushMotorCoilTile;
 import photontech.block.kinetic.motor.infinity.InfinityMotorTER;
-import photontech.block.mirror.PtMirrorTER;
+import photontech.block.light.mirror.MirrorFrameTER;
 import photontech.init.PtBlocks;
 import photontech.init.PtFluids;
 import photontech.init.PtTileEntities;
@@ -48,7 +48,7 @@ public class ClientEventHandler {
         event.enqueueWork(() -> {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.CRUCIBLE_TILEENTITY.get(), PtCrucibleTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.HEATER_TILEENTITY.get(), PtBurningItemHeaterTER::new);
-            ClientRegistry.bindTileEntityRenderer(PtTileEntities.MIRROR_TILEENTITY.get(), PtMirrorTER::new);
+            ClientRegistry.bindTileEntityRenderer(PtTileEntities.MIRROR_FRAME_TILEENTITY.get(), MirrorFrameTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.AXLE_TILE.get(), KineticMachineTER<FullAxleTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.HALF_AXLE_TILE.get(), KineticMachineTER<HalfAxleTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.SMALL_GEARS_TILEENTITY.get(), KineticMachineTER<GearTile>::new);
@@ -58,8 +58,6 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.INFINITY_MOTOR.get(), InfinityMotorTER::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.BRAKE_DISC.get(), KineticMachineTER<BrakeDiskTile>::new);
             ClientRegistry.bindTileEntityRenderer(PtTileEntities.BRAKE_PAD_CONTROLLER.get(), BrakePadControllerTER::new);
-
-
         });
 
         BUFFER_CACHE.registerCompartment(Compartment.BLOCK_MODEL);
@@ -73,8 +71,7 @@ public class ClientEventHandler {
         ModelLoader.addSpecialModel(PtConstants.MODELS.INFINITY_MOTOR_ROTATER);
 
         ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_FRAME);
-        ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_SUPPORT);
-        ModelLoader.addSpecialModel(PtConstants.MODELS.SILVER_MIRROR);
+        ModelLoader.addSpecialModel(PtConstants.MODELS.MIRROR_SUPPORTER);
         ModelLoader.addSpecialModel(PtConstants.MODELS.WOODEN_GEAR_MODEL);
 
         ModelLoader.addSpecialModel(PtConstants.MODELS.BRAKE_PAD);

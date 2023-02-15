@@ -108,7 +108,7 @@ public class HydraulicLeverBlock extends HorizontalFaceBlock {
     @SuppressWarnings("all")
     public ActionResultType use(BlockState blockState, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if (world.isClientSide) {
-            blockState.cycle(POWERED);
+//            blockState.cycle(POWERED);
             return ActionResultType.SUCCESS;
         } else {
             BlockState blockstate = this.pull(blockState, world, pos);

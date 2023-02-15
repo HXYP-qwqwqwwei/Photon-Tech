@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"0": "photontech:block/gear/stripped_jungle_log",
-		"1": "photontech:block/gear/stripped_jungle_log_top",
-		"particle": "photontech:block/gear/stripped_jungle_log"
+		"0": "block/stripped_jungle_log",
+		"1": "block/stripped_jungle_log_top",
+		"particle": "block/stripped_jungle_log"
 	},
 	"elements": [
 		{

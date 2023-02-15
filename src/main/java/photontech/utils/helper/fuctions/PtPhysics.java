@@ -2,6 +2,7 @@ package photontech.utils.helper.fuctions;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.vector.Vector3d;
 import photontech.block.kinetic.KineticMachine;
 import photontech.block.kinetic.gears.GearTile;
 import photontech.block.magnet.MagnetTile;
@@ -53,6 +54,8 @@ public class PtPhysics {
         }
         else return te.getCapability(PtCapabilities.MAGNET, side).orElse(Magnet.EMPTY).getFluxDensity(side);
     }
+
+//    public static double cauculateConvergence(Vector3d injectVec, )
 
     public static double maintainVoltage(ElectricCapacitor p, ElectricCapacitor n, double voltage) {
         if (p == n) {

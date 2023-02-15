@@ -3,13 +3,13 @@ package photontech.block.heater.photon;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.util.LazyOptional;
 import photontech.init.PtTileEntities;
-import photontech.utils.tileentity.IPhotonInstrument;
+import photontech.utils.tileentity.PhotonInstrument;
 import photontech.utils.tileentity.MachineTile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PhotonHeaterTile extends MachineTile implements IPhotonInstrument {
+public class PhotonHeaterTile extends MachineTile implements PhotonInstrument {
 
     public PhotonHeaterTile() {
         super(PtTileEntities.PHOTON_HEATER_TILEENTITY.get());

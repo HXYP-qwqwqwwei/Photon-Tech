@@ -23,6 +23,7 @@ import static photontech.utils.client.render.Compartment.*;
 
 public abstract class MachineTileRenderer<T extends MachineTile> extends TileEntityRenderer<T> {
     public static final float HALF_PI = (float) Math.PI / 2;
+    public static final float PI = (float) Math.PI;
 
 
     public MachineTileRenderer(TileEntityRendererDispatcher rendererDispatcher) {

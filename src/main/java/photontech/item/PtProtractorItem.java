@@ -1,29 +1,21 @@
 package photontech.item;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.*;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
-import net.minecraft.item.Item.Properties;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import photontech.block.mirror.PtMirrorTile;
+import photontech.block.light.mirror.MirrorFrameTile;
 import photontech.init.PtBlocks;
-import photontech.init.PtItems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Objects;
 
 public class PtProtractorItem extends PtRecipeToolItem {
 
@@ -71,7 +63,7 @@ public class PtProtractorItem extends PtRecipeToolItem {
             return ActionResultType.SUCCESS;
         }
 
-        if (world.getBlockState(pos).getBlock() == PtBlocks.MIRROR.get()) {
+        if (world.getBlockState(pos).getBlock() == PtBlocks.MIRROR_FRAME.get()) {
 
             String dimension1 = tag.getString("RefDimension1");
             String dimension2 = tag.getString("RefDimension2");
@@ -82,7 +74,7 @@ public class PtProtractorItem extends PtRecipeToolItem {
 
             long refPos1 = tag.getLong("RefPos1");
             long refPos2 = tag.getLong("RefPos2");
-            PtMirrorTile mirrorTile = (PtMirrorTile) world.getBlockEntity(pos);
+            MirrorFrameTile mirrorTile = (MirrorFrameTile) world.getBlockEntity(pos);
             if (mirrorTile != null) {
                 mirrorTile.setFacingVector(BlockPos.of(refPos1), BlockPos.of(refPos2));
                 return ActionResultType.SUCCESS;

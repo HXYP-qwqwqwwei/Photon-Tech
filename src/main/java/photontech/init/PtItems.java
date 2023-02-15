@@ -69,8 +69,10 @@ public class PtItems {
     // GAS
 
     // PHOTON ITEMS
-    public static final RegistryObject<Item> MIRROR = ITEMS.register("mirror", () -> new BlockItem(PtBlocks.MIRROR.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
+    public static final RegistryObject<Item> MIRROR_FRAME = ITEMS.register("mirror_frame", () -> new BlockItem(PtBlocks.MIRROR_FRAME.get(), new Item.Properties().tab(PtItemGroups.BLOCK_GROUP)));
     public static final RegistryObject<Item> PROTRACTOR = ITEMS.register("protractor", PtProtractorItem::new);
+    public static final RegistryObject<Item> SILVER_MIRROR = ITEMS.register("silver_mirror", MirrorItem::new);
+
 
     // FLUID BUCKET ITEMS
 //    public static final RegistryObject<Item> NORMAL_FLUID_BUCKET = ITEMS.register("normal_fluid_bucket", () -> new BucketItem(PtFluids.MILK_FLUID, new Item.Properties().tab(ItemGroup.TAB_MATERIALS).craftRemainder(BUCKET)));

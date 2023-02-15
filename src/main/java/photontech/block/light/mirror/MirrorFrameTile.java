@@ -1,12 +1,15 @@
-package photontech.block.mirror;
+package photontech.block.light.mirror;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import photontech.init.PtTileEntities;
-import photontech.utils.tileentity.IPhotonInstrument;
+import photontech.item.MirrorItem;
+import photontech.utils.tileentity.PhotonInstrument;
 import photontech.utils.tileentity.MachineTile;
 
 import javax.annotation.Nonnull;
@@ -14,7 +17,7 @@ import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class PtMirrorTile extends MachineTile implements IPhotonInstrument {
+public class MirrorFrameTile extends MachineTile implements PhotonInstrument {
 
     private static final float MAX_RANGE = 32F;
     private static final Vector3d DEFAULT_VECTOR = new Vector3d(0, 0, 1);
@@ -22,15 +25,16 @@ public class PtMirrorTile extends MachineTile implements IPhotonInstrument {
     private static final int MAX_STACK_SIZE = 32;
 
     public static final float[] ATTENUATION_RATE = {0, 0, 0.8F, 0.8F, 0.8F};
-
+    public static final String INSTALLED_MIRROR = "InstalledMirror";
 
     Queue<PhotonPack> packs = new LinkedList<>();
     Queue<Vector3d> fromVectors = new LinkedList<>();
 
     private Vector3d mirrorNormalVector = new Vector3d(0, 0, 1).normalize();
+    private MirrorItem mirrorItem = null;
 
-    public PtMirrorTile() {
-        super(PtTileEntities.MIRROR_TILEENTITY.get());
+    public MirrorFrameTile() {
+        super(PtTileEntities.MIRROR_FRAME_TILEENTITY.get());
     }
 
     @Override
@@ -50,8 +54,26 @@ public class PtMirrorTile extends MachineTile implements IPhotonInstrument {
                     this.radiatePhotonPackTo(pack, reflectionVec);
                 }
             }
+
+            this.updateIfDirty();
         }
 
+    }
+
+    private void setMirrorItem(MirrorItem mirrorItem) {
+        this.mirrorItem = mirrorItem;
+        this.setUpdateFlag(true);
+    }
+
+    public boolean installMirror(ItemStack itemStack) {
+        if (mirrorItem != null) return false;
+        Item item = itemStack.getItem();
+        if (item instanceof MirrorItem) {
+            this.setMirrorItem((MirrorItem) item);
+            itemStack.setCount(itemStack.getCount() - 1);
+            return true;
+        }
+        return false;
     }
 
     @Nonnull
@@ -59,6 +81,7 @@ public class PtMirrorTile extends MachineTile implements IPhotonInstrument {
     public CompoundNBT save(@Nonnull CompoundNBT nbt) {
         super.save(nbt);
         nbt.put("MirrorNormalVector", this.saveVectorToNBT(new CompoundNBT(), this.mirrorNormalVector));
+        nbt.put(INSTALLED_MIRROR, (new ItemStack(this.mirrorItem)).save(new CompoundNBT()));
         return nbt;
     }
 
@@ -66,6 +89,7 @@ public class PtMirrorTile extends MachineTile implements IPhotonInstrument {
     public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.load(state, nbt);
         this.mirrorNormalVector = this.loadVectorFromNBT(nbt.getCompound("MirrorNormalVector"));
+        this.installMirror(ItemStack.of(nbt.getCompound(INSTALLED_MIRROR)));
     }
 
     protected CompoundNBT saveVectorToNBT(CompoundNBT vecNBT, Vector3d vec) {
@@ -139,11 +163,15 @@ public class PtMirrorTile extends MachineTile implements IPhotonInstrument {
 
             assert level != null;
             TileEntity entity = level.getBlockEntity(pos);
-            if (entity instanceof IPhotonInstrument) {
-                IPhotonInstrument instrument = (IPhotonInstrument) entity;
+            if (entity instanceof PhotonInstrument) {
+                PhotonInstrument instrument = (PhotonInstrument) entity;
                 ejectionVector = Vector3d.atLowerCornerOf(pos.subtract(this.worldPosition)).normalize();
                 instrument.acceptPhotonPackFrom(pack, ejectionVector);
             }
         }
+    }
+
+    public ItemStack getMirrorItemStack() {
+        return new ItemStack(mirrorItem);
     }
 }

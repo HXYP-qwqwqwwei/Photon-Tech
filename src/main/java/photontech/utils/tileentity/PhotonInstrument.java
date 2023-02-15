@@ -1,15 +1,13 @@
 package photontech.utils.tileentity;
 
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.function.IntConsumer;
 import java.util.function.Predicate;
 
-public interface IPhotonInstrument {
+public interface PhotonInstrument {
 
     enum PhotonType {
 
